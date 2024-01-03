@@ -1,0 +1,9 @@
+<network>
+  <name>cCID-ENV</name>
+  <forward mode='route'>
+  </forward>
+  <bridge name='br-CID-NUM' stp='off' delay='0'/>
+  <mac address='52:54:00:MAC:0NUM:01'/>
+  <ip address='10.CID.NUM.1' netmask='255.255.255.0'/>
+  <ip family="ipv6" address="fd01:2345:6789:CID0NUM::1" prefix="64"/>
+</network>

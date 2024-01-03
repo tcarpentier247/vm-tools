@@ -1,0 +1,35 @@
+set -a
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+ROOT=/data/vdc
+CONFIGS=${ROOT}/configs
+TOOLS=${ROOT}/tools
+TEMPLATES=${ROOT}/templates
+
+# vdc environment max index (one /24 ip class per environment)
+CLUSTER_COUNT="20"
+
+# vdc cluster ip plan
+NODES=${CONFIGS}/vdc.nodes
+
+KVM_IMAGES_ROOT=/var/lib/libvirt/images
+VM_SYS_SIZE=30G
+VM_DATA_SIZE=100G
+
+declare -A IMAGES
+IMAGES[debian12]="debian-12-generic-amd64-20231228-1609.qcow2"
+IMAGES[ubuntu18]="bionic-server-cloudimg-amd64.img"
+IMAGES[ubuntu20]="focal-server-cloudimg-amd64.img"
+IMAGES[ubuntu22]="jammy-server-cloudimg-amd64.img"
+IMAGES[ubuntu23]="lunar-server-cloudimg-amd64.img"
+IMAGES[rhel7]="rhel-server-7.9-update-12-x86_64-kvm.qcow2"
+IMAGES[rhel8]="rhel-8.9-x86_64-kvm.qcow2"
+IMAGES[rhel9]="rhel-9.3-x86_64-kvm.qcow2"
+IMAGES[sles12]="SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
+IMAGES[sles15]="SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
+
+. $TOOLS/functions.sh

@@ -1,0 +1,9 @@
+runcmd:
+  - /usr/bin/localectl set-keymap fr
+  - echo "AllowUsers opensvc root" >> /etc/ssh/sshd_config
+  - systemctl restart ssh
+  - rm -f /etc/netplan/50-cloud-init.yaml
+  - [rm, /boot/firmware/user-data]
+  - [touch, /etc/cloud/cloud-init.disabled]
+  - apt -y --purge remove cloud-init snapd
+  - [reboot]
