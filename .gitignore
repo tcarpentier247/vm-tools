@@ -1,2 +1,3 @@
 configs/networks/
 configs/vdc.nodes.etc.hosts
+configs/machines/*/secrets

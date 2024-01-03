@@ -33,10 +33,13 @@ VM_HEXCID=$(printf "%02x" "$VM_CID")
 VM_SSHPORT=3$VM_2DGCID$VM_IP
 let VM_VNCPORT=$VM_SSHPORT+50
 
-[[ -f $VM_CONFIGS/environment ]] && {
-    echo "Loading $VM_CONFIGS custom configuration"
-    . $VM_CONFIGS/environment
-}
+for FILE in environment secrets
+do
+    [[ -f $VM_CONFIGS/$FILE ]] && {
+        echo "Loading $VM_CONFIGS/$FILE custom configuration"
+        . $VM_CONFIGS/$FILE
+    }
+done
 
 VM_NIC=${VM_NIC:-eth0}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
@@ -93,6 +96,8 @@ function substitute_patterns()
     sed -i "s@VM_2DGCID@$VM_2DGCID@g" $FILES
     sed -i "s@VM_CID@$VM_CID@g" $FILES
     sed -i "s@VM_IP@$VM_IP@g" $FILES
+    sed -i "s@RH_ORG_ID@$RH_ORG_ID@g" $FILES
+    sed -i "s@RH_ACTIVATION_KEY@$RH_ACTIVATION_KEY@g" $FILES
     title End:$FUNCNAME
 }
 
