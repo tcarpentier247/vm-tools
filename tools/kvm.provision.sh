@@ -42,7 +42,7 @@ VM_NIC=${VM_NIC:-eth0}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
 
 VM_BRIDGE=${VM_BRIDGE:-br0}
-VM_VNCPASSWORD=${VM_VNCPASSWORD:password}
+VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
 
 function check_prerequisites() {
     title Begin:$FUNCNAME
