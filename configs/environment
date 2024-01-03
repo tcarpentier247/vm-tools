@@ -11,7 +11,7 @@ TOOLS=${ROOT}/tools
 TEMPLATES=${ROOT}/templates
 
 # vdc environment max index (one /24 ip class per environment)
-CLUSTER_COUNT="20"
+CLUSTER_COUNT="30"
 
 # vdc cluster ip plan
 NODES=${CONFIGS}/vdc.nodes
