@@ -1,0 +1,8 @@
+runcmd:
+  - /usr/bin/localectl set-keymap fr
+  - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
+  - restart ssh
+  - [rm, /boot/firmware/user-data]
+  - pvcreate -f /dev/vdb
+  - vgcreate datavg /dev/vdb
+  - [reboot]
