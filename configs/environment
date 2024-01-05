@@ -5,7 +5,9 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-ROOT=/data/vdc
+CFG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT=$(cd -- $CFG_DIR/.. &> /dev/null && pwd )
+
 CONFIGS=${ROOT}/configs
 TOOLS=${ROOT}/tools
 TEMPLATES=${ROOT}/templates
