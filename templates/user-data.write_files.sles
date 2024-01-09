@@ -22,7 +22,7 @@ write_files:
 
 - path: /etc/sysconfig/network/ifroute-br-prd
   content: |
-    default 10.1.0.1 - -
+    default 10.VM_CID.0.1 - -
   owner: 'root:root'
   permissions: '0644'
 
