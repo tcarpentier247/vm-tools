@@ -1,8 +1,7 @@
 runcmd:
   - /usr/bin/localectl set-keymap fr
   - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
-  - restart ssh
-  - [rm, /boot/firmware/user-data]
-  - pvcreate -f /dev/vdb
-  - vgcreate datavg /dev/vdb
+  - sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=""/NETCONFIG_DNS_STATIC_SERVERS="10.VM_CID.0.1 10.VM_CID.1.1"/g' /etc/sysconfig/network/config
+  - systemctl restart network
+  - [ sh, "/run/scripts/sles-register.sh" ]
   - [reboot]

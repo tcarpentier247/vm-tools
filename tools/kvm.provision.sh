@@ -100,6 +100,8 @@ function substitute_patterns()
     sed -i "s@VM_IP@$VM_IP@g" $FILES
     sed -i "s@RH_ORG_ID@$RH_ORG_ID@g" $FILES
     sed -i "s@RH_ACTIVATION_KEY@$RH_ACTIVATION_KEY@g" $FILES
+    sed -i "s/SUSE_ORGANISATION_MAIL/$SUSE_ORGANISATION_MAIL/g" $FILES
+    sed -i "s@SUSE_REGISTRATION_KEY@$SUSE_REGISTRATION_KEY@g" $FILES
     title End:$FUNCNAME
 }
 
