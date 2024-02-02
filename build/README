@@ -1,0 +1,27 @@
+Os images build toolkit
+=======================
+
+# Prerequisites
+- packer
+- qemu/kvm
+
+# Getting started
+
+# first time run, need to install qemu-kvm plugin
+#
+. packer/environment
+cd u2204 ; packer init u2204.pkr.hcl
+
+# launch batch image build
+./build.sh
+
+# Troubleshoot
+- put breakpoint in packer provisioners
+- enable PACKER_LOG=1 in packer/environment
+- launch build.sh
+    - at the begining, track the vnc server port in the logs
+    - open a vnc client to the machine during build
+    # option1: x11 forwarding through ssh
+    - ssh -X hypervisor; xtightvncviewer localhost:32000
+    # option2: public port
+    - remmina -c vnc:1.2.3.4:32000

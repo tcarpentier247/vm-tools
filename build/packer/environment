@@ -1,0 +1,10 @@
+set -a 
+
+CFG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT=$(cd -- $CFG_DIR/.. &> /dev/null && pwd )
+
+PACKER_CONFIG_DIR=$ROOT/packer
+PACKER_CACHE_DIR=$ROOT/packer/cache
+
+# uncomment to enable packer log
+#PACKER_LOG=1
