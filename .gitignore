@@ -1,3 +1,6 @@
 configs/networks/
 configs/vdc.nodes.etc.hosts
 configs/machines/*/secrets
+build/packer/cache
+build/packer/.packer.d
+*.qcow2
