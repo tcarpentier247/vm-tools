@@ -45,6 +45,7 @@ done
 
 VM_NIC=${VM_NIC:-eth0}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
+[[ "$VM_BASE_IMAGE" =~ .*uefi.* ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --boot uefi"
 
 VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}

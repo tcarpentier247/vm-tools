@@ -21,6 +21,7 @@ NODES=${CONFIGS}/vdc.nodes
 KVM_IMAGES_ROOT=/var/lib/libvirt/images
 VM_SYS_SIZE=30G
 VM_DATA_SIZE=100G
+VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS}"
 
 declare -A IMAGES
 IMAGES[debian12]="debian-12-generic-amd64-20231228-1609.qcow2"
