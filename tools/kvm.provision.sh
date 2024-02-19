@@ -158,6 +158,7 @@ function execute_virtinstall()
 	VM_CPU=${VM_CPU:-2}
 	VM_RAM=${VM_RAM:-2048}
     VM_OSVARIANT=$(get_kvm_osvariant)
+	VM_CONSOLE_KEYMAP=${VM_CONSOLE_KEYMAP:-fr}
 	VM_VIRTINSTALL_OPTS=${VM_VIRTINSTALL_OPTS}
     
     grep -q '22:23:24:' $VM_ROOT/user-data && {
@@ -174,7 +175,7 @@ function execute_virtinstall()
     virt-install \
     --connect qemu:///system \
     --audio none \
-    --graphics vnc,listen=0.0.0.0,port=$VM_VNCPORT,password=$VM_VNCPASSWORD \
+    --graphics vnc,keymap=$VM_CONSOLE_KEYMAP,listen=0.0.0.0,port=$VM_VNCPORT,password=$VM_VNCPASSWORD \
     --virt-type kvm \
     --name $VM_NAME \
     --ram $VM_RAM \
