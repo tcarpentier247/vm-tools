@@ -7,6 +7,9 @@ echo "--- Begin cleanup.sh ---"
 #echo "Locking user: packer"
 #sudo passwd -l packer
 
+echo "cloud-init"
+cloud-init clean
+
 echo "remove linux-headers"
 dpkg --list \
   | awk '{ print $2 }' \
