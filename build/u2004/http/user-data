@@ -1,0 +1,37 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  early-commands:
+    - systemctl stop ssh.service
+    - systemctl stop ssh.socket
+  keyboard:
+      layout: fr
+      variant: latin9
+  ssh:
+    install-server: true
+    allow-pw: true
+  late-commands:
+    - |
+      if [ -d /sys/firmware/efi ]; then
+        apt-get install -y efibootmgr
+        efibootmgr -o $(efibootmgr | perl -n -e '/Boot(.+)\* ubuntu/ && print $1')
+      fi
+    - curtin in-target -- apt-get update
+    - curtin in-target -- apt-get install -y qemu-guest-agent net-tools ifupdown apt-transport-https ca-certificates lsb-release python3-pip jq sudo openssh-server
+  storage:
+      layout:
+            name: lvm
+  user-data:
+    disable_root: false
+    preserve_hostname: false
+    hostname: packerubuntu
+    package_upgrade: true
+    timezone: Europe/Paris
+    users:
+      - name: packer
+        passwd: $6$opensvcpacker$wTks0vNTax.3TTA0hbXDrYW.UTHhevweRefhxPRAicvv/MF8puHaVirTFICMVvohNULVW.k6Q747q63QVZwox1
+        groups: [adm, cdrom, dip, plugdev, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
