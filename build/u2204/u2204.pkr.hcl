@@ -18,7 +18,7 @@ variable "vm_template_name" {
 
 variable "ubuntu_iso_file" {
   type    = string
-  default = "ubuntu-22.04.3-live-server-amd64.iso"
+  default = "ubuntu-22.04.4-live-server-amd64.iso"
 }
 
 source "qemu" "custom_image" {
