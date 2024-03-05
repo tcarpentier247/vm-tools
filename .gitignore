@@ -1,6 +1,8 @@
+build/common/rhel-registration.sh
 configs/networks/
 configs/vdc.nodes.etc.hosts
 configs/machines/*/secrets
 build/packer/cache
 build/packer/.packer.d
+build/*/*.secrets.pkrvars.hcl
 *.qcow2

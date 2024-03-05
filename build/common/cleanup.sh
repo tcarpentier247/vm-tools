@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash
 
 # credits to bento project
 
@@ -122,3 +122,5 @@ rm -f /EMPTY
 sync; sync
 
 echo "--- End cleanup.sh ---"
+
+exit 0
