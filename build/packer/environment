@@ -7,4 +7,5 @@ PACKER_CONFIG_DIR=$ROOT/packer
 PACKER_CACHE_DIR=$ROOT/packer/cache
 
 # uncomment to enable packer log
-#PACKER_LOG=1
+PACKER_LOG=1
+PACKER_LOG_PATH="$ROOT/packerlog.txt"
