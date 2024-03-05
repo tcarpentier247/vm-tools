@@ -5,3 +5,5 @@ subscription-manager remove --all
 subscription-manager unregister
 subscription-manager clean
 echo '==> Subscription successfully removed'
+
+exit 0
