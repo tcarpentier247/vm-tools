@@ -106,7 +106,7 @@ build {
     #extra_arguments = ["--extra-vars", "\"pizza_toppings=${var.topping}\""]
   }
   provisioner "shell" {
-    expect_disconnect = true
+    expect_disconnect = "true"
     execute_command   = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script            = "../common/reboot.sh"
   }
@@ -117,7 +117,7 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "./scripts/drdb.sh"
+    script          = "./scripts/drbd.sh"
   } 
   provisioner "breakpoint" {
     disable = true
