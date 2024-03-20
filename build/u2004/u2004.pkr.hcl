@@ -58,8 +58,8 @@ source "qemu" "custom_image" {
   net_device       = "virtio-net"
   cpus             = 4
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min     = "32000"
-  vnc_port_max     = "32001"
+  vnc_port_min     = "32011"
+  vnc_port_max     = "32011"
 
   qemuargs = [
     ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
