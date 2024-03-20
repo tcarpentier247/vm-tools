@@ -1,1 +1,5 @@
-user-data.run_cmd.rhel
+runcmd:
+  - /usr/bin/localectl set-keymap fr
+  - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
+  - rm -f /etc/sysconfig/network-scripts/ifcfg*
+  - systemctl reboot
