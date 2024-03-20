@@ -92,10 +92,6 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/rhel-update.sh"
   }
-  provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/rhel-unregister.sh"
-  }
     provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "./scripts/ansible.sh"
@@ -110,17 +106,26 @@ build {
     #extra_arguments = ["--extra-vars", "\"pizza_toppings=${var.topping}\""]
   }
   provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "../common/reboot.sh"
+    expect_disconnect = true
+    execute_command   = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script            = "../common/reboot.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
   }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "./scripts/drbd.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
+  }
+  provisioner "shell"
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/rhel-unregister.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
