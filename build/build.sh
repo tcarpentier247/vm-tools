@@ -10,15 +10,14 @@ set -a
 
 . packer/environment
 
-# cleanup old images
-#find . -type d -name 'output-*' -exec rm -rf {} \;
-
-DISTRO_IMG=$1
+DISTRO_IMG=$@
 
 for img in $DISTRO_IMG
 do
+    [[ ! -d $img ]] && continue
     echo "--- building image $img ---"
     cd $img && {
+	rm -rf output-*
         PACKER_LOG=1 packer build -var-file=$img.secrets.pkrvars.hcl  $img.pkr.hcl
         cd -
     }
