@@ -64,8 +64,8 @@ source "qemu" "custom_image" {
   cpus = 4
 
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32000"
-  vnc_port_max = "32001"
+  vnc_port_min = "32018"
+  vnc_port_max = "32018"
 
   qemuargs = [
     ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
@@ -123,7 +123,7 @@ build {
     disable = true
     note    = "this is a breakpoint"
   }
-  provisioner "shell"
+  provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/rhel-unregister.sh"
   }

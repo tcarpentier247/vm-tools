@@ -64,8 +64,8 @@ source "qemu" "custom_image" {
   cpus = 4
 
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32000"
-  vnc_port_max = "32001"
+  vnc_port_min = "32017"
+  vnc_port_max = "32017"
 
   qemuargs = [
     ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
