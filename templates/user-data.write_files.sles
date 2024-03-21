@@ -74,18 +74,3 @@ write_files:
     STARTMODE='auto'
   owner: "root:root"
   permissions: "0644"
-
-- path: /run/scripts/sles-register.sh
-  content: |
-    #!/bin/bash
-
-    SUSEConnect  -d
-    SUSEConnect --cleanup
-
-    SUSEConnect -r SUSE_REGISTRATION_KEY -e SUSE_ORGANISATION_MAIL
-
-    zypper refresh
-
-    exit 0
-  owner: "root:root"
-  permissions: "0750"
