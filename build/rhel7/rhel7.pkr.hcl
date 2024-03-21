@@ -92,17 +92,23 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/rhel-update.sh"
   }
+  provisioner "breakpoint" {
+    disable = false
+    note    = "breakpoint before ansible install"
+  }
     provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "./scripts/ansible.sh"
   }
   provisioner "breakpoint" {
-    disable = true
+    disable = false
     note    = "this is a breakpoint"
   }
   provisioner "ansible-local" {
-    playbook_file = "../common/main.yml"
-    galaxy_file = "../common/requirements.yml"
+    playbook_file  = "../common/main.yml"
+    galaxy_file    = "../common/requirements.yml"
+    galaxy_command = "ansible-galaxy-3"
+    command = "ansible-playbook-3"
     #extra_arguments = ["--extra-vars", "\"pizza_toppings=${var.topping}\""]
   }
   provisioner "shell" {
@@ -114,6 +120,10 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "./scripts/drbd.sh"
   }
   provisioner "breakpoint" {
     disable = true

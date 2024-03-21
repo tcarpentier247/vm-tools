@@ -1,12 +1,7 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 echo "--- Begin ansible.sh ---"
 
-export DEBIAN_FRONTEND=noninteractive
-
-# Install Ansible.
-yum install -y ansible
+yum install -y ansible-python3
 
 echo "--- End ansible.sh ---"
-
-exit 0
