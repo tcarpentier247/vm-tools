@@ -5,4 +5,5 @@ configs/machines/*/secrets
 build/packer/cache
 build/packer/.packer.d
 build/*/*.secrets.pkrvars.hcl
+build/*/output-custom_image/
 *.qcow2
