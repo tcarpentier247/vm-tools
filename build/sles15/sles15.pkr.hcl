@@ -13,7 +13,7 @@ packer {
 
 variable "vm_template_name" {
   type    = string
-  default = "packer-sles15sp5.qcow2"
+  default = "packer-uefi-sles15sp5.qcow2"
 }
 
 variable "sles15_iso_file" {
