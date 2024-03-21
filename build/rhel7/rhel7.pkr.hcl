@@ -93,7 +93,7 @@ build {
     script = "../common/rhel-update.sh"
   }
   provisioner "breakpoint" {
-    disable = false
+    disable = true
     note    = "breakpoint before ansible install"
   }
     provisioner "shell" {
@@ -101,7 +101,7 @@ build {
     script = "./scripts/ansible.sh"
   }
   provisioner "breakpoint" {
-    disable = false
+    disable = true
     note    = "this is a breakpoint"
   }
   provisioner "ansible-local" {
