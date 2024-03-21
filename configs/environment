@@ -32,7 +32,7 @@ IMAGES[ubuntu23]="lunar-server-cloudimg-amd64.img"
 IMAGES[rhel7]="rhel-server-7.9-update-12-x86_64-kvm.qcow2"
 IMAGES[rhel8]="packer-uefi-rhel-8.qcow2"
 IMAGES[rhel9]="packer-uefi-rhel-9.qcow2"
-IMAGES[sles12]="SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
-IMAGES[sles15]="SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
+IMAGES[sles12]="packer-uefi-sles12sp5.qcow2"
+IMAGES[sles15]="packer-uefi-sles15sp5.qcow2"
 
 . $TOOLS/functions.sh
