@@ -7,7 +7,7 @@ users:
     passwd: $6$QpnGpdKe6l5$fbh/uHCmQPVnPtwcj8s7eZFl1J3B.i3j5PP5XwaqPE9jS9oGLqjQxdpzzh.KmweQ9eSwZiVRHcVXunsoqTScm1
     groups: sudo
     shell: /bin/bash
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYPW0j21hI2K+BiIl+ZCTl88aLxMZX7N55wgifyStCF tcarpentier@tcarpentier-Bravo-15-A4DDR
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAtVaMuNkrVTpZ3rqq5U28FHxJPsJYk315eQen1zXpd vagrant
