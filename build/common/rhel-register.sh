@@ -2,6 +2,9 @@
 
 set -a 
 
+RHN_ORG=${RHN_ORG:-undefined}
+RHN_KEY=${RHN_KEY:-undefined}
+
 MAJOR_VERSION=$(grep ^VERSION_ID /etc/os-release | awk -F= '{print $2}' | sed -e 's/"//g' | awk -F. '{print $1}')
 OS_ID=$(grep ^ID= /etc/os-release | awk -F= '{print $2}' | sed -e 's/"//g')
 
