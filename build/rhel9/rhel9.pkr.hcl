@@ -106,6 +106,10 @@ build {
     #extra_arguments = ["--extra-vars", "\"pizza_toppings=${var.topping}\""]
   }
   provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/rhel-cloud-init.sh"
+  }
+  provisioner "shell" {
     expect_disconnect = "true"
     execute_command   = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script            = "../common/reboot.sh"
