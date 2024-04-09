@@ -45,7 +45,6 @@ done
 
 VM_NIC=${VM_NIC:-eth0}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
-[[ "$VM_BASE_IMAGE" =~ .*uefi.* ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --boot uefi"
 
 VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
@@ -148,6 +147,40 @@ function create_seed() {
     title End:$FUNCNAME
 }
 
+function create_uefi() {
+    title Begin:$FUNCNAME
+    # UEFI based images
+    [[ "$VM_BASE_IMAGE" =~ .*uefi.* ]] && {
+        UEFI_SECURE_LOADER=${UEFI_SECURE_LOADER:-no}
+        UEFI_LOADER="${UEFI_LOADER}"
+        [[ -z "$UEFI_LOADER" ]] && {
+            # no loader definition set in VM_CONFIGS
+            [[ -f $VM_ROOT/uefi.loader.fd ]] && {
+                UEFI_LOADER="$VM_ROOT/uefi.loader.fd"
+            } || {
+                UEFI_LOADER="/usr/share/OVMF/OVMF_CODE_4M.fd"
+            }
+        }
+    
+        UEFI_VARS="${UEFI_VARS}"
+        [[ -z "$UEFI_VARS" ]] && {
+            # no vars definition set in VM_CONFIGS
+	    [[ -f $KVM_IMAGES_ROOT/$VM_DISTRO.efivars.fd ]] && {
+                echo "Copying $KVM_IMAGES_ROOT/$VM_DISTRO.efivars.fd to $VM_ROOT/uefi.vars.fd"
+	        cp $KVM_IMAGES_ROOT/$VM_DISTRO.efivars.fd $VM_ROOT/uefi.vars.fd
+	    }
+            [[ -f $VM_ROOT/uefi.vars.fd ]] && {
+                UEFI_VARS="$VM_ROOT/uefi.vars.fd"
+            } || {
+                UEFI_VARS="/usr/share/OVMF/OVMF_VARS_4M.fd"
+            }
+        }
+        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --boot loader=$UEFI_LOADER,loader.readonly=yes,loader.type=pflash,nvram.template=$UEFI_VARS,loader_secure=$UEFI_SECURE_LOADER,bootmenu.enable=on,bios.useserial=on"
+    } || echo "non uefi image"
+
+    title End:$FUNCNAME
+}
+
 # bridge name
 # cpu
 # ram
@@ -186,7 +219,7 @@ function execute_virtinstall()
     --disk $VM_ROOT/seed.iso,device=cdrom \
     --import \
     --noautoconsole \
-    --console pty,target_type=serial $VM_VIRTINSTALL_OPTS
+    --console pty,target_type=serial,log.file=$VM_ROOT/console.log $VM_VIRTINSTALL_OPTS
     title End:$FUNCNAME
 }
 
@@ -195,4 +228,5 @@ prepare
 copy_base_image
 create_vmdisks
 create_seed
+create_uefi
 execute_virtinstall
