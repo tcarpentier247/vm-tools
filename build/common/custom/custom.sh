@@ -38,3 +38,5 @@ MINOR_VERSION="${VERSION_ID#*.}"
 	echo "--- $ID.$MAJOR_VERSION.$MINOR_VERSION.sh ---"
         . $ID.$MAJOR_VERSION.$MINOR_VERSION.sh
 }
+
+exit 0
