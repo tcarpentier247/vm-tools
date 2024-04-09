@@ -21,7 +21,21 @@ do
 	rm -rf output-*
         [[ -f $img.secrets.pkrvars.hcl ]] && PACKER_OPTS="$PACKER_OPTS -var-file=$img.secrets.pkrvars.hcl"
         PACKER_LOG=1 packer build $PACKER_OPTS $img.pkr.hcl
-        cd -
+	retcode=$?
+        if [ $retcode -ne 0 ]; then
+            echo "Error during packer image build. Exiting with retcode $retcode"
+	    exit $retcode
+        fi
+	[[ -f ./output-custom_image/efivars.fd ]] && {
+	    echo "Copying UEFI vars $file to /var/lib/libvirt/images/$img.efivars.fd"
+	    cp ./output-custom_image/efivars.fd /var/lib/libvirt/images/$img.efivars.fd
+	}
+	for file in $(cd ./output-custom_image && ls -1 *.qcow2)
+	do
+	    echo "Copying image $file to KVM_IMAGES_ROOT/$file"
+	    cp -f ./output-custom_image/$file /var/lib/libvirt/images/
+        done
+	cd -
     }
 done
 
