@@ -6,7 +6,7 @@ set -a
 
 echo "--- Downloading Custom Scripts --- "
 
-git clone https://github.com/opensvc/vm-tools.git /opt/ || exit 1
+git clone https://github.com/opensvc/vm-tools.git /opt/vm-tools || exit 1
 
 echo "--- Running Custom Scripts ---"
 
