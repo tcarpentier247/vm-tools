@@ -24,7 +24,7 @@ VM_DATA_SIZE=100G
 VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS}"
 
 declare -A IMAGES
-IMAGES[debian12]="debian-12-generic-amd64-20231228-1609.qcow2"
+IMAGES[debian12]="packer-uefi-debian-12.qcow2"
 IMAGES[ubuntu18]="bionic-server-cloudimg-amd64.img"
 IMAGES[ubuntu20]="focal-server-cloudimg-amd64.img"
 IMAGES[ubuntu22]="packer-uefi-ubuntu-22.04.qcow2"
