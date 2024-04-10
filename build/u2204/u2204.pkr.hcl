@@ -13,7 +13,7 @@ packer {
 
 variable "vm_template_name" {
   type    = string
-  default = "packer-uefi-ubuntu-22.04.qcow2"
+  default = "packer-uefi-u2204.qcow2"
 }
 
 variable "ubuntu_iso_file" {
@@ -62,8 +62,11 @@ source "qemu" "custom_image" {
   vnc_port_min = "32012"
   vnc_port_max = "32012"
 
+  efi_boot = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+  efi_firmware_vars = "/usr/share/OVMF/OVMF_VARS_4M.fd"
+
   qemuargs = [
-    ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
     ["-accel", "kvm"],
     ["-cpu", "host"],
     ["-machine", "pc-q35-6.2,usb=off,vmport=off,dump-guest-core=off"],
