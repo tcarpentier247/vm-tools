@@ -13,7 +13,7 @@ packer {
 
 variable "vm_template_name" {
   type    = string
-  default = "packer-uefi-rhel-7.qcow2"
+  default = "packer-uefi-rhel7.qcow2"
 }
 
 variable "rhel_iso_file" {
@@ -44,7 +44,7 @@ source "qemu" "custom_image" {
 
   http_directory = "http"
   iso_url   = "../images/${var.rhel_iso_file}"
-  iso_checksum = "none"
+  iso_checksum = "2cb36122a74be084c551bc7173d2d38a1cfb75c8ffbc1489c630c916d1b31b25"
   memory = 4096
 
   ssh_password = "opensvcpacker"
@@ -67,8 +67,11 @@ source "qemu" "custom_image" {
   vnc_port_min = "32017"
   vnc_port_max = "32017"
 
+  efi_boot = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+  efi_firmware_vars = "/usr/share/OVMF/OVMF_VARS_4M.fd"
+
   qemuargs = [
-    ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
     ["-accel", "kvm"],
     ["-cpu", "host"],
     ["-machine", "pc-q35-6.2,usb=off,vmport=off,dump-guest-core=off"],
@@ -132,6 +135,10 @@ build {
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
