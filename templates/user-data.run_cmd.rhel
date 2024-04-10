@@ -4,5 +4,8 @@ runcmd:
   - systemctl restart sshd
   - rm -f /etc/sysconfig/network-scripts/ifcfg-ens*
   - systemctl restart NetworkManager
-  - [ sh, "/run/scripts/rhel-register.sh" ]
-  - [reboot]
+  - curl -o /root/rhel-register.sh -sSL https://raw.githubusercontent.com/opensvc/vm-tools/main/build/common/rhel-register.sh
+  - sed -i 's@^RHN_ORG=.*@RHN_ORG=RH_ORG_ID@' /root/rhel-register.sh
+  - sed -i 's@^RHN_KEY=.*@RHN_KEY=RH_ACTIVATION_KEY@' /root/rhel-register.sh
+  - chmod 700 /root/rhel-register.sh
+  - reboot
