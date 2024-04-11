@@ -93,6 +93,10 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/deb-cloud-init.sh"
   }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/debian-netplan.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
