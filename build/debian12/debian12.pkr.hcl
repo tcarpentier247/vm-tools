@@ -49,8 +49,8 @@ boot_command = [
   net_device = "virtio-net"
   cpus = 4
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32012"
-  vnc_port_max = "32012"
+  vnc_port_min = "32023"
+  vnc_port_max = "32023"
 
   efi_boot = true
   efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
