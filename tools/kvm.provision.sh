@@ -206,6 +206,8 @@ function execute_virtinstall()
         # standard cnx
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:$VM_BRIDGE,model=virtio"
     }
+
+    [[ "$VM_DISTRO" =~ .*\.qcow2 ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --import"
 	
     virt-install \
     --connect qemu:///system \
@@ -219,7 +221,6 @@ function execute_virtinstall()
     --disk path=$VM_ROOT/system.qcow2,format=qcow2 \
     --disk path=$VM_ROOT/data.qcow2,format=qcow2 \
     --disk $VM_ROOT/seed.iso,device=cdrom \
-    --import \
     --noautoconsole \
     --console pty,target_type=serial,log.file=$VM_ROOT/console.log $VM_VIRTINSTALL_OPTS
     title End:$FUNCNAME
