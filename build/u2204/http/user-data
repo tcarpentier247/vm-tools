@@ -31,6 +31,6 @@ autoinstall:
       - name: packer
         passwd: $6$opensvcpacker$wTks0vNTax.3TTA0hbXDrYW.UTHhevweRefhxPRAicvv/MF8puHaVirTFICMVvohNULVW.k6Q747q63QVZwox1
         groups: [adm, cdrom, dip, plugdev, sudo]
-        lock-passwd: false
+        lock_passwd: false
         sudo: ALL=(ALL) NOPASSWD:ALL
         shell: /bin/bash
