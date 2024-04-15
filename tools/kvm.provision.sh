@@ -44,7 +44,9 @@ do
 done
 
 VM_NIC=${VM_NIC:-eth0}
+VM_AUDIO=${VM_AUDIO:-none}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
+[[ "$VM_DISTRO" =~ ^ubuntu.* ]] && VM_NIC="enp1s0"
 
 VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
@@ -207,7 +209,7 @@ function execute_virtinstall()
 	
     virt-install \
     --connect qemu:///system \
-    --audio none \
+    --audio $VM_AUDIO \
     --graphics vnc,keymap=$VM_CONSOLE_KEYMAP,listen=0.0.0.0,port=$VM_VNCPORT,password=$VM_VNCPASSWORD \
     --virt-type kvm \
     --name $VM_NAME \
