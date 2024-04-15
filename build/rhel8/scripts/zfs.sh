@@ -2,7 +2,6 @@
 
 echo "ZFS Build"
 
-#RHEL 9
 echo "Installing RHEL build packages dependencies"
 dnf -y install gcc make autoconf automake libtool rpm-build libtirpc-devel libblkid-devel libuuid libudev-devel openssl-devel zlib-devel libaio-devel libattr-devel  python3 python3-devel python3-setuptools python3-cffi libffi-devel git libcurl-devel kernel-devel
 

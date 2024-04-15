@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "--- Begin cleanup.sh ---"
+echo "--- Begin rhel-cleanup.sh ---"
 
 echo "reduce the grub menu time to 1 second"
 sed -i -e 's/^GRUB_TIMEOUT=[0-9]\+$/GRUB_TIMEOUT=1/' /etc/default/grub
