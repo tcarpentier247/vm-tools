@@ -9,4 +9,12 @@
     update-grub || exit 1
 }
 
+for file in /etc/cloud/cloud.cfg.d/99-installer.cfg /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg
+do
+    [[ -f $file ]] && {
+        echo "removing $file"
+        rm -f $file
+    }
+done
+
 exit 0
