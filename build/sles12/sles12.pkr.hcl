@@ -13,7 +13,7 @@ packer {
 
 variable "vm_template_name" {
   type    = string
-  default = "packer-sles12sp5.qcow2"
+  default = "packer-uefi-sles12sp5.qcow2"
 }
 
 variable "sles12_iso_file" {
@@ -34,17 +34,21 @@ variable "suse_email" {
 source "qemu" "custom_image" {
   
   boot_command = [
-    "<esc><enter><wait>",
-    "linux netdevice=eth0 netsetup=dhcp install=cd:/",
+    "e<wait>",
+    "<down><down><down><down><wait>",
+    "<end><wait>",
+    " netdevice=eth0 netsetup=dhcp install=cd:/",
     " lang=en_US autoyast=http://{{ .HTTPIP }}:{{ .HTTPPort }}/sles12-autoinst.xml",
     " textmode=1",
-    "<enter><wait>"
+    "<f10><wait>"
   ]
-  boot_wait = "10s"
+  boot_wait = "5s"
+  #boot_wait = "10h"
   
   http_directory = "http"
   iso_url   = "file:///data/vdc/build/images/${var.sles12_iso_file}"
-  iso_checksum = "file:file:///data/vdc/build/images/${var.sles12_iso_file}.sha256"
+  #iso_checksum = "file:file:///data/vdc/build/images/${var.sles12_iso_file}.sha256"
+  iso_checksum = "none"
   memory = 4096
   
   ssh_password = "opensvcpacker"
@@ -65,6 +69,10 @@ source "qemu" "custom_image" {
   vnc_bind_address = "0.0.0.0"
   vnc_port_min = "32014"
   vnc_port_max = "32014"
+
+  efi_boot = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+  efi_firmware_vars = "/usr/share/OVMF/OVMF_VARS_4M.fd"
 
   qemuargs = [
     ["-accel", "kvm"],
@@ -93,6 +101,10 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-snapper.sh"
   }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/sles-grub.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "Troubleshooting Breakpoint"
@@ -118,6 +130,10 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-drbd.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"

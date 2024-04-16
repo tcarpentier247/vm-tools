@@ -66,8 +66,11 @@ source "qemu" "custom_image" {
   vnc_port_min = "32015"
   vnc_port_max = "32015"
 
+  efi_boot = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+  efi_firmware_vars = "/usr/share/OVMF/OVMF_VARS_4M.fd"
+
   qemuargs = [
-    ["-bios", "/usr/share/OVMF/OVMF_CODE.fd"],
     ["-accel", "kvm"],
     ["-cpu", "host"],
     ["-machine", "pc-q35-6.2,usb=off,vmport=off,dump-guest-core=off"],
@@ -88,6 +91,10 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/sles-snapper.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-update.sh"
   }
   provisioner "shell" {
@@ -97,6 +104,10 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-cloud-init.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/sles-grub.sh"
   }
   provisioner "breakpoint" {
     disable = true
@@ -115,6 +126,10 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-drbd.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"

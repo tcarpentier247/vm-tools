@@ -465,7 +465,8 @@ packer ALL=(ALL,ALL) NOPASSWD: ALL" > /etc/sudoers.d/packer
     </dhcp_options>
     <dns t="map">
       <dhcp_hostname t="boolean">true</dhcp_hostname>
-      <hostname>localhost</hostname>
+      <domain>vdc.opensvc.com</domain>
+      <hostname>packer-sles15</hostname>
       <resolv_conf_policy>auto</resolv_conf_policy>
     </dns>
     <interfaces t="list">
@@ -673,6 +674,7 @@ packer ALL=(ALL,ALL) NOPASSWD: ALL" > /etc/sudoers.d/packer
       <package>sudo</package>
       <package>lvm2</package>
       <package>mdadm</package>
+      <package>vim</package>
       <package>sg3_utils</package>
       <package>numactl</package>
       <package>kexec-tools</package>
@@ -686,6 +688,11 @@ packer ALL=(ALL,ALL) NOPASSWD: ALL" > /etc/sudoers.d/packer
       <package>autoyast2-installation</package>
       <package>autoyast2</package>
     </packages>
+    <remove-packages config:type="list">
+      <package>plymouth</package>
+      <package>zenity</package>
+      <package>zenity-lang</package>
+    </remove-packages>
     <patterns t="list">
       <pattern>apparmor</pattern>
       <pattern>base</pattern>
