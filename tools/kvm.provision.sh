@@ -82,6 +82,7 @@ function create_std_vmdisks()
     title Begin:$FUNCNAME
     [[ -f $VM_ROOT/system.qcow2 ]] && exiterr "$VM_ROOT/system.qcow2 already exist"
     qemu-img create -f qcow2 $VM_ROOT/system.qcow2 $VM_SYS_SIZE
+    qemu-img create -f qcow2 $VM_ROOT/data.qcow2 $VM_DATA_SIZE
     title End:$FUNCNAME
 }
 
@@ -246,7 +247,7 @@ echo "$VM_BASE_IMAGE" | grep -q "\.qcow2$" && {
     VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
 } || {
     create_std_vmdisks
-    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk $KVM_IMAGES_ROOT/$VM_BASE_IMAGE,device=cdrom"
+    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --cdrom $KVM_IMAGES_ROOT/$VM_BASE_IMAGE"
 }
 create_uefi
 execute_virtinstall
