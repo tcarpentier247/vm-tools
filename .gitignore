@@ -1,3 +1,4 @@
+build/packerlog.txt
 build/common/rhel-registration.sh
 configs/networks/
 configs/vdc.nodes.etc.hosts
