@@ -2,4 +2,17 @@
 
 zypper --non-interactive --gpg-auto-import-keys install htop lsscsi
 
+
+# serial console config
+cp /etc/default/grub /etc/default/grub.osvcpacker
+sed -i 's/^GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=3/' /etc/default/grub
+sed -i 's/SUSE_BTRFS_SNAPSHOT_BOOTING="true"/SUSE_BTRFS_SNAPSHOT_BOOTING="false"/' /etc/default/grub
+sed -i 's#^\(GRUB_CMDLINE_LINUX_DEFAULT=.*\)"$#\1 console=tty0 console=ttyS0,115200n8"#' /etc/default/grub
+sed -i 's#^GRUB_TERMINAL=.*$#GRUB_TERMINAL="console serial"#' /etc/default/grub
+grep -q '^GRUB_TERMINAL=' /etc/default/grub || echo 'GRUB_TERMINAL="console serial"' >> /etc/default/grub
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+grub2-mkconfig -o /boot/efi/EFI/sles/grub.cfg
+
+
 exit 0
