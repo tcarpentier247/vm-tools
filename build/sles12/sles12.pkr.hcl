@@ -101,10 +101,6 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-snapper.sh"
   }
-  provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/sles-grub.sh"
-  }
   provisioner "breakpoint" {
     disable = true
     note    = "Troubleshooting Breakpoint"
