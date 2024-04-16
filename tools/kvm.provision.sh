@@ -77,7 +77,15 @@ function copy_base_image()
     title End:$FUNCNAME
 }
 
-function create_vmdisks()
+function create_std_vmdisks()
+{
+    title Begin:$FUNCNAME
+    [[ -f $VM_ROOT/system.qcow2 ]] && exiterr "$VM_ROOT/system.qcow2 already exist"
+    qemu-img create -f qcow2 $VM_ROOT/system.qcow2 $VM_SYS_SIZE
+    title End:$FUNCNAME
+}
+
+function create_ci_vmdisks()
 {
     title Begin:$FUNCNAME
     [[ -f $VM_ROOT/system.qcow2 ]] && exiterr "$VM_ROOT/system.qcow2 already exist"
@@ -196,7 +204,7 @@ function execute_virtinstall()
 	VM_CONSOLE_KEYMAP=${VM_CONSOLE_KEYMAP:-fr}
 	VM_VIRTINSTALL_OPTS=${VM_VIRTINSTALL_OPTS}
     
-    grep -q '22:23:24:' $VM_ROOT/user-data && {
+    grep -q '22:23:24:' $VM_ROOT/user-data 2>/dev/null && {
         # found vdc mac addresses
         # we have to connect 3 nics
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=virtio,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
@@ -207,7 +215,13 @@ function execute_virtinstall()
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:$VM_BRIDGE,model=virtio"
     }
 
-    [[ "$VM_DISTRO" =~ .*\.qcow2 ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --import"
+    [[ "$VM_BASE_IMAGE" =~ .*\.qcow2 ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --import"
+    [[ "$UEFI_SECURE_LOADER" =~ yes ]] && VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --machine q35 --features smm.state=on"
+    echo "$VM_BASE_IMAGE" | grep -qEi "microsoft|windows" && {
+        [[ -f $KVM_IMAGES_ROOT/virtio-win.iso ]] && {
+	    VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --disk $KVM_IMAGES_ROOT/virtio-win.iso,device=cdrom"
+        }
+    }
 	
     virt-install \
     --connect qemu:///system \
@@ -218,9 +232,6 @@ function execute_virtinstall()
     --ram $VM_RAM \
     --vcpus=$VM_CPU \
     --os-variant $VM_OSVARIANT \
-    --disk path=$VM_ROOT/system.qcow2,format=qcow2 \
-    --disk path=$VM_ROOT/data.qcow2,format=qcow2 \
-    --disk $VM_ROOT/seed.iso,device=cdrom \
     --noautoconsole \
     --console pty,target_type=serial,log.file=$VM_ROOT/console.log $VM_VIRTINSTALL_OPTS
     title End:$FUNCNAME
@@ -228,8 +239,14 @@ function execute_virtinstall()
 
 check_prerequisites
 prepare
-copy_base_image
-create_vmdisks
-create_seed
+echo "$VM_BASE_IMAGE" | grep -q "\.qcow2$" && {
+    copy_base_image
+    create_ci_vmdisks
+    create_seed
+    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
+} || {
+    create_std_vmdisks
+    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk $KVM_IMAGES_ROOT/$VM_BASE_IMAGE,device=cdrom"
+}
 create_uefi
 execute_virtinstall
