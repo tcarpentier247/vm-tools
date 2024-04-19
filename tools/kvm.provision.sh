@@ -108,6 +108,7 @@ function substitute_patterns()
     sed -i "s@VM_HEXCID@$VM_HEXCID@g" $FILES
     sed -i "s@VM_2DGCID@$VM_2DGCID@g" $FILES
     sed -i "s@VM_CID@$VM_CID@g" $FILES
+    sed -i "s@VM_NET@$NET@g" $FILES
     sed -i "s@VM_IP@$VM_IP@g" $FILES
     sed -i "s@RH_ORG_ID@$RH_ORG_ID@g" $FILES
     sed -i "s@RH_ACTIVATION_KEY@$RH_ACTIVATION_KEY@g" $FILES

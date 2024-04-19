@@ -1,8 +1,8 @@
 local-hostname: VM_NAME
 network-interfaces: |
   iface VM_NIC inet static
-  address 10.VM_CID.0.VM_IP
-  network 10.VM_CID.0.0
+  address VM_NET.VM_CID.0.VM_IP
+  network VM_NET.VM_CID.0.0
   netmask 255.255.255.0
-  broadcast 10.VM_CID.0.255
-  gateway 10.VM_CID.0.1
+  broadcast VM_NET.VM_CID.0.255
+  gateway VM_NET.VM_CID.0.1

@@ -11,14 +11,15 @@ MYVIRSH="echo virsh"
 
 function gennetxml()
 {
-    local _cid=$1
-    local _net=$2
-    local _cpt=$3
+    local _base=$1
+    local _cid=$2
+    local _net=$3
+    local _cpt=$4
     local _mac=$(printf "%02d" "$_cid")
 
-    #echo "$0 cid $_cid   net $_net  cpt $_cpt   mac $_mac"
+    #echo "$0 basenet $_base cid $_cid   net $_net  cpt $_cpt   mac $_mac"
 
-    cat ${TEMPLATE} | sed -e "s/CID/$_cid/g;s/ENV/$_net/g;s/NUM/$_cpt/g;s/MAC/$_mac/g"
+    cat ${TEMPLATE} | sed -e "s/NET/$_base/;s/CID/$_cid/g;s/ENV/$_net/g;s/NUM/$_cpt/g;s/MAC/$_mac/g"
 }
 
 function setupnet()
@@ -39,7 +40,7 @@ do
     typeset -i cpt=0
     for net in prd hb1 hb2
     do
-	gennetxml $cid $net $cpt > $NETCFGDIR/c$cid-$net.xml
+	gennetxml $NET $cid $net $cpt > $NETCFGDIR/c$cid-$net.xml
 #	gennetxml $cid $net $cpt
 	setupnet $cid $net
 	let cpt=$cpt+1

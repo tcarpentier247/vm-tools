@@ -21,13 +21,13 @@ typeset -i idx=0
 while [[ $idx -lt $CLUSTER_COUNT ]]
 do
     #ipstring="$ipstring,$netA.$idx.$cpt.1/24"
-    subnets["10.${idx}.0"]=""
+    subnets["${NET}.${idx}.0"]=""
     if (( $idx == 0 )); then
             let idx=$idx+1
 	    continue
     fi
-    subnets["10.${idx}.1"]="-hb1"
-    subnets["10.${idx}.2"]="-hb2"
+    subnets["${NET}.${idx}.1"]="-hb1"
+    subnets["${NET}.${idx}.2"]="-hb2"
     let idx=$idx+1
 done
 
@@ -45,7 +45,7 @@ function gen_data()
 	#echo --- $nodename --- $cluid --- $ip
         for key in ${!subnets[@]}
         do
-            [[ $key == 10.${cluid}.* ]] && {
+            [[ $key == ${NET}.${cluid}.* ]] && {
                 printf "%s.%s\t%s%s\t%s%s.vdc.opensvc.com\n" "$key" "$ip" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
                 net=$(echo $key | awk -F'.' '{printf "%02d", $3}')
                 printf "%s\t%s%s-6\t%s%s-6.vdc.opensvc.com\n" "fd01:2345:6789:${cluid}${net}::$ip" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
