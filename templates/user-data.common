@@ -9,6 +9,7 @@ users:
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKnac2tx/pcsfraH5p/6LhTFivCo7OvbnhhhN97bHslY/uAp32ZClVOL4cquaVpM5pi4B93FH5UFXiWmrvJJN2A= qabot@opensvc.com
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYPW0j21hI2K+BiIl+ZCTl88aLxMZX7N55wgifyStCF tcarpentier@tcarpentier-Bravo-15-A4DDR
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAtVaMuNkrVTpZ3rqq5U28FHxJPsJYk315eQen1zXpd vagrant
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVLQNm56PbIIufdN80IrmuLUvQSrwD1pyHPtHC9DS2D6YQnGmC0QxiheSpWjTNFXJiaq+ba6pQAEAvySGs9BoQuk+X4TuBwbaw3HwYuStnTAUIm2wBNJmtMGyzYvvSPwYUF2t5uSgEzfNKvSMINAfLsxGH1NBDEi/yFhznc/xcRb36sSPHQA0q1/IrQ3aZoh5ugpoVdkpIbixFrsXhKmu5Ij16MzJSwC2aiyf9C1zOviwY37rfOHhTAMTAQ3VXvuAve/6pVWSKNYotxbgL0yEGk1Sdu25RO7rdJtEjYMskLXN1T2SDmh+uVyplyb8/MIvU5nLthsMuFKNuLvxE83ZH root@pez
