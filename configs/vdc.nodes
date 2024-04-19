@@ -5,6 +5,8 @@ freenas 0 11
 truenas 0 12
 collector 0 20
 registry 0 21
+prometheus 0 30
+grafana 0 31
 relay20 0 120
 relay21 0 121
 relay 0 121
