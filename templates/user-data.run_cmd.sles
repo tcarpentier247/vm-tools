@@ -7,4 +7,5 @@ runcmd:
   - sed -i 's@^SUSE_KEY=.*@SUSE_KEY=SUSE_REGISTRATION_KEY@' /root/sles-register.sh
   - sed -i 's/^SUSE_EMAIL=.*/SUSE_EMAIL=SUSE_ORGANISATION_MAIL/' /root/sles-register.sh
   - chmod 700 /root/sles-register.sh
+  - systemctl enable opensvc-qanode-wait-ready.service
   - reboot

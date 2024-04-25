@@ -74,3 +74,22 @@ write_files:
     STARTMODE='auto'
   owner: "root:root"
   permissions: "0644"
+
+- path: /etc/systemd/system/opensvc-qanode-wait-ready.service
+  content: |
+    [Unit]
+    Description=opensvc wait qanode ready
+    After=network-online.target
+    After=time-sync.target
+    After=multi-user.target
+    After=network.target
+    After=blk-availability.service
+    Wants=blk-availability.service
+    
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/bin/touch /etc/opensvc-qa-node-is-ready
+    RemainAfterExit=true
+    
+    [Install]
+    WantedBy=multi-user.target

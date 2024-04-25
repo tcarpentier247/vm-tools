@@ -6,4 +6,5 @@ runcmd:
   - [rm, /boot/firmware/user-data]
   - [touch, /etc/cloud/cloud-init.disabled]
   - apt -y --purge remove cloud-init snapd
+  - systemctl enable opensvc-qanode-wait-ready.service
   - [reboot]

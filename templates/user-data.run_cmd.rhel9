@@ -6,4 +6,5 @@ runcmd:
   - sed -i 's@^RHN_ORG=.*@RHN_ORG=RH_ORG_ID@' /root/rhel-register.sh
   - sed -i 's@^RHN_KEY=.*@RHN_KEY=RH_ACTIVATION_KEY@' /root/rhel-register.sh
   - chmod 700 /root/rhel-register.sh
+  - systemctl enable opensvc-qanode-wait-ready.service
   - systemctl reboot
