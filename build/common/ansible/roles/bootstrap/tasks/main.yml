@@ -5,12 +5,6 @@
 - name: Deploy per OS playbook
   include_tasks: "install-{{ ansible_os_family }}.yml"
 
-- name: Deploy qa script
-  copy:
-    src: files/opensvc-qa.sh
-    dest: "{{ osvc_qascripts_root }}/opensvc-qa.sh"
-    mode: 0755
-
 - name: Deploy mycurl script
   copy:
     src: files/mycurl
@@ -62,6 +56,12 @@
     - public_keys/qabot
     - public_keys/sgf
     - public_keys/tcr
+
+- name: Deploy qa script
+  copy:
+    src: files/opensvc-qa.sh
+    dest: "{{ osvc_qascripts_root }}/opensvc-qa.sh"
+    mode: 0755
 
 - name: Create qa folder
   file:
