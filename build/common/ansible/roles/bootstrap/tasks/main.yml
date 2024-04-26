@@ -21,6 +21,47 @@
   ansible.builtin.group:
     name: opensvc
     state: present
+    gid: 2000
+
+- name: Make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Add the user 'opensvc'
+  ansible.builtin.user:
+    name: opensvc
+    password: $6$sl02ZctmsJ547v2R$JoflNc8e40qpSCYj/04v1a4NWqhm66xnwLZSF.WnAQPL.VGRLd.5YA94yE51xEINc7rym.P4OGUZKOw6pYIHE/
+    shell: /bin/bash
+    group: opensvc
+    groups: wheel
+    append: yes
+
+- name: Set up opensvc authorized keys
+  ansible.posix.authorized_key:
+    user: opensvc
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - public_keys/ansible
+    - public_keys/avn
+    - public_keys/cgn
+    - public_keys/cvi
+    - public_keys/gmt
+    - public_keys/malabar
+    - public_keys/gmt
+    - public_keys/pez
+    - public_keys/qabot
+    - public_keys/sgf
+    - public_keys/tcr
 
 - name: Create qa folder
   file:
