@@ -1,0 +1,53 @@
+---
+- name: Include OS variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Deploy per OS playbook
+  include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Deploy qa script
+  copy:
+    src: files/opensvc-qa.sh
+    dest: "{{ osvc_qascripts_root }}/opensvc-qa.sh"
+    mode: 0755
+
+- name: Deploy mycurl script
+  copy:
+    src: files/mycurl
+    dest: "/usr/bin/mycurl"
+    mode: 0755
+
+- name: Ensure group "opensvc" exists
+  ansible.builtin.group:
+    name: opensvc
+    state: present
+
+- name: Create qa folder
+  file:
+    name: "{{ osvc_qascripts_root }}/opensvc-qa.d"
+    state: directory
+    mode: 0775
+    owner: opensvc
+    group: opensvc
+
+- name: Add opensvc-qa.sh call to user profile
+  lineinfile:
+    path: "{{ osvc_qascripts_profile }}"
+    state: present
+    create: yes
+    regexp: '^[ -f ~/opensvc-qa.sh ] && . ~/opensvc-qa.sh$'
+    line: '[ -f ~/opensvc-qa.sh ] && . ~/opensvc-qa.sh'
+
+- name: remove drbd devices from lvm
+  ansible.builtin.lineinfile:
+    backup: yes
+    path: /etc/lvm/lvm.conf
+    insertafter: '.*# global_filter = \[ "a\|.*\|" \].*'
+    line: '        global_filter = [ "a|.*|", "r|^/dev/drbd*|" ]'
+  when: (ansible_facts['system'] == "Linux" )
+
+- name: Ensure hostname does not point to 127.0.1.1 in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^127.0.1.1\\b.*\\s{{ ansible_hostname }}\\b"
+    state: absent

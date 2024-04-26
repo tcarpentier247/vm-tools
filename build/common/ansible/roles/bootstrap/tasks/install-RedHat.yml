@@ -1,0 +1,162 @@
+---
+
+- name: Install prerequisites packages
+  yum:
+    name: "{{ osvc_rpm_common_pkg }}"
+    state: present
+
+- name: install package for old centos/rhel
+  yum:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - bridge-utils
+      - cryptsetup
+      - links
+      - ntp
+  when: (ansible_distribution_major_version|int < 8)
+
+- name: remove epel pkg if exist
+  shell: rpm -qa|grep "epel.*release"|xargs yum -y remove
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int >= 8)
+
+- rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+  when:
+    - (ansible_distribution == "RedHat")
+
+- name: install epel channel for rhel 7
+  ansible.builtin.yum:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'
+    state: present
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int == 7)
+
+- name: install epel channel for rhel 8
+  ansible.builtin.dnf:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+    state: present
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int == 8)
+
+- name: install epel channel for rhel 9
+  ansible.builtin.dnf:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm'
+    state: present
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int == 9)
+
+- name: install common packages for rhel/centos/fedora (ver < 8)
+  yum:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - autofs
+      - bind-utils
+      - device-mapper-multipath
+      - dkms
+      - iscsi-initiator-utils
+      - net-tools
+      - lxc
+      - lxc-extra
+      - lxc-templates
+      - nfs-utils
+      - ntpdate
+      - python2
+      - python2-requests
+      - python2-cryptography
+      - python36
+      - python36-requests
+      - python36-crypto
+      - python36-cryptography
+      - python-virtualenv
+      - sg3_utils
+      - vim
+  when:
+    - (ansible_distribution_major_version|int < 8)
+
+- name: install common packages for rhel/centos/fedora (ver = 8)
+  yum:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - autofs
+      - bind-utils
+      - device-mapper-multipath
+      - dkms
+      - podman
+      - podman-docker
+      - iscsi-initiator-utils
+      - lxc
+      - lxc-templates
+      - python36
+      - python3-requests
+      - python3-cryptography
+      - python3-virtualenv
+      - net-tools
+      - nfs-utils
+      - redhat-lsb-core
+      - runc
+      - sg3_utils
+  when:
+    - (ansible_distribution_major_version|int == 8)
+
+- name: install common packages for rhel/centos/fedora (ver = 9)
+  yum:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - autofs
+      - bind-utils
+      - containernetworking-plugins
+      - device-mapper-multipath
+      - dkms
+      - lxc
+      - lxc-templates
+      - podman
+      - podman-docker
+      - iscsi-initiator-utils
+      - python3-requests
+      - python3-cryptography
+      - net-tools
+      - nfs-utils
+      - runc
+      - sg3_utils
+  when:
+    - (ansible_distribution_major_version|int == 9)
+
+- name: install common packages for all distros (stage 2)
+  package:
+    update_cache=yes
+    state=latest
+    name={{item}}
+  with_items:
+    - htop
+    - jq
+    - yum-utils
+
+- name: disable python2 pytests
+  file:
+    path: /home/opensvc/pytest.skip.2
+    state: touch
+    owner: opensvc
+  when:
+    - (ansible_distribution_major_version|int >= 8)
+
+- name: disable nis-domainnam. avoid breaking networkmanager. (all links down)
+  ansible.builtin.systemd:
+    name: nis-domainname
+    enabled: no
+    masked: yes
+  when:
+    - (ansible_distribution_major_version|int >= 8)

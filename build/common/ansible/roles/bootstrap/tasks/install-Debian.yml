@@ -1,0 +1,185 @@
+---
+
+#- name: Configure APT proxy (infra-1:8000)
+#  lineinfile:
+#    path: /etc/apt/apt.conf.d/01proxy
+#    regexp: '^Acquire'
+#    line: 'Acquire::http::Proxy "http://10.0.0.10:8000";'
+#    create: yes
+#  when:
+#    - "ansible_hostname.startswith('qa')"
+
+- name: Install prerequisites packages
+  apt:
+    pkg: "{{ osvc_deb_common_pkg }}"
+
+- name: install common packages for ubuntu/deb
+  apt:
+    name:  "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - autofs
+      - bridge-utils
+      - dnsutils
+      - links
+      - multipath-tools
+      - open-iscsi
+      - python3-cryptography
+      - python3-requests
+      - python3-venv
+      - runc
+      - scsitools
+      - sg3-utils
+      - tcpdump
+      - virtualenv
+      - xfsprogs
+
+- name: install packages for old ubuntu
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - python-crypto
+      - python-cryptography
+      - python-requests
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        ansible_distribution_major_version|int < 20
+
+- name: install packages for old debian
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - python-crypto
+      - python-cryptography
+      - python-requests
+  when: (ansible_facts['distribution'] == "Debian" ) and
+        ansible_distribution_major_version|int <= 10
+
+- name: install packages for deb 11+
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - python3-pycryptodome
+  when: (ansible_facts['distribution'] == "Debian" ) and
+        ansible_distribution_major_version|int >= 11
+
+- name: install package for ubuntu 20.04
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - iptables-persistent
+      - netfilter-persistent
+      - python-is-python3
+      - xauth
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 20)
+
+- name: install package for ubuntu
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker.io
+      - lxc-utils
+      - lxc-templates
+      - zfsutils-linux
+      - python-setuptools
+      - python3-setuptools
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 18) and
+        (ansible_distribution_major_version|int <= 22)
+
+- name: install package for ubuntu 24+
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker.io
+      - lxc-utils
+      - lxc-templates
+      - zfsutils-linux
+      - python3-setuptools
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 24) 
+
+- name: install package for ubuntu old
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker.io
+      - lxc-utils
+      - zfsutils-linux
+      - python-setuptools
+      - python3-setuptools
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int < 18)
+
+- name: install packages for debian
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker.io
+      - netplan.io
+      - vim
+  when: (ansible_facts['distribution'] == "Debian" )
+
+- name: remove packages for debian
+  apt:
+    name:  "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - network-manager
+  when: (ansible_facts['distribution'] == "Debian" )
+
+- name: install common packages for all distros (stage 2)
+  package:
+    update_cache=yes
+    state=latest
+    name={{item}}
+  with_items:
+    - htop
+    - jq
+
+- name: set vi as default editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
+
+- name: enable netfilter-persistent systemd unit
+  ansible.builtin.service:
+    name: netfilter-persistent.service
+    enabled: true
+    state: started
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 20)
+
+- name: iptables forward accept by default
+  ansible.builtin.iptables:
+    chain: FORWARD
+    policy: ACCEPT
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 20)
+
+- name: save iptables rules
+  ansible.builtin.command:
+    argv:
+      - /etc/init.d/netfilter-persistent
+      - save
+  when: (ansible_facts['distribution'] == "Ubuntu" ) and
+        (ansible_distribution_major_version|int >= 20)

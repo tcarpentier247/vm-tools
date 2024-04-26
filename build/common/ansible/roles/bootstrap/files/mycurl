@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CURLCMD="$@"
+TEMP="/tmp/curl-stderr-$$"
+
+function car() {
+    echo "${1}"
+}
+
+function curl-error-code() {
+    test ! -f ${TEMP} || car $(cat ${TEMP} | grep "^curl: (" | sed -e 's/[^0-9 ]//g')
+}
+
+curl ${CURLCMD} 2>${TEMP} || {
+        case $( curl-error-code ) in
+          56) echo "skipping openssl 3 warning message"
+              ;;
+          *) false
+              ;;
+        esac
+}
+ret=$?
+
+[[ -f ${TEMP} ]] && rm -f ${TEMP}
+
+exit $ret

@@ -1,0 +1,71 @@
+---
+
+- name: list registrations
+  command: /usr/bin/SUSEConnect -l
+  ignore_errors: yes
+
+- name: Refresh zypper
+  command: /usr/bin/zypper refresh
+
+- name: Install prerequisites packages
+  zypper:
+    name: "{{ osvc_rpm_common_pkg }}"
+    state: present
+
+
+- name: install common packages for suse
+  zypper:
+    name:  "{{ packages }}"
+    state: present
+    update_cache: no
+    disable_gpg_check: yes
+  vars:
+    packages:
+      - autofs
+      - bind-utils
+      - docker
+      - lsscsi
+      - multipath-tools
+      - nfs-client
+      - open-iscsi
+      - python3-cryptography
+      - python3-requests
+      - sg3_utils
+      - xfsprogs
+
+- name: install common packages for suse 12
+  zypper:
+    name:  "{{ packages }}"
+    state: present
+    update_cache: no
+    disable_gpg_check: yes
+  vars:
+    packages:
+      - ntp
+      - bridge-utils
+      - python-cryptography
+  when:
+    - (ansible_distribution_major_version|int == 12)
+
+- name: install common packages for suse 15
+  zypper:
+    name:  "{{ packages }}"
+    state: present
+    update_cache: no
+    disable_gpg_check: yes
+  vars:
+    packages:
+      - lsscsi
+      - bzip2
+      - bridge-utils
+      - python3-virtualenv
+  when:
+    - (ansible_distribution_major_version|int == 15)
+
+- name: disable python2 pytests
+  file:
+    path: /home/opensvc/pytest.skip.2
+    state: touch
+    owner: opensvc
+  when:
+    - (ansible_distribution_major_version|int >= 15)

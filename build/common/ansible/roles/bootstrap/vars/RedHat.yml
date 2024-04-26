@@ -1,0 +1,6 @@
+---
+osvc_rpm_common_pkg:
+  - psmisc
+
+osvc_qascripts_root: "/home/opensvc"
+osvc_qascripts_profile: "{{ osvc_qascripts_root }}/.bash_profile"

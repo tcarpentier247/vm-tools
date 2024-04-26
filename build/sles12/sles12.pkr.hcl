@@ -133,6 +133,10 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/ansible/bootstrap.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/sles-unregister.sh"
   }
   provisioner "shell" {

@@ -1,0 +1,7 @@
+---
+osvc_deb_common_pkg:
+  - psmisc
+  - sg3-utils
+
+osvc_qascripts_root: "/home/opensvc"
+osvc_qascripts_profile: "{{ osvc_qascripts_root }}/.profile"

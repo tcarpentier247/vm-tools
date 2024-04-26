@@ -89,9 +89,8 @@ build {
     note    = "this is a breakpoint"
   }
   provisioner "ansible-local" {
-    playbook_file = "../common/main.yml"
-    galaxy_file = "../common/requirements.yml"
-    #extra_arguments = ["--extra-vars", "\"pizza_toppings=${var.topping}\""]
+    playbook_file = "../common/ansible/env.yml"
+    galaxy_file = "../common/ansible/requirements.yml"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
@@ -109,6 +108,10 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/custom/custom.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/ansible/bootstrap.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
