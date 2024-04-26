@@ -2,6 +2,15 @@ runcmd:
   - /usr/bin/localectl set-keymap fr
   - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
   - rm -f /etc/sysconfig/network-scripts/ifcfg*
+  - systemctl stop NetworkManager
+  - rm -f /etc/NetworkManager/system-connections/enp0s2*
+  - ip link set enp1s0 down
+  - ip link set enp2s0 down
+  - ip link set enp3s0 down
+  - ip link set br-prd down
+  - rm -f /run/NetworkManager/system-connections/*
+  - systemctl restart NetworkManager
+  - /root/wait-for-net.sh
   - curl -o /root/rhel-register.sh -sSL https://raw.githubusercontent.com/opensvc/vm-tools/main/build/common/rhel-register.sh
   - sed -i 's@^RHN_ORG=.*@RHN_ORG=RH_ORG_ID@' /root/rhel-register.sh
   - sed -i 's@^RHN_KEY=.*@RHN_KEY=RH_ACTIVATION_KEY@' /root/rhel-register.sh

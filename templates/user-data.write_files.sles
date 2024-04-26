@@ -93,3 +93,17 @@ write_files:
     
     [Install]
     WantedBy=multi-user.target
+
+- path: /root/wait-for-net.sh
+  content: |
+    #!/bin/bash
+    
+    while ! ping -c 3 google.com > /dev/null;
+    do
+    echo "The network is not up yet"
+    sleep 2
+    done
+    
+    echo "The network is up"
+  owner: "root:root"
+  permissions: "0700"

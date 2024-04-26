@@ -3,6 +3,7 @@ runcmd:
   - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
   - sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=""/NETCONFIG_DNS_STATIC_SERVERS="VM_NET.VM_CID.0.1 VM_NET.VM_CID.1.1"/g' /etc/sysconfig/network/config
   - systemctl restart network
+  - /root/wait-for-net.sh
   - curl -o /root/sles-register.sh -sSL https://raw.githubusercontent.com/opensvc/vm-tools/main/build/common/sles-register.sh
   - sed -i 's@^SUSE_KEY=.*@SUSE_KEY=SUSE_REGISTRATION_KEY@' /root/sles-register.sh
   - sed -i 's/^SUSE_EMAIL=.*/SUSE_EMAIL=SUSE_ORGANISATION_MAIL/' /root/sles-register.sh

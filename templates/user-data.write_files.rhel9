@@ -28,6 +28,9 @@ write_files:
     interface-name=br-prd
 
     [ethernet]
+
+    [bridge]
+    stp=false
     
     [ipv4]
     address1=VM_NET.VM_CID.0.VM_IP/24,VM_NET.VM_CID.0.1
@@ -104,3 +107,17 @@ write_files:
     
     [Install]
     WantedBy=multi-user.target
+
+- path: /root/wait-for-net.sh
+  content: |
+    #!/bin/bash
+    
+    while ! ping -4 -c 3 google.com > /dev/null;
+    do
+    echo "The network is not up yet"
+    sleep 2
+    done
+    
+    echo "The network is up"
+  owner: "root:root"
+  permissions: "0700"

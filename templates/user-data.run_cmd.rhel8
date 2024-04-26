@@ -1,1 +1,17 @@
-user-data.run_cmd.rhel
+runcmd:
+  - /usr/bin/localectl set-keymap fr
+  - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - rm -f /etc/sysconfig/network-scripts/ifcfg-ens* /etc/sysconfig/network-scripts/ifcfg-eth*
+  - ip link set enp1s0 down
+  - ip link set enp2s0 down
+  - ip link set enp3s0 down
+  - rm -f /run/NetworkManager/system-connections/*
+  - systemctl restart NetworkManager
+  - /root/wait-for-net.sh
+  - curl -o /root/rhel-register.sh -sSL https://raw.githubusercontent.com/opensvc/vm-tools/main/build/common/rhel-register.sh
+  - sed -i 's@^RHN_ORG=.*@RHN_ORG=RH_ORG_ID@' /root/rhel-register.sh
+  - sed -i 's@^RHN_KEY=.*@RHN_KEY=RH_ACTIVATION_KEY@' /root/rhel-register.sh
+  - chmod 700 /root/rhel-register.sh
+  - systemctl enable opensvc-qanode-wait-ready.service
+  - reboot
