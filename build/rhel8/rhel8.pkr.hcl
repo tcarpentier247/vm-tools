@@ -134,8 +134,9 @@ build {
     script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/ansible/bootstrap.sh"
+    inline = [
+      "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
+    ]
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
