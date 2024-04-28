@@ -145,14 +145,6 @@
     - jq
     - yum-utils
 
-- name: disable python2 pytests
-  file:
-    path: /home/opensvc/pytest.skip.2
-    state: touch
-    owner: opensvc
-  when:
-    - (ansible_distribution_major_version|int >= 8)
-
 - name: disable nis-domainnam. avoid breaking networkmanager. (all links down)
   ansible.builtin.systemd:
     name: nis-domainname

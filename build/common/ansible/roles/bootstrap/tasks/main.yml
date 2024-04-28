@@ -92,3 +92,13 @@
     dest: /etc/hosts
     regexp: "^127.0.1.1\\b.*\\s{{ ansible_hostname }}\\b"
     state: absent
+
+- name: disable python2 pytests
+  file:
+    path: /home/opensvc/pytest.skip.2
+    state: touch
+    owner: opensvc
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int >= 8)
+
