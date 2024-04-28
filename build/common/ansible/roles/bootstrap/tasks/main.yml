@@ -102,3 +102,11 @@
     - (ansible_distribution == "RedHat")
     - (ansible_distribution_major_version|int >= 8)
 
+- name: disable python2 pytests
+  file:
+    path: /home/opensvc/pytest.skip.2
+    state: touch
+    owner: opensvc
+  when:
+    - (ansible_distribution == "SLES")
+    - (ansible_distribution_major_version|int >= 15)
