@@ -2,8 +2,8 @@
 
 echo "--- Begin ansible.sh ---"
 
-export DEBIAN_FRONTEND=noninteractive
+dnf install -y ansible-core
 
-dnf install -y ansible
+ansible-galaxy collection install ansible.posix
 
 echo "--- End ansible.sh ---"
