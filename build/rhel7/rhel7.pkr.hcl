@@ -108,10 +108,8 @@ build {
     note    = "this is a breakpoint"
   }
   provisioner "ansible-local" {
-    playbook_file  = "../common/ansible/env.yml"
+    playbook_file = "../common/ansible/env.yml"
     galaxy_file    = "../common/ansible/requirements.yml"
-    galaxy_command = "ansible-galaxy-3"
-    command = "ansible-playbook-3"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
