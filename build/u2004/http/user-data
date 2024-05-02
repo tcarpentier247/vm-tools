@@ -18,7 +18,7 @@ autoinstall:
         efibootmgr -o $(efibootmgr | perl -n -e '/Boot(.+)\* ubuntu/ && print $1')
       fi
     - curtin in-target -- apt-get update
-    - curtin in-target -- apt-get install -y qemu-guest-agent net-tools ifupdown apt-transport-https ca-certificates lsb-release python3-pip jq sudo openssh-server
+    - curtin in-target -- apt-get install -y qemu-guest-agent qemu-kvm virtinst virt-manager libguestfs-tools bridge-utils genisoimage net-tools ifupdown apt-transport-https ca-certificates lsb-release python3-pip jq sudo openssh-server
   storage:
       layout:
             name: lvm
