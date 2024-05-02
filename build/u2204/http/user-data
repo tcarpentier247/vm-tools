@@ -8,7 +8,7 @@ autoinstall:
   keyboard:
       layout: fr
       variant: latin9
-  packages: [qemu-guest-agent, openssh-server, net-tools, ifupdown, apt-transport-https, ca-certificates, lsb-release, python3-pip, jq, sudo]
+  packages: [qemu-guest-agent, qemu-kvm, virtinst, virt-manager, libguestfs-tools, bridge-utils, genisoimage, openssh-server, net-tools, ifupdown, apt-transport-https, ca-certificates, lsb-release, python3-pip, jq, sudo]
   ssh:
     install-server: true
     allow-pw: true
