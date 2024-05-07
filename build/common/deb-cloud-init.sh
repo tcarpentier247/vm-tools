@@ -2,6 +2,8 @@
 
 echo "Starting Cloud Init"
 
+export DEBIAN_FRONTEND=noninteractive
+
 apt -y install cloud-init
 
 systemctl enable cloud-init.service
