@@ -862,6 +862,12 @@ packer ALL=(ALL,ALL) NOPASSWD: ALL" > /etc/sudoers.d/packer
       <package>sg3_utils</package>
       <package>perl</package>
       <package>make</package>
+      <package>qemu-kvm</package>
+      <package>virt-install</package>
+      <package>virt-manager</package>
+      <package>guestfs-tools</package>
+      <package>bridge-utils</package>
+      <package>genisoimage</package>
     </packages>
     <patterns config:type="list">
       <pattern>Basis-Devel</pattern>
