@@ -22,8 +22,11 @@
     packages:
       - autofs
       - bridge-utils
+      - containernetworking-plugins
       - dnsutils
       - links
+      - lsscsi
+      - mdadm
       - multipath-tools
       - open-iscsi
       - python3-cryptography

@@ -61,6 +61,7 @@
     packages:
       - autofs
       - bind-utils
+      - containernetworking-plugins
       - device-mapper-multipath
       - dkms
       - iscsi-initiator-utils
@@ -91,6 +92,7 @@
     packages:
       - autofs
       - bind-utils
+      - containernetworking-plugins
       - device-mapper-multipath
       - dkms
       - podman
