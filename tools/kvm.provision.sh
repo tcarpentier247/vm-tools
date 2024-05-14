@@ -27,6 +27,8 @@ VM_IP=$(grep -w ^$VM_NAME ${NODES} | sort -u | awk '{print $3}')
 VM_CID=$(grep -w ^$VM_NAME ${NODES} | sort -u | awk '{print $2}')
 VM_2DGCID=$(printf "%02d" "$VM_CID")
 VM_HEXCID=$(printf "%02x" "$VM_CID")
+NAS_SIP=$(grep -w ^nas ${NODES} | sort -u | awk '{print $3}')
+NAS_IP="$NET.0.0.$NAS_SIP"
 
 # c1n1 ssh => 20111   vnc => 20161
 # c6n2 ssh => 20612   vnc => 20662
@@ -110,6 +112,7 @@ function substitute_patterns()
     sed -i "s@VM_CID@$VM_CID@g" $FILES
     sed -i "s@VM_NET@$NET@g" $FILES
     sed -i "s@VM_IP@$VM_IP@g" $FILES
+    sed -i "s@NAS_IP@$NAS_IP@g" $FILES
     sed -i "s@RH_ORG_ID@$RH_ORG_ID@g" $FILES
     sed -i "s@RH_ACTIVATION_KEY@$RH_ACTIVATION_KEY@g" $FILES
     sed -i "s/SUSE_ORGANISATION_MAIL/$SUSE_ORGANISATION_MAIL/g" $FILES
