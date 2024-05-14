@@ -1,8 +1,10 @@
 # 0
+haproxy 0 5
 infra-1 0 10
 infra-2 0 11
 freenas 0 11
 truenas 0 12
+nas 0 12
 collector 0 20
 registry 0 21
 prometheus 0 30
