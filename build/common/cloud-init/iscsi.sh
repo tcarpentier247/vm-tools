@@ -8,7 +8,11 @@ echo
 
 [[ -f ~opensvc/opensvc-qa.sh ]] && . ~opensvc/opensvc-qa.sh
 
-ISCSITGTIP=$(getent hosts truenas|awk '{print $1}')
+ISCSITGTIP=${TGT}
+
+[[  -z "$ISCSITGTIP" ]] && {
+    ISCSITGTIP=$(getent hosts truenas|awk '{print $1}')
+}
 
 [[ -z ${ISCSITGTIP} ]] && {
     echo "Error : ISCSITGTIP not found in environment"
