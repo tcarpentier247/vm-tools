@@ -45,6 +45,15 @@ export HISTSIZE=0
 echo "removing udev persistent naming rules"
 rm -f /etc/udev/rules.d/*
 
+echo "removing network configurations"
+for file in ifcfg-br0 ifcfg-eth0
+do
+	if test -f /etc/sysconfig/network/$file
+	then
+		rm -f /etc/sysconfig/network/$file
+	fi
+done
+
 dd if=/dev/zero of=/EMPTY bs=1M || /bin/true
 rm -f /EMPTY
 
