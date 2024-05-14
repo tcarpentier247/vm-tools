@@ -148,7 +148,12 @@ function gen_cloud_init_files()
         do
             cat $TEMPLATES/user-data.$SECTION.$VM_DISTRO >> $VM_ROOT/user-data
         done
+	echo >> $VM_ROOT/user-data
     fi
+
+    [[ -f $VM_CONFIGS/cloud-init.host.ssh_keys ]] && {
+	    cat $VM_CONFIGS/cloud-init.host.ssh_keys >> $VM_ROOT/user-data
+    }
 
     substitute_patterns
     title End:$FUNCNAME
