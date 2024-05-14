@@ -26,6 +26,14 @@ write_files:
           addresses: 
             - VM_NET.VM_CID.0.VM_IP/24
             - fd01:2345:6789:VM_2DGCID00::VM_IP/64
+          nameservers:
+            search:
+              - opensvc.com
+              - vdc.opensvc.com
+            addresses:
+              - VM_NET.VM_CID.0.1
+              - VM_NET.VM_CID.1.1
+              - fd01:2345:6789:VM_2DGCID00::1
           routes:
             - to: 0.0.0.0/0
               via: VM_NET.VM_CID.0.1
