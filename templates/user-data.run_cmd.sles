@@ -10,6 +10,7 @@ runcmd:
   - chmod 700 /root/sles-register.sh
   - test -d /opt/vm-tools && cd /opt/vm-tools && git pull
   - TGT="NAS_IP" /opt/vm-tools/build/common/cloud-init/iscsi.sh
+  - TGT="NFS_IP" /opt/vm-tools/build/common/cloud-init/autofs.sh
   - /opt/vm-tools/build/common/cloud-init/md.sh
   - systemctl enable opensvc-qanode-wait-ready.service
   - reboot
