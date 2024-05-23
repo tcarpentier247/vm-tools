@@ -24,6 +24,7 @@
       - bridge-utils
       - containernetworking-plugins
       - dnsutils
+      - dpkg-dev
       - links
       - lsscsi
       - mdadm

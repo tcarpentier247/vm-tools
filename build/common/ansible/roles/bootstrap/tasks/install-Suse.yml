@@ -30,6 +30,7 @@
       - open-iscsi
       - python3-cryptography
       - python3-requests
+      - rpm-build
       - sg3_utils
       - xfsprogs
 

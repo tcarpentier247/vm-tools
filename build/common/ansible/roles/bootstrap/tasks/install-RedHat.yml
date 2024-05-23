@@ -145,6 +145,7 @@
   with_items:
     - htop
     - jq
+    - rpm-build
     - yum-utils
 
 - name: disable nis-domainnam. avoid breaking networkmanager. (all links down)
