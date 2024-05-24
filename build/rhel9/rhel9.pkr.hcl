@@ -58,7 +58,7 @@ source "qemu" "custom_image" {
   format = "qcow2"
   disk_cache = "none"
   disk_discard = "unmap"
-  disk_size = "20G"
+  disk_size = "40G"
   disk_interface = "virtio"
   net_device = "virtio-net"
   cpus = 4
