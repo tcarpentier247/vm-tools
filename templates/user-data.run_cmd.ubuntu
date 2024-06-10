@@ -1,4 +1,6 @@
 runcmd:
+  - lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+  - resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
   - /usr/bin/localectl set-keymap fr
   - echo "AllowUsers opensvc root" >> /etc/ssh/sshd_config
   - systemctl restart ssh
