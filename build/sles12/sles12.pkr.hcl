@@ -47,20 +47,19 @@ source "qemu" "custom_image" {
   
   http_directory = "http"
   iso_url   = "file:///data/vdc/build/images/${var.sles12_iso_file}"
-  #iso_checksum = "file:file:///data/vdc/build/images/${var.sles12_iso_file}.sha256"
-  iso_checksum = "none"
+  iso_checksum = "file:file:///data/vdc/build/images/${var.sles12_iso_file}.sha256"
   memory = 4096
   
   ssh_password = "opensvcpacker"
   ssh_username = "packer"
-  ssh_timeout = "20m"
+  ssh_timeout = "30m"
   ssh_port = 22
   shutdown_command = "echo 'opensvcpacker' | sudo -S shutdown -P now"
 
   headless = true
   accelerator = "kvm"
   format = "qcow2"
-  disk_size = "20G"
+  disk_size = "40G"
   disk_interface = "virtio"
   disk_discard = "unmap"
   disk_detect_zeroes = "unmap"
