@@ -47,13 +47,13 @@ source "qemu" "custom_image" {
 
   ssh_password     = "opensvcpacker"
   ssh_username     = "packer"
-  ssh_timeout      = "20m"
+  ssh_timeout      = "30m"
   shutdown_command = "echo 'opensvcpacker' | sudo -S shutdown -P now"
 
   headless         = true
   accelerator      = "kvm"
   format           = "qcow2"
-  disk_size        = "40G"
+  disk_size        = "30G"
   disk_interface   = "virtio"
   net_device       = "virtio-net"
   cpus             = 4
