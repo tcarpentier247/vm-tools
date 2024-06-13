@@ -36,6 +36,7 @@
       - runc
       - scsitools
       - sg3-utils
+      - socat
       - tcpdump
       - virtualenv
       - xfsprogs

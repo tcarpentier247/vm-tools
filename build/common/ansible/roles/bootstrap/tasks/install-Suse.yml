@@ -32,6 +32,7 @@
       - python3-requests
       - rpm-build
       - sg3_utils
+      - socat
       - xfsprogs
 
 - name: install common packages for suse 12
