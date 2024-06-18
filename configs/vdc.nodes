@@ -1,4 +1,6 @@
 # 0
+c0envoy1 0 2
+c0envoy2 0 3
 haproxy 0 5
 infra-1 0 10
 infra-2 0 11
@@ -14,6 +16,8 @@ relay21 0 121
 relay 0 121
 keycloak 0 23
 # 1
+c1envoy1 1 2
+c1envoy2 1 3
 c1igw1 1 2
 c1igw2 1 3
 c1n1 1 11
@@ -45,6 +49,8 @@ c1lxc2 1 92
 c1lxc3 1 93
 c1lxc4 1 94
 # 2
+c2envoy1 2 2
+c2envoy2 2 3
 c2igw1 2 2
 c2igw2 2 3
 c2n1 2 11
@@ -76,6 +82,8 @@ c2lxc2 2 92
 c2lxc3 2 93
 c2lxc4 2 94
 # 3
+c3envoy1 3 2
+c3envoy2 3 3
 c3igw1 3 2
 c3igw2 3 3
 c3n1 3 11
@@ -107,6 +115,8 @@ c3lxc2 3 92
 c3lxc3 3 93
 c3lxc4 3 94
 # 4
+c4envoy1 4 2
+c4envoy2 4 3
 c4igw1 4 2
 c4igw2 4 3
 c4n1 4 11
@@ -138,6 +148,8 @@ c4lxc2 4 92
 c4lxc3 4 93
 c4lxc4 4 94
 # 5
+c5envoy1 5 2
+c5envoy2 5 3
 c5igw1 5 2
 c5igw2 5 3
 c5n1 5 11
@@ -169,6 +181,8 @@ c5lxc2 5 92
 c5lxc3 5 93
 c5lxc4 5 94
 # 6
+c6envoy1 6 2
+c6envoy2 6 3
 c6igw1 6 2
 c6igw2 6 3
 c6n1 6 11
@@ -200,6 +214,8 @@ c6lxc2 6 92
 c6lxc3 6 93
 c6lxc4 6 94
 # 7
+c7envoy1 7 2
+c7envoy2 7 3
 c7igw1 7 2
 c7igw2 7 3
 c7n1 7 11
@@ -231,6 +247,8 @@ c7lxc2 7 92
 c7lxc3 7 93
 c7lxc4 7 94
 # 8
+c8envoy1 8 2
+c8envoy2 8 3
 c8igw1 8 2
 c8igw2 8 3
 c8n1 8 11
@@ -262,6 +280,8 @@ c8lxc2 8 92
 c8lxc3 8 93
 c8lxc4 8 94
 # 9
+c9envoy1 9 2
+c9envoy2 9 3
 c9igw1 9 2
 c9igw2 9 3
 c9n1 9 11
@@ -293,6 +313,8 @@ c9lxc2 9 92
 c9lxc3 9 93
 c9lxc4 9 94
 # 10
+c10envoy1 10 2
+c10envoy2 10 3
 c10igw1 10 2
 c10igw2 10 3
 qau18c10n1 10 11
@@ -319,11 +341,16 @@ c10svc17 10 37
 c10svc18 10 38
 c10svc19 10 39
 c10svc20 10 40
+c10svc30 10 50
+c10svc30a 10 50
+c10svc30b 10 51
 c10lxc1 10 91
 c10lxc2 10 92
 c10lxc3 10 93
 c10lxc4 10 94
 # 11
+c11envoy1 11 2
+c11envoy2 11 3
 c11igw1 11 2
 c11igw2 11 3
 qau20c11n1 11 11
@@ -350,11 +377,20 @@ c11svc17 11 37
 c11svc18 11 38
 c11svc19 11 39
 c11svc20 11 40
+c11svc30 11 50
+c11svc30a 11 50
+c11svc30b 11 51
 c11lxc1 11 91
 c11lxc2 11 92
 c11lxc3 11 93
 c11lxc4 11 94
+c11.http.public.cname 11 2
+c11.sni1.public.cname 11 2
+c11.sni2.public.cname 11 2
+c11.https.public.cname 11 2
 # 12
+c12envoy1 12 2
+c12envoy2 12 3
 c12igw1 12 2
 c12igw2 12 3
 qau22c12n1 12 11
@@ -381,11 +417,20 @@ c12svc17 12 37
 c12svc18 12 38
 c12svc19 12 39
 c12svc20 12 40
+c12svc30 12 50
+c12svc30a 12 50
+c12svc30b 12 51
 c12lxc1 12 91
 c12lxc2 12 92
 c12lxc3 12 93
 c12lxc4 12 94
+c12.http.public.cname 12 2
+c12.sni1.public.cname 12 2
+c12.sni2.public.cname 12 2
+c12.https.public.cname 12 2
 # 13
+c13envoy1 13 2
+c13envoy2 13 3
 c13igw1 13 2
 c13igw2 13 3
 qau24c13n1 13 11
@@ -412,11 +457,20 @@ c13svc17 13 37
 c13svc18 13 38
 c13svc19 13 39
 c13svc20 13 40
+c13svc30 13 50
+c13svc30a 13 50
+c13svc30b 13 51
 c13lxc1 13 91
 c13lxc2 13 92
 c13lxc3 13 93
 c13lxc4 13 94
+c13.http.public.cname 13 2
+c13.sni1.public.cname 13 2
+c13.sni2.public.cname 13 2
+c13.https.public.cname 13 2
 # 14
+c14envoy1 14 2
+c14envoy2 14 3
 c14igw1 14 2
 c14igw2 14 3
 qasz12c14n1 14 11
@@ -443,11 +497,20 @@ c14svc17 14 37
 c14svc18 14 38
 c14svc19 14 39
 c14svc20 14 40
+c14svc30 14 50
+c14svc30a 14 50
+c14svc30b 14 51
 c14lxc1 14 91
 c14lxc2 14 92
 c14lxc3 14 93
 c14lxc4 14 94
+c14.http.public.cname 14 2
+c14.sni1.public.cname 14 2
+c14.sni2.public.cname 14 2
+c14.https.public.cname 14 2
 # 15
+c15envoy1 15 2
+c15envoy2 15 3
 c15igw1 15 2
 c15igw2 15 3
 qasz15c15n1 15 11
@@ -474,11 +537,20 @@ c15svc17 15 37
 c15svc18 15 38
 c15svc19 15 39
 c15svc20 15 40
+c15svc30 15 50
+c15svc30a 15 50
+c15svc30b 15 51
 c15lxc1 15 91
 c15lxc2 15 92
 c15lxc3 15 93
 c15lxc4 15 94
+c15.http.public.cname 15 2
+c15.sni1.public.cname 15 2
+c15.sni2.public.cname 15 2
+c15.https.public.cname 15 2
 # 16
+c16envoy1 16 2
+c16envoy2 16 3
 c16igw1 16 2
 c16igw2 16 3
 ipecs1 16 11
@@ -504,11 +576,20 @@ c16svc17 16 37
 c16svc18 16 38
 c16svc19 16 39
 c16svc20 16 40
+c16svc30 16 50
+c16svc30a 16 50
+c16svc30b 16 51
 c16lxc1 16 91
 c16lxc2 16 92
 c16lxc3 16 93
 c16lxc4 16 94
+c16.http.public.cname 15 2
+c16.sni1.public.cname 15 2
+c16.sni2.public.cname 15 2
+c16.https.public.cname 15 2
 # 17
+c17envoy1 17 2
+c17envoy2 17 3
 c17igw1 17 2
 c17igw2 17 3
 qarh7c17n1 17 11
@@ -535,11 +616,20 @@ c17svc17 17 37
 c17svc18 17 38
 c17svc19 17 39
 c17svc20 17 40
+c17svc30 17 50
+c17svc30a 17 50
+c17svc30b 17 51
 c17lxc1 17 91
 c17lxc2 17 92
 c17lxc3 17 93
 c17lxc4 17 94
+c17.http.public.cname 17 2
+c17.sni1.public.cname 17 2
+c17.sni2.public.cname 17 2
+c17.https.public.cname 17 2
 # 18
+c18envoy1 18 2
+c18envoy2 18 3
 c18igw1 18 2
 c18igw2 18 3
 qarh8c18n1 18 11
@@ -566,11 +656,20 @@ c18svc17 18 37
 c18svc18 18 38
 c18svc19 18 39
 c18svc20 18 40
+c18svc30 18 50
+c18svc30a 18 50
+c18svc30b 18 51
 c18lxc1 18 91
 c18lxc2 18 92
 c18lxc3 18 93
 c18lxc4 18 94
+c18.http.public.cname 18 2
+c18.sni1.public.cname 18 2
+c18.sni2.public.cname 18 2
+c18.https.public.cname 18 2
 # 19
+c19envoy1 19 2
+c19envoy2 19 3
 c19igw1 19 2
 c19igw2 19 3
 qarh9c19n1 19 11
@@ -597,11 +696,20 @@ c19svc17 19 37
 c19svc18 19 38
 c19svc19 19 39
 c19svc20 19 40
+c19svc30 19 50
+c19svc30a 19 50
+c19svc30b 19 51
 c19lxc1 19 91
 c19lxc2 19 92
 c19lxc3 19 93
 c19lxc4 19 94
+c19.http.public.cname 19 2
+c19.sni1.public.cname 19 2
+c19.sni2.public.cname 19 2
+c19.https.public.cname 19 2
 # 20
+c20envoy1 20 2
+c20envoy2 20 3
 c20igw1 20 2
 c20igw2 20 3
 qarh10c20n1 20 11
@@ -628,11 +736,20 @@ c20svc17 20 37
 c20svc18 20 38
 c20svc19 20 39
 c20svc20 20 40
+c20svc30 20 50
+c20svc30a 20 50
+c20svc30b 20 51
 c20lxc1 20 91
 c20lxc2 20 92
 c20lxc3 20 93
 c20lxc4 20 94
+c20.http.public.cname 20 2
+c20.sni1.public.cname 20 2
+c20.sni2.public.cname 20 2
+c20.https.public.cname 20 2
 # 21
+c21envoy1 21 2
+c21envoy2 21 3
 c21igw1 21 2   
 c21igw2 21 3
 sol10u11-1 21 11
@@ -659,11 +776,20 @@ c21svc17 21 37
 c21svc18 21 38
 c21svc19 21 39
 c21svc20 21 40
+c21svc30 21 50
+c21svc30a 21 50
+c21svc30b 21 51
 c21lxc1 21 91
 c21lxc2 21 92
 c21lxc3 21 93
 c21lxc4 21 94
+c21.http.public.cname 21 2
+c21.sni1.public.cname 21 2
+c21.sni2.public.cname 21 2
+c21.https.public.cname 21 2
 # 22
+c22envoy1 22 2
+c22envoy2 22 3
 c22igw1 22 2
 c22igw2 22 3
 sol114-1 22 11
@@ -690,11 +816,20 @@ c22svc17 22 37
 c22svc18 22 38
 c22svc19 22 39
 c22svc20 22 40
+c22svc30 22 50
+c22svc30a 22 50
+c22svc30b 22 51
 c22lxc1 22 91
 c22lxc2 22 92
 c22lxc3 22 93
 c22lxc4 22 94
+c22.http.public.cname 22 2
+c22.sni1.public.cname 22 2
+c22.sni2.public.cname 22 2
+c22.https.public.cname 22 2
 # 23
+c23envoy1 23 2
+c23envoy2 23 3
 c23igw1 23 2
 c23igw2 23 3
 qad12c23n1 23 11
@@ -721,11 +856,20 @@ c23svc17 23 37
 c23svc18 23 38
 c23svc19 23 39
 c23svc20 23 40
+c23svc30 23 50
+c23svc30a 23 50
+c23svc30b 23 51
 c23lxc1 23 91
 c23lxc2 23 92
 c23lxc3 23 93
 c23lxc4 23 94
+c23.http.public.cname 23 2
+c23.sni1.public.cname 23 2
+c23.sni2.public.cname 23 2
+c23.https.public.cname 23 2
 # 30
+c30envoy1 30 2
+c30envoy2 30 3
 c30igw1 30 2
 c30igw2 30 3
 demo1 30 11
@@ -752,6 +896,9 @@ c30svc17 30 37
 c30svc18 30 38
 c30svc19 30 39
 c30svc20 30 40
+c30svc30 30 50
+c30svc30a 30 50
+c30svc30b 30 51
 c30lxc1 30 91
 c30lxc2 30 92
 c30lxc3 30 93
