@@ -18,7 +18,7 @@ variable "vm_template_name" {
 
 variable "rhel_iso_file" {
   type    = string
-  default = "rhel-8.9-x86_64-dvd.iso"
+  default = "rhel-8.10-x86_64-dvd.iso"
 }
 
 variable "RHN_ORG" {
