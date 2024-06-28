@@ -44,7 +44,7 @@ source "qemu" "custom_image" {
 
   http_directory = "http"
   iso_url   = "../images/${var.rhel_iso_file}"
-  iso_checksum = "5c802147aa58429b21e223ee60e347e850d6b0d8680930c4ffb27340ffb687a8"
+  iso_checksum = "sha256:398561d7b66f1a4bf23664f4aa8f2cfbb3641aa2f01a320068e86bd1fc0e9076"
   memory = 4096
 
   ssh_password = "opensvcpacker"
