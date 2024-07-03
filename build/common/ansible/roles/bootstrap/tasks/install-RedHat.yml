@@ -110,6 +110,7 @@
       - redhat-lsb-core
       - runc
       - sg3_utils
+      - socat
   when:
     - (ansible_distribution_major_version|int == 8)
 
@@ -135,6 +136,7 @@
       - nfs-utils
       - runc
       - sg3_utils
+      - socat
   when:
     - (ansible_distribution_major_version|int == 9)
 
