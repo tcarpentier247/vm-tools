@@ -26,6 +26,7 @@
       - dnsutils
       - dpkg-dev
       - links
+      - lintian
       - lsscsi
       - mdadm
       - multipath-tools
