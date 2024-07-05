@@ -17,4 +17,11 @@ do
     }
 done
 
+[[ -f /tmp/archives/var.cache.lxc.tar ]] && {
+	echo "Loading LXC cache"
+	[[ ! -d /var/cache/lxc ]] && mkdir -p /var/cache/lxc
+	cd /var/cache/lxc && tar xpf /tmp/archives/var.cache.lxc.tar
+}
+
+
 exit 0
