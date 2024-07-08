@@ -4,15 +4,14 @@ set -a
 
 [[ ! -f /etc/os-release ]] && exit 1
 
-echo "--- Downloading Custom Scripts --- "
-
-git clone https://github.com/opensvc/vm-tools.git /opt/vm-tools || exit 1
-
 echo "--- Running Custom Scripts ---"
 
 . /etc/os-release
 
-[[ ! -d /opt/vm-tools/build/common/custom ]] && exit 1
+[[ ! -d /opt/vm-tools/build/common/custom ]] && {
+	echo "Custom scripts not found in /opt/vm-tools"
+	exit 1
+}
 
 cd /opt/vm-tools/build/common/custom
 
