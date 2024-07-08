@@ -10,48 +10,6 @@ echo "--- Begin cleanup.sh ---"
 echo "cloud-init"
 cloud-init clean
 
-echo "remove linux-headers"
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'linux-headers' \
-  | xargs apt-get -y purge;
-
-echo "remove specific Linux kernels, such as linux-image-3.11.0-15-generic but keeps the current kernel and does not touch the virtual packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep 'linux-image-.*-generic' \
-    | grep -v "$(uname -r)" \
-    | xargs apt-get -y purge;
-
-echo "remove old kernel modules packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep 'linux-modules-.*-generic' \
-    | grep -v "$(uname -r)" \
-    | xargs apt-get -y purge;
-
-echo "remove linux-source package"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep linux-source \
-    | xargs apt-get -y purge;
-
-# 23.10 gives dependency errors for systemd-dev package
-echo "remove all development packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | xargs -I % apt-get -y purge % || true;
-
-echo "remove docs packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-doc$' \
-    | xargs apt-get -y purge;
-
-echo "remove X11 libraries"
-apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
-
 echo "remove obsolete networking packages"
 apt-get -y purge ppp pppconfig pppoeconf;
 
@@ -92,6 +50,8 @@ apt-get -y clean;
 
 echo "remove /usr/share/doc/"
 rm -rf /usr/share/doc/*
+
+rm -rf /opt/archives
 
 echo "remove /var/cache"
 find /var/cache -type f -exec rm -rf {} \;
