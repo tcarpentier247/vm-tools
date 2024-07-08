@@ -17,11 +17,14 @@ do
     }
 done
 
-[[ -f /opt/archives/var.cache.lxc.tar ]] && {
+which lxc-create >> /dev/null 2>&1 && {
 	echo "Loading LXC cache"
-	[[ ! -d /var/cache/lxc ]] && mkdir -p /var/cache/lxc
-	cd /var/cache/lxc && tar xpf /opt/archives/var.cache.lxc.tar
+    lxc-create -n dummy1 -t ubuntu -- --release focal
+    lxc-create -n dummy2 -t download -- --dist ubuntu --release focal --arch amd64
+    lxc-ls
+    ls -l /var/cache/lxc/
+    du -sh /var/cache/lxc/
+    lxc-destroy dummy1 ; lxc-destroy dummy2
 }
-
 
 exit 0
