@@ -13,5 +13,6 @@ runcmd:
   - TGT="NAS_IP" /opt/vm-tools/build/common/cloud-init/iscsi.sh
   - TGT="NFS_IP" /opt/vm-tools/build/common/cloud-init/autofs.sh
   - /opt/vm-tools/build/common/cloud-init/md.sh
+  - /opt/vm-tools/build/common/cloud-init/lvm.sh
   - systemctl enable opensvc-qanode-wait-ready.service
   - reboot
