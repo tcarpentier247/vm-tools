@@ -9,3 +9,7 @@ cat >| /var/lib/opensvc/cni/net.d/podman.conf <<EOF
     "type": "loopback"
 }
 EOF
+
+timedatectl | grep -q 'RTC in local TZ: yes' && {
+	timedatectl set-local-rtc 0
+}
