@@ -870,9 +870,9 @@ c23.sni1.public.cname 23 2
 c23.sni2.public.cname 23 2
 c23.https.public.cname 23 2
 # 28
-dev2n1 28 11
-dev2n2 28 12
-dev2n3 28 13
+dev1n1 28 11
+dev1n2 28 12
+dev1n3 28 13
 c28svc1 28 21
 c28svc2 28 22
 c28svc3 28 23
