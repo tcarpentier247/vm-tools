@@ -94,3 +94,11 @@ write_files:
     echo "The network is up"
   owner: "root:root"
   permissions: "0700"
+
+- path: /home/opensvc/pytest.skip.2
+  owner: "opensvc:opensvc"
+  permissions: "0644"
+
+- path: /home/opensvc/pytest.skip.3
+  owner: "opensvc:opensvc"
+  permissions: "0644"
