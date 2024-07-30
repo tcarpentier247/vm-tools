@@ -27,4 +27,7 @@ which lxc-create >> /dev/null 2>&1 && {
     lxc-destroy dummy1 ; lxc-destroy dummy2
 }
 
+[[ ! -d /etc/apparmor.d/disable ]] && mkdir -p /etc/apparmor.d/disable
+[[ -f /etc/apparmor.d/runc ]] && ln -s /etc/apparmor.d/runc /etc/apparmor.d/disable/
+
 exit 0
