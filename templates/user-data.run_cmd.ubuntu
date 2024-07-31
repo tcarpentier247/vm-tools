@@ -11,5 +11,6 @@ runcmd:
   - TGT="NFS_IP" /opt/vm-tools/build/common/cloud-init/autofs.sh
   - /opt/vm-tools/build/common/cloud-init/md.sh
   - /opt/vm-tools/build/common/cloud-init/lvm.sh
+  - /opt/vm-tools/build/common/cloud-init/change_hostid.py
   - systemctl enable opensvc-qanode-wait-ready.service
   - [reboot]
