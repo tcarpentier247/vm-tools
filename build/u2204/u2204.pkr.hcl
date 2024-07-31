@@ -11,6 +11,11 @@ packer {
   }
 }
 
+variable "archives_directory" {
+  type = string
+  default = "/data/nfsshare/archives/"
+}
+
 variable "vm_template_name" {
   type    = string
   default = "packer-uefi-u2204.qcow2"
@@ -81,6 +86,19 @@ build {
     inline = [ "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 2; done" ]
   }
   provisioner "shell" {
+    inline = [
+      "cd /opt && sudo mkdir archives && sudo chmod 777 archives"
+    ]
+  }
+  provisioner "file" {
+    source = "${var.archives_directory}"
+    destination = "/opt/archives"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/git-clone-vmtools.sh"
+  }
+  provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "./scripts/ansible.sh"
   }
@@ -101,18 +119,22 @@ build {
     pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
   }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/ubuntu-drbd.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
   }
   provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/custom/custom.sh"
-  }
-  provisioner "shell" {
     inline = [
       "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
     ]
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
