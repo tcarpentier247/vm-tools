@@ -30,4 +30,7 @@ which lxc-create >> /dev/null 2>&1 && {
 [[ ! -d /etc/apparmor.d/disable ]] && mkdir -p /etc/apparmor.d/disable
 [[ -f /etc/apparmor.d/runc ]] && ln -s /etc/apparmor.d/runc /etc/apparmor.d/disable/
 
+# python uuid.getnode() does not like lxcbr0 hardcoded macaddress
+[[ -f /etc/default/lxc-net ]] && sed -i 's@USE_LXC_BRIDGE="true"@USE_LXC_BRIDGE="false"@' /etc/default/lxc-net
+
 exit 0
