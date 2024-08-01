@@ -1,9 +1,12 @@
-!#/bin/bash
+#!/bin/bash
 
-echo "start of virtualization packages installation"
+echo "custom packages installation"
 
-zypper --non-interactive --gpg-auto-import-keys install qemu-kvm virt-install virt-manager guestfs-tools bridge-utils mkisofs
+zypper --non-interactive --gpg-auto-import-keys install qemu-kvm virt-install virt-manager guestfs-tools bridge-utils git curl jq
 
-echo "packages successfully installed"
+# only available on sles15
+grep -q 'suse:sles:15' /etc/os-release && {
+    zypper --non-interactive --gpg-auto-import-keys install mkisofs cni cni-plugins
+}
 
 exit 0

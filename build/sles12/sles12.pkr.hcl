@@ -11,6 +11,11 @@ packer {
   }
 }
 
+variable "archives_directory" {
+  type = string
+  default = "/data/nfsshare/archives/"
+}
+
 variable "vm_template_name" {
   type    = string
   default = "packer-uefi-sles12sp5.qcow2"
@@ -94,15 +99,36 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/sles-update.sh"
+    script = "../common/sles-snapper.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/sles-snapper.sh"
+    script = "../common/sles-update.sh"
+  }
+  provisioner "shell" {
+    inline = [
+      "cd /opt && sudo mkdir archives && sudo chmod 777 archives"
+    ]
+  }
+  provisioner "file" {
+    source = "${var.archives_directory}"
+    destination = "/opt/archives"
   }
   provisioner "breakpoint" {
     disable = true
     note    = "Troubleshooting Breakpoint"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "./scripts/install-cni.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/sles-additional-pkg.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/git-clone-vmtools.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
@@ -127,13 +153,13 @@ build {
     script = "../common/sles-drbd.sh"
   }
   provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/custom/custom.sh"
-  }
-  provisioner "shell" {
     inline = [
       "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
     ]
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"

@@ -35,6 +35,9 @@ fi
 echo "remove the contents of /tmp and /var/tmp"
 rm -rf /tmp/* /var/tmp/*
 
+echo "remove the contents of /opt/archives"
+rm -rf /opt/archives
+
 echo "force a new random seed to be generated"
 rm -f /var/lib/systemd/random-seed
 
