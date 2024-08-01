@@ -67,3 +67,9 @@ function clean_hosts()
 clean_hosts
 gen_data > $NODES.etc.hosts
 cat $NODES.etc.hosts >> /etc/hosts
+
+# updating nfs share
+for file in $NODES $NODES.etc.hosts
+do
+    cp $file /data/nfsshare/
+done
