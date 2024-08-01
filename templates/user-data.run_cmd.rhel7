@@ -1,6 +1,6 @@
 runcmd:
   - /usr/bin/localectl set-keymap fr
-  - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
+  - echo "AllowUsers opensvc root" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - rm -f /etc/sysconfig/network-scripts/ifcfg-ens*
   - systemctl restart NetworkManager

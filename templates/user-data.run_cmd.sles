@@ -1,6 +1,6 @@
 runcmd:
   - /usr/bin/localectl set-keymap fr
-  - echo "AllowUsers opensvc" >> /etc/ssh/sshd_config
+  - echo "AllowUsers opensvc root" >> /etc/ssh/sshd_config
   - sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=""/NETCONFIG_DNS_STATIC_SERVERS="VM_NET.VM_CID.0.1 VM_NET.VM_CID.1.1"/g' /etc/sysconfig/network/config
   - systemctl restart network
   - /root/wait-for-net.sh
