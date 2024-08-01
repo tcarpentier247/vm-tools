@@ -19,4 +19,9 @@ systemctl -q is-enabled firewalld.service && {
     systemctl disable firewalld.service
 }
 
+systemctl -q is-enabled docker.service || {
+    echo "Enable docker service"
+    systemctl enable docker.service
+}
+
 exit 0
