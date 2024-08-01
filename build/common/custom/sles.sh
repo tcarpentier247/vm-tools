@@ -14,5 +14,9 @@ grep -q '^GRUB_TERMINAL=' /etc/default/grub || echo 'GRUB_TERMINAL="console seri
 grub2-mkconfig -o /boot/grub2/grub.cfg
 grub2-mkconfig -o /boot/efi/EFI/sles/grub.cfg
 
+systemctl -q is-enabled firewalld.service && {
+    echo "Disable firewalld service"
+    systemctl disable firewalld.service
+}
 
 exit 0
