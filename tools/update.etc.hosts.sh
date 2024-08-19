@@ -20,14 +20,16 @@ typeset -i idx=0
 
 while [[ $idx -lt $CLUSTER_COUNT ]]
 do
-    #ipstring="$ipstring,$netA.$idx.$cpt.1/24"
-    subnets["${NET}.${idx}.0"]=""
-    if (( $idx == 0 )); then
+    for net in $(cat ${NODES} | grep -v '^#' | awk '{print $4}' | sort -u)
+    do
+        subnets["${net}.${idx}.0"]=""
+        if (( $idx == 0 )); then
             let idx=$idx+1
-	    continue
-    fi
-    subnets["${NET}.${idx}.1"]="-hb1"
-    subnets["${NET}.${idx}.2"]="-hb2"
+    	    continue
+        fi
+        subnets["${net}.${idx}.1"]="-hb1"
+        subnets["${net}.${idx}.2"]="-hb2"
+    done
     let idx=$idx+1
 done
 
@@ -40,15 +42,15 @@ function gen_data()
 {
     # prepare new entries
     printf "## OPENSVC LAB BEGIN ##\n"
-    cat ${NODES} | grep -v '^#' | while read nodename cluid ip
+    cat ${NODES} | grep -v '^#' | while read nodename cluid iplast ipfirst
     do
-	#echo --- $nodename --- $cluid --- $ip
+	#echo --- $nodename --- $cluid --- $iplast
         for key in ${!subnets[@]}
         do
-            [[ $key == ${NET}.${cluid}.* ]] && {
-                printf "%s.%s\t%s%s\t%s%s.vdc.opensvc.com\n" "$key" "$ip" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
+            [[ $key == ${ipfirst}.${cluid}.* ]] && {
+                printf "%s.%s\t%s%s\t%s%s.vdc.opensvc.com\n" "$key" "$iplast" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
                 net=$(echo $key | awk -F'.' '{printf "%02d", $3}')
-                printf "%s\t%s%s-6\t%s%s-6.vdc.opensvc.com\n" "fd01:2345:6789:${cluid}${net}::$ip" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
+                printf "%s\t%s%s-6\t%s%s-6.vdc.opensvc.com\n" "fd01:2345:6789:${cluid}${net}::$iplast" "$nodename" "${subnets[$key]}" "$nodename" "${subnets[$key]}"
             }
         done
     done

@@ -23,6 +23,7 @@ VM_DISTRO_KIND="${VM_DISTRO%%+([[:digit:]])}"
 VM_CONFIGS="$CONFIGS/machines/$VM_NAME"
 
 # empty if not vdc
+NET=$(grep -w ^$VM_NAME ${NODES} | sort -u | awk '{print $4}')
 VM_IP=$(grep -w ^$VM_NAME ${NODES} | sort -u | awk '{print $3}')
 VM_CID=$(grep -w ^$VM_NAME ${NODES} | sort -u | awk '{print $2}')
 VM_2DGCID=$(printf "%02d" "$VM_CID")
