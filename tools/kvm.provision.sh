@@ -255,6 +255,7 @@ echo "$VM_BASE_IMAGE" | grep -q "\.qcow2$" && {
     copy_base_image
     create_ci_vmdisks
     create_seed
+    #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
     VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
 } || {
     create_std_vmdisks
