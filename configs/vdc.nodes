@@ -798,6 +798,12 @@ c22igw2 22 3 10
 sol114-1 22 11 10
 sol114-2 22 12 10
 sol114-3 22 13 10
+labzone1 22 14 10
+labzone1-ip 22 14 10
+labzone2 22 15 10
+labzone2-ip 22 15 10
+labzone1-ip1 22 16 10
+labzone2-ip1 22 17 10
 c22vip 22 20 10
 c22svc1 22 21 10
 c22svc2 22 22 10
@@ -811,6 +817,7 @@ c22svc9 22 29 10
 c22svc10 22 30 10
 c22svc11 22 31 10
 c22svc12 22 32 10
+labzone3 22 32 10
 c22svc13 22 33 10
 c22svc14 22 34 10
 c22svc15 22 35 10
@@ -830,6 +837,19 @@ c22.http.public.cname 22 2 10
 c22.sni1.public.cname 22 2 10
 c22.sni2.public.cname 22 2 10
 c22.https.public.cname 22 2 10
+flexsvc1 22 52 10
+flexsvc2 22 53 10
+failoversvc 22 54 10
+sol10b1 22 55 10
+zone10-1 22 56 10
+zone10-1-ip 22 56 10
+zone10-2 22 57 10
+zone10-2-ip 22 57 10
+zone10-1-ip1 22 58 10
+zone10-2-ip1 22 59 10
+failoversvc-zone10 22 60 10
+flexsvc1-zone10 22 61 10
+flexsvc2-zone10 22 62 10
 # 23 10
 c23envoy1 23 2 10
 c23envoy2 23 3 10
