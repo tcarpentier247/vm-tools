@@ -4,3 +4,8 @@
   ansible.builtin.package:
     name: "{{ osvc_sunos_common_pkg }}"
     state: present
+
+- name: Disable sendmail
+  ansible.builtin.service:
+    name: sendmail
+    enabled: false
