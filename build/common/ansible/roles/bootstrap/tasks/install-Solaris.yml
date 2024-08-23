@@ -5,7 +5,18 @@
     name: "{{ osvc_sunos_common_pkg }}"
     state: present
 
-- name: Disable sendmail
-  ansible.builtin.service:
-    name: sendmail
-    enabled: false
+- name: Disable services
+  ansible.builtin.command: "svcadm disable {{ item }}"
+  with_items:
+    - svc:/application/cups/scheduler:default
+    - svc:/application/cups/in-lpd:default
+    - svc:/system/webui/server
+    - svc:/network/smtp:sendmail
+    - svc:/network/sendmail-client:default
+  failed_when: false
+
+- name: Enable services
+  ansible.builtin.command: "svcadm enable {{ item }}"
+  with_items:
+    - svcadm enable svc:/system/console-login:terma
+  failed_when: false
