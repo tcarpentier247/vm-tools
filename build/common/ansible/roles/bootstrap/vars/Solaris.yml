@@ -1,0 +1,6 @@
+---
+osvc_sunos_common_pkg:
+  - web/curl
+
+osvc_qascripts_root: "/export/home/opensvc"
+osvc_qascripts_profile: "{{ osvc_qascripts_root }}/.bash_profile"

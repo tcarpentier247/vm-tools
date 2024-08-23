@@ -1,0 +1,6 @@
+---
+
+- name: Install prerequisites packages
+  ansible.builtin.package:
+    name: "{{ osvc_sunos_common_pkg }}"
+    state: present
