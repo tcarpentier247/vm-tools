@@ -11,7 +11,9 @@ dladm show-phys net0 >>/dev/null 2>&1 && {
 dladm show-phys net1 >>/dev/null 2>&1 && createnic net1 11 42 1 11
 dladm show-phys net2 >>/dev/null 2>&1 && createnic net2 11 42 2 11
 
-route -p add default 11.42.0.1
+netstat -nr | egrep "^default.*11.42.0.1.*UG" >> /dev/null 2>&1 || {
+    route -p add default 11.42.0.1
+}
 
 NEED_REFRESH=""
 setup_dns_client "11.42.0.1 11.42.1.1" '"vdc.opensvc.com"' 
