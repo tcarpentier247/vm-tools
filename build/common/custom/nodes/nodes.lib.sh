@@ -169,7 +169,7 @@ grep -q "^Defaults secure_path=" /etc/sudoers || {
 
 function setup_opensvc_user_path()
 {
-grep -q 'opt/csw/bin:/usr/gnu/bin:/usr/xpg4/bin' /export/home/vagrant/.profile || {
+grep -q 'opt/csw/bin:/usr/gnu/bin:/usr/xpg4/bin' /export/home/opensvc/.profile || {
     echo "Setup vagrant user PATH"
     echo 'export PATH="/opt/csw/bin:/usr/gnu/bin:/usr/xpg4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"' | tee -a /export/home/opensvc/.profile
     }
