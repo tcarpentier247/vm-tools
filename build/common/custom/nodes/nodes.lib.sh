@@ -3,9 +3,9 @@
 function gen_etc_hosts()
 {
 node=$1
-ipprd=$3
-iphb1=$4
-iphb2=$5
+ipprd=$2
+iphb1=$3
+iphb2=$4
 
 cat > /etc/hosts <<-ENDOFMESSAGE
 #
