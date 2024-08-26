@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 [[ -x nodes.lib.sh ]] && . nodes.lib.sh
 
