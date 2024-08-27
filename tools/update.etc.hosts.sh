@@ -23,15 +23,17 @@ do
     for net in $(cat ${NODES} | grep -v '^#' | awk '{print $4}' | sort -u)
     do
         subnets["${net}.${idx}.0"]=""
-        if (( $idx == 0 )); then
-            let idx=$idx+1
-    	    continue
-        fi
         subnets["${net}.${idx}.1"]="-hb1"
         subnets["${net}.${idx}.2"]="-hb2"
     done
     let idx=$idx+1
 done
+
+# no hb on infra subnets
+unset subnets["10.0.1"]
+unset subnets["10.0.2"]
+unset subnets["11.0.1"]
+unset subnets["11.0.2"]
 
 [[ ! -f ${NODES} ]] && {
 	echo "error: vdc.nodes is missing. exiting"
@@ -67,7 +69,9 @@ function clean_hosts()
 }
 
 clean_hosts
+
 gen_data > $NODES.etc.hosts
+
 cat $NODES.etc.hosts >> /etc/hosts
 
 # updating nfs share
