@@ -50,7 +50,7 @@ setup_dns_client "$IPPREFIX.$DECCID.0.1 $IPPREFIX.$DECCID.1.1" '"vdc.opensvc.com
 
 # restore host ssh keys
 [[ -f /export/home/packer/machines/$NODE/$NODE.ssh_host.tar.gz ]] && {
-    cd /etc/ssh && tar xzf /export/home/opensvc/machines/$NODE/$NODE.ssh_host.tar.gz
+    cd /etc/ssh && tar xzf /export/home/packer/machines/$NODE/$NODE.ssh_host.tar.gz
 }
 setup_ssh
 setup_root_role
