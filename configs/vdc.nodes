@@ -11,8 +11,6 @@ freenas-pez 0 11 10
 truenas-pez 0 12 10
 freenas-malabar 0 11 11
 truenas-malabar 0 12 11
-truenas-c22 0 12 10
-truenas-c42 0 12 11
 nas 0 12 10
 proxy 0 13 10
 squid 0 13 10
@@ -797,6 +795,7 @@ c21.sni1.public.cname 21 2 10
 c21.sni2.public.cname 21 2 10
 c21.https.public.cname 21 2 10
 # 22 10
+c22nas 0 12 10
 c22envoy1 22 2 10
 c22envoy2 22 3 10
 c22igw1 22 2 10
@@ -1331,6 +1330,7 @@ c40.sni1.public.cname 40 2 11
 c40.sni2.public.cname 40 2 11
 c40.https.public.cname 40 2 11
 # 42 11
+c42nas 0 12 11
 c42envoy1 42 2 11
 c42envoy2 42 3 11
 c42igw1 42 2 11
