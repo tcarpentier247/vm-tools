@@ -33,7 +33,7 @@ gen_etc_hosts $NODE $IPPREFIX.$DECCID.0.$IPPRD $IPPREFIX.$DECCID.1.$IPPRD $IPPRE
 
 # setup network
 dladm show-phys net0 >>/dev/null 2>&1 && {
-        createnic net0 $IPPREFIX $DECCID 0$IPPRD 
+        createnic net0 $IPPREFIX $DECCID 0 $IPPRD 
         create_bridge br net0
 }
 dladm show-phys net1 >>/dev/null 2>&1 && createnic net1 $IPPREFIX $DECCID 1 $IPPRD
