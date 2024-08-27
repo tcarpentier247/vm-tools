@@ -181,3 +181,44 @@ function setup_timezone()
     svccfg -s timezone:default setprop timezone/localtime=Europe/Paris
     svcadm refresh timezone:default
 }
+
+function setup_iscsi()
+{
+    local NODE=$1
+    local CLUSTERID=$2
+
+    ISCSITGTIP=$(getent hosts c${CLUSTERID}nas|awk '{print $1}')
+    echo "NAS IP: $ISCSITGPIP"
+    
+    # iscsi alias
+    ALIASSE=$(iscsiadm list initiator-node|egrep 'Initiator node alias'|awk '{print $4}')
+    if [[ "$ALIASSE" == "$NODE" ]]; then
+        echo "ALIAS is already set to $NODE"
+    else
+        echo "set ALIAS to $NODE"
+        iscsiadm modify initiator-node -A $NODE
+        sleep 1
+    fi
+    
+    # iscsi iqn
+    IQN=$(iscsiadm list initiator-node|egrep 'Initiator node name'|awk '{print $4}')
+    if [[ "$IQN" == "iqn.2009-11.com.opensvc.srv:$NODE.storage.initiator" ]]; then
+        echo "IQN is already set to iqn.2009-11.com.opensvc.srv:$NODE.storage.initiator"
+    else
+        echo "set IQN to iqn.2009-11.com.opensvc.srv:$NODE.storage.initiator"
+        iscsiadm modify initiator-node -N "iqn.2009-11.com.opensvc.srv:$NODE.storage.initiator"
+        sleep 1
+    fi
+    
+    DISCO=$(iscsiadm list discovery-address|egrep 'Discovery Address'|awk '{print $3}')
+    if [[ "$DISCO" == "$ISCSITGTIP:3260" ]]; then
+        echo "DISCOVERY is already set to $ISCSITGTIP:3260"
+    else
+        echo "set DISCOVERY to $ISCSITGTIP:3260"
+        iscsiadm add discovery-address $ISCSITGTIP:3260
+        sleep 1
+        iscsiadm modify discovery --sendtargets enable
+        sleep 1
+        devfsadm -i iscsi
+    fi
+}

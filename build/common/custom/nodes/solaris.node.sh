@@ -61,3 +61,6 @@ sudo svcadm restart svc:/network/ssh:default
 setup_sudo_secure_path
 setup_opensvc_user_path
 setup_timezone
+
+# setup iscsi
+setup_iscsi $NODE $DECCID
