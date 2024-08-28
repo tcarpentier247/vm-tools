@@ -16,6 +16,7 @@ runcmd:
   - sed -i 's@^RHN_KEY=.*@RHN_KEY=RH_ACTIVATION_KEY@' /root/rhel-register.sh
   - chmod 700 /root/rhel-register.sh
   - test -d /opt/vm-tools && cd /opt/vm-tools && git pull
+  - sed -i '/# use_devicesfile = 1/a use_devicesfile=0' /etc/lvm/lvm.conf
   - TGT="NAS_IP" /opt/vm-tools/build/common/cloud-init/iscsi.sh
   - TGT="NFS_IP" /opt/vm-tools/build/common/cloud-init/autofs.sh
   - /opt/vm-tools/build/common/cloud-init/md.sh
