@@ -130,9 +130,12 @@ function setup_dns_client()
     update_svccfg network/dns/client:default config/search astring "$searches" multi || return 1
     update_svccfg name-service/switch config/host astring '"files dns"' || return 1
     if [ -n "$NEED_REFRESH" ]; then
+            echo "## svcadm refresh -s $NEED_REFRESH"
+            svcadm refresh -s $NEED_REFRESH
+
 	    echo "## svcadm disable $NEED_REFRESH ; svcadm enable $NEED_REFRESH"
-	    svcadm disable $NEED_REFRESH
-	    svcadm enable $NEED_REFRESH
+	    svcadm disable -s $NEED_REFRESH
+	    svcadm enable -r -s $NEED_REFRESH
     fi
     echo
     echo "## summary"
