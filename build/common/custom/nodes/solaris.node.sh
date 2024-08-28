@@ -67,3 +67,6 @@ setup_iscsi $NODE $DECCID
 
 # setup autofs
 setup_autofs "$IPPREFIX.$DECCID.0.1"
+
+# generate random hostid
+set_hostid

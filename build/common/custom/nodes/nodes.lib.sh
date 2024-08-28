@@ -244,3 +244,12 @@ EOF
 
     svcadm restart -s autofs
 }
+
+function set_hostid()
+{
+    HIDBEFORE=$(hostid)
+    PADSTR=$(seq -f "3%g" 0 8 | shuf -n 10 | awk '{printf "%s ", $1} END {printf "0\n"}')
+    echo "hw_serial/v $PADSTR" | mdb -kw >> /dev/null
+    HIDAFTER=$(hostid)
+    echo "hostid is now $HIDAFTER [was $HIDBEFORE]"
+}
