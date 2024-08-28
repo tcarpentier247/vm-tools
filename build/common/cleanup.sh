@@ -53,8 +53,8 @@ rm -rf /usr/share/doc/*
 
 rm -rf /opt/archives
 
-echo "remove /var/cache"
-find /var/cache -type f -exec rm -rf {} \;
+#echo "remove /var/cache"
+#find /var/cache -type f -exec rm -rf {} \;
 
 echo "truncate any logs that have built up during the install"
 find /var/log -type f -exec truncate --size=0 {} \;
