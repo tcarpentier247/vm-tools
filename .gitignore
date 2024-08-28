@@ -9,3 +9,4 @@ build/packer/.packer.d
 build/*/*.secrets.pkrvars.hcl
 build/*/output-custom_image/
 *.qcow2
+qa.succeed_tests.all
