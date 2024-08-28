@@ -46,7 +46,8 @@ source "qemu" "custom_image" {
   boot_wait = "10s"
   
   http_directory = "http"
-  iso_url   = "https://ubuntu.mirrors.ovh.net/ubuntu-releases/22.04/${var.ubuntu_iso_file}"
+  #iso_url   = "https://ubuntu.mirrors.ovh.net/ubuntu-releases/22.04/${var.ubuntu_iso_file}"
+  iso_url   = "../images/${var.ubuntu_iso_file}"
   iso_checksum = "file:https://ubuntu.mirrors.ovh.net/ubuntu-releases/22.04/SHA256SUMS"
   memory = 4096
   
