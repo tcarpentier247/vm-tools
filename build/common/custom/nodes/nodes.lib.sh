@@ -225,3 +225,22 @@ function setup_iscsi()
         devfsadm -i iscsi
     fi
 }
+
+function setup_autofs()
+{
+    local NFSSRV=$1
+
+grep -q osvcdata /etc/auto_master || {
+cat - <<EOF >>/etc/auto_master
+/nfs    auto_osvcdata
+EOF
+}
+
+[[ ! -f /etc/auto_osvcdata ]] && {
+cat - <<EOF >|/etc/auto_osvcdata
+data ${NFSSRV}:/data/nfsshare
+EOF
+}
+
+    svcadm restart -s autofs
+}

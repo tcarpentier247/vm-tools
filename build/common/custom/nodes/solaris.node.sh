@@ -64,3 +64,6 @@ setup_timezone
 
 # setup iscsi
 setup_iscsi $NODE $DECCID
+
+# setup autofs
+setup_autofs "$IPPREFIX.$DECCID.0.1"
