@@ -11,6 +11,11 @@ packer {
   }
 }
 
+variable "archives_directory" {
+  type = string
+  default = "/data/nfsshare/archives/"
+}
+
 variable "vm_template_name" {
   type    = string
   default = "packer-uefi-debian12.qcow2"
@@ -31,8 +36,8 @@ boot_command = [
   boot_wait = "5s"
   
   http_directory = "http"
-  iso_url   = "https://cdimage.debian.org/cdimage/release/12.5.0/amd64/iso-dvd/debian-12.5.0-amd64-DVD-1.iso"
-  iso_checksum = "file:https://cdimage.debian.org/cdimage/release/12.5.0/amd64/iso-dvd/SHA256SUMS"
+  iso_url   = "https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-dvd/debian-12.6.0-amd64-DVD-1.iso"
+  iso_checksum = "file:https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-dvd/SHA256SUMS"
   memory = 4096
   
   ssh_password = "opensvcpacker"
@@ -67,6 +72,19 @@ boot_command = [
 
 build {
   sources = [ "source.qemu.custom_image" ]
+  provisioner "shell" {
+    inline = [
+      "cd /opt && sudo mkdir archives && sudo chmod 777 archives"
+    ]
+  }
+  provisioner "file" {
+    source = "${var.archives_directory}"
+    destination = "/opt/archives"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "../common/git-clone-vmtools.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "breakpoint before ansible install"
@@ -100,6 +118,10 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
+  }
+  provisioner "breakpoint" {
+    disable = false
+    note    = "this is a breakpoint"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
