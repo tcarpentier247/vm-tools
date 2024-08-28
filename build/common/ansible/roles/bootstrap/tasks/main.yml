@@ -78,6 +78,21 @@
     create: yes
     regexp: '^[ -f ~/opensvc-qa.sh ] && . ~/opensvc-qa.sh$'
     line: '[ -f ~/opensvc-qa.sh ] && . ~/opensvc-qa.sh'
+  when: (ansible_facts['system'] == "Linux" )
+
+- name: Deploy Solaris .profile script 
+  copy:
+    src: files/profile.Solaris
+    dest: "{{ osvc_qascripts_root }}/.profile"
+    mode: 0755
+  when: (ansible_facts['system'] == "Solaris" )
+
+- name: Deploy Solaris .bashrc script
+  copy:
+    src: files/bashrc.Solaris
+    dest: "{{ osvc_qascripts_root }}/.bashrc"
+    mode: 0755
+  when: (ansible_facts['system'] == "Solaris" )
 
 - name: remove drbd devices from lvm
   ansible.builtin.lineinfile:
