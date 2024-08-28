@@ -13,8 +13,8 @@ TOOLS=${ROOT}/tools
 TEMPLATES=${ROOT}/templates
 
 # vdc environment max index (one /24 ip class per environment)
-CLUSTER_COUNT="30"
 NET="10"
+CLUSTER_COUNT="45"
 
 # vdc cluster ip plan
 NODES=${CONFIGS}/vdc.nodes
@@ -37,5 +37,11 @@ IMAGES[sles12]="packer-uefi-sles12sp5.qcow2"
 IMAGES[sles15]="packer-uefi-sles15sp5.qcow2"
 IMAGES[windows11]="Windows11_23H2_uefi_Entreprise_Fr_x64.iso"
 IMAGES[truenas]="TrueNAS-13.0-U6.1.iso"
+
+declare -A PORT_FWD
+# pez
+PORT_FWD[10]=2
+# malabar
+PORT_FWD[11]=3
 
 . $TOOLS/functions.sh
