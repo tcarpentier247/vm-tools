@@ -34,7 +34,7 @@ NFS_IP="$NET.$VM_CID.0.1"
 
 # c1n1 ssh => 20111   vnc => 20161
 # c6n2 ssh => 20612   vnc => 20662
-VM_SSHPORT=3$VM_2DGCID$VM_IP
+VM_SSHPORT=${PORT_FWD[$NET]}$VM_2DGCID$VM_IP
 [[ -z "$VM_VNCPORT" ]] && {
     let VM_VNCPORT=$VM_SSHPORT+50
 }
