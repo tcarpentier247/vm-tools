@@ -13,8 +13,8 @@ TOOLS=${ROOT}/tools
 TEMPLATES=${ROOT}/templates
 
 # vdc environment max index (one /24 ip class per environment)
-NET="10"
 CLUSTER_COUNT="45"
+NET=$(ip -j addr show br-0-0 | jq -r '.[].addr_info[] | select(.family=="inet") | .local' | awk -F'.' '{print $1}')
 
 # vdc cluster ip plan
 NODES=${CONFIGS}/vdc.nodes
