@@ -11,6 +11,7 @@ git clone https://github.com/openzfs/zfs
 
 echo "Building ZFS"
 cd ./zfs
+git checkout zfs-2.2.4
 
 sh autogen.sh
 
