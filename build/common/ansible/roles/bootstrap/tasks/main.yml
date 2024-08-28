@@ -85,14 +85,14 @@
     src: files/profile.Solaris
     dest: "{{ osvc_qascripts_root }}/.profile"
     mode: 0755
-  when: (ansible_facts['system'] == "Solaris" )
+  when: (ansible_facts['system'] == "SunOS" )
 
 - name: Deploy Solaris .bashrc script
   copy:
     src: files/bashrc.Solaris
     dest: "{{ osvc_qascripts_root }}/.bashrc"
     mode: 0755
-  when: (ansible_facts['system'] == "Solaris" )
+  when: (ansible_facts['system'] == "SunOS" )
 
 - name: remove drbd devices from lvm
   ansible.builtin.lineinfile:
