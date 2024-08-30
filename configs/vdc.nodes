@@ -1,5 +1,7 @@
 # name cluster_id ip_last_member ip_first_member
 # 0
+pez 0 1 10
+malabar 0 1 11
 c0envoy1 0 2 10
 c0envoy2 0 3 10
 haproxy 0 5 10
