@@ -55,6 +55,11 @@ VM_AUDIO=${VM_AUDIO:-none}
 VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
 
+# VM_LINKED_CLONE
+# false: vm base image is fully copied into vm filesystem before creating system.qcow2
+# true: system.qcow2 is directly backed by shared vm base image (warning: fastest but greater risk)
+VM_LINKED_CLONE=${VM_LINKED_CLONE:-false}
+
 function check_prerequisites() {
     title Begin:$FUNCNAME
     [[ -z "$VM_NAME" ]] && exiterr "VM_NAME is not defined"
@@ -95,7 +100,10 @@ function create_ci_vmdisks()
     title Begin:$FUNCNAME
     [[ -f $VM_ROOT/system.qcow2 ]] && exiterr "$VM_ROOT/system.qcow2 already exist"
     [[ -f $VM_ROOT/data.qcow2 ]] && exiterr "$VM_ROOT/data.qcow2 already exist"
-    qemu-img create -f qcow2 -F qcow2 -o backing_file=$VM_ROOT/$VM_BASE_IMAGE $VM_ROOT/system.qcow2 && \
+    BACKING_FILE="$VM_ROOT/$VM_BASE_IMAGE"
+    [[ $VM_LINKED_CLONE == "true" ]] && BACKING_FILE=$KVM_IMAGES_ROOT/$VM_BASE_IMAGE
+    echo "Creating system.qcow2 backed by $BACKING_FILE"
+    qemu-img create -f qcow2 -F qcow2 -o backing_file=$BACKING_FILE $VM_ROOT/system.qcow2 && \
         qemu-img resize $VM_ROOT/system.qcow2 $VM_SYS_SIZE
     qemu-img create -f qcow2 $VM_ROOT/data.qcow2 $VM_DATA_SIZE
     title End:$FUNCNAME
@@ -204,10 +212,6 @@ function create_uefi() {
     title End:$FUNCNAME
 }
 
-# bridge name
-# cpu
-# ram
-
 function execute_virtinstall()
 {
 	title Begin:$FUNCNAME
@@ -217,7 +221,7 @@ function execute_virtinstall()
 	VM_CONSOLE_KEYMAP=${VM_CONSOLE_KEYMAP:-fr}
 	VM_VIRTINSTALL_OPTS=${VM_VIRTINSTALL_OPTS}
     
-    grep -q '22:23:24:' $VM_ROOT/user-data 2>/dev/null && {
+    grep -w ^$VM_NAME ${NODES} 2>/dev/null && {
         # found vdc mac addresses
         # we have to connect 3 nics
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=virtio,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
@@ -253,7 +257,7 @@ function execute_virtinstall()
 check_prerequisites
 prepare
 echo "$VM_BASE_IMAGE" | grep -q "\.qcow2$" && {
-    copy_base_image
+    [[ $VM_LINKED_CLONE == "false" ]] && copy_base_image
     create_ci_vmdisks
     create_seed
     #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
