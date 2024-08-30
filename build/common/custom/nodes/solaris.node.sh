@@ -70,3 +70,5 @@ setup_autofs "$IPPREFIX.$DECCID.0.1"
 
 # generate random hostid
 set_hostid
+
+touch /export/home/opensvc/pytest.skip.2 /export/home/opensvc/pytest.skip.3
