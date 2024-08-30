@@ -79,3 +79,5 @@ for file in $NODES $NODES.etc.hosts
 do
     cp $file /data/nfsshare/
 done
+
+ps aux|grep [d]nsmasq|awk '{print $2}'|xargs sudo kill -HUP
