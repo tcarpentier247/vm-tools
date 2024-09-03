@@ -48,6 +48,7 @@ do
 done
 
 VM_NIC=${VM_NIC:-eth0}
+VM_NIC_MODEL=${VM_NIC_MODEL:-virtio}
 VM_AUDIO=${VM_AUDIO:-none}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
 [[ "$VM_DISTRO" =~ ^ubuntu.* ]] && VM_NIC="enp1s0"
@@ -224,9 +225,9 @@ function execute_virtinstall()
     grep -w ^$VM_NAME ${NODES} 2>/dev/null && {
         # found vdc mac addresses
         # we have to connect 3 nics
-        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=virtio,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
-        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-1,model=virtio,mac=22:23:24:$VM_HEXCID:01:$VM_IP"
-        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-2,model=virtio,mac=22:23:24:$VM_HEXCID:02:$VM_IP"
+        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
+        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-1,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:01:$VM_IP"
+        VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-2,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:02:$VM_IP"
     } || {
         # standard cnx
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:$VM_BRIDGE,model=virtio"
