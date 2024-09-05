@@ -75,3 +75,4 @@ touch /export/home/opensvc/pytest.skip.2 /export/home/opensvc/pytest.skip.3
 
 # must be the last action
 touch /export/home/opensvc/.qa.custo.done
+test -f /etc/rc2.d/S01osvcconfig && rm -f /etc/rc2.d/S01osvcconfig
