@@ -14,9 +14,3 @@
     - svc:/network/smtp:sendmail
     - svc:/network/sendmail-client:default
   failed_when: false
-
-- name: Enable services
-  ansible.builtin.command: "svcadm enable {{ item }}"
-  with_items:
-    - svcadm enable svc:/system/console-login:terma
-  failed_when: false
