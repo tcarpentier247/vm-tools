@@ -39,6 +39,8 @@ hostname $NODE
 echo "Display current hostname settings after config"
 svccfg -s system/identity:node listprop config
 
+svcadm restart svc:/system/console-login:default
+
 # build /etc/hosts
 gen_etc_hosts $NODE $IPPREFIX.$DECCID.0.$IPPRD $IPPREFIX.$DECCID.1.$IPPRD $IPPREFIX.$DECCID.2.$IPPRD
 
