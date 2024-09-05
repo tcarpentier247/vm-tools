@@ -25,8 +25,19 @@ DECCID=$((16#$HEXCID))
 read -r NODE x y IPPREFIX <<<$(egrep " $DECCID $IPPRD " ../../../../configs/vdc.nodes)
 echo NODE=$NODE IPPREFIX=$IPPREFIX DECCID=$DECCID IPPRD=$IPPRD
 
+echo "Display current hostname settings before config"
+svccfg -s system/identity:node listprop config
+
 # set system hostname
+svccfg -s system/identity:node setprop config/nodename="$NODE"
+svccfg -s system/identity:node setprop config/loopback="$NODE"
+svccfg -s system/identity:node refresh
+svcadm restart system/identity:node
+
 hostname $NODE
+
+echo "Display current hostname settings after config"
+svccfg -s system/identity:node listprop config
 
 # build /etc/hosts
 gen_etc_hosts $NODE $IPPREFIX.$DECCID.0.$IPPRD $IPPREFIX.$DECCID.1.$IPPRD $IPPREFIX.$DECCID.2.$IPPRD
