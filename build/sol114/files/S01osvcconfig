@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PATH=$PATH:/opt/csw/bin
+
+NODEREPO="/opt/vm-tools/build/common/custom/nodes"
+SCRIPT="solaris.node.sh"
+
+[[ -x $NODEREPO/$SCRIPT ]] && {
+	cd $NODEREPO
+        ping github.com >> /dev/null 2>&1 && git pull --all
+	echo "Running $NODEREPO/$SCRIPT"
+	./$SCRIPT
+}
+echo "End of OpenSVC Solaris startup scripts"
