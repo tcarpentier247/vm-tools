@@ -24,4 +24,4 @@ systemctl -q is-enabled docker.service || {
     systemctl enable docker.service
 }
 
-exit 0
+/bin/true

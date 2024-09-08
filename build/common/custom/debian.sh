@@ -6,4 +6,4 @@
     update-grub || exit 1
 }
 
-exit 0
+/bin/true
