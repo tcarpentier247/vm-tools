@@ -60,6 +60,7 @@
       - lsscsi
       - bzip2
       - bridge-utils
+      - debootstrap
       - python3-virtualenv
   when:
     - (ansible_distribution_major_version|int == 15)
