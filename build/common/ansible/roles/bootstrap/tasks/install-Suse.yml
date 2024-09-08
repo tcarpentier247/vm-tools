@@ -70,3 +70,11 @@
     name: docker
     enabled: yes
     state: started
+
+- name: Deploy Ubuntu LXC template
+  copy:
+    src: files/lxc-ubuntu
+    dest: "/usr/share/lxc/templates/lxc-ubuntu"
+    mode: 0755
+  when:
+    - (ansible_distribution_major_version|int >= 15)
