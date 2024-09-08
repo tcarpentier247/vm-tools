@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 [[ ! -d /var/lib/opensvc/cni/net.d ]] && mkdir -p /var/lib/opensvc/cni/net.d
 

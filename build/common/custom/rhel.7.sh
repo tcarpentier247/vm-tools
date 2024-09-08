@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 # enable serial console
 [[ -f /etc/default/grub ]] && {

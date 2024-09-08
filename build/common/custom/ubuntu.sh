@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 [[ -f /etc/default/grub ]] && {
     cp /etc/default/grub /etc/default/grub.osvcpacker
