@@ -41,6 +41,11 @@ svccfg -s system/identity:node listprop config
 
 svcadm restart svc:/system/console-login:default
 
+# add smf auto clear, must be called before any actions into /export
+echo "Prepare and run smf auto clear for svc:/system/filesystem/local"
+auto_clear_smf
+/root/opensvc-clear-smf.sh
+
 # build /etc/hosts
 gen_etc_hosts $NODE $IPPREFIX.$DECCID.0.$IPPRD $IPPREFIX.$DECCID.1.$IPPRD $IPPREFIX.$DECCID.2.$IPPRD
 
@@ -83,9 +88,6 @@ setup_autofs "$IPPREFIX.$DECCID.0.1"
 
 # generate random hostid
 set_hostid
-
-# add smf auto clear
-auto_clear_smf
 
 touch /export/home/opensvc/pytest.skip.2 /export/home/opensvc/pytest.skip.3
 
