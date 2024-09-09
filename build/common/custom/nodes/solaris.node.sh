@@ -41,6 +41,9 @@ svccfg -s system/identity:node listprop config
 
 svcadm restart svc:/system/console-login:default
 
+# disable sendmail and its deps
+svcadm disable svcadm disable svc:/network/sendmail-client:default svc:/system/fm/smtp-notify:default
+
 # add smf auto clear, must be called before any actions into /export
 echo "Prepare and run smf auto clear for svc:/system/filesystem/local"
 auto_clear_smf
