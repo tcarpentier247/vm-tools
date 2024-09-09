@@ -84,6 +84,9 @@ setup_autofs "$IPPREFIX.$DECCID.0.1"
 # generate random hostid
 set_hostid
 
+# add smf auto clear
+auto_clear_smf
+
 touch /export/home/opensvc/pytest.skip.2 /export/home/opensvc/pytest.skip.3
 
 # must be the last action
