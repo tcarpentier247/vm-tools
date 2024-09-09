@@ -264,7 +264,7 @@ function auto_clear_smf()
     PERIOD=30
     JITTER=5
 
-    cat > $SMF_CLEAR_CMD <<EOF
+    cat > $SMF_CLEAR_CMD <<'EOF'
 #!/bin/ksh -p
 
 AUTO_CLEAR_SVCS="svc:/system/filesystem/local:default"
