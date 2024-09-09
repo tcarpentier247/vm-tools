@@ -70,6 +70,9 @@ echo
 #mkdir -p /export/home/packer/.cache/pip /export/home/packer/.ansible/galaxy_cache
 #chown -R packer:staff /export/home/packer
 
+echo "--- list available pkgs ---"
+pkg list -afv
+
 echo "--- Installing cwPython 3.9, system/storage/sg3_utils ---"
 yes|pkg install python-39 system/storage/sg3_utils
 

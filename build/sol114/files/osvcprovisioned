@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# S99provisioned has to create the /export/home/opensvc/.qa.custo.done flag file
+# It must be run after last provision reboot step
+test -d /export/home/opensvc && touch /export/home/opensvc/.qa.custo.done && rm -f /etc/rc3.d/S99osvcprovisioned
+exit 0

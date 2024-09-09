@@ -19,6 +19,7 @@ variable "vm_template_name" {
 variable "solaris_iso_file" {
   type    = string
   default = "../images/sol-11_4-text-x86.iso"
+  # default = "../images/sol-11_4_42_111_0-text-x86.iso"
 }
 
 source "qemu" "custom_image" {
@@ -76,6 +77,7 @@ source "qemu" "custom_image" {
       ]
   boot_wait               = "80s"
   iso_checksum            = "sha256:ee0bc41004f424a55cd0474a678c9e39df5a0afc600f8d737de842e50fd45cf0"
+  # iso_checksum            = "sha256:e7a882a7606b073498574209191da1f673e69c88318479e3271b9ce8d9340baf"
   iso_url                 = "./${var.solaris_iso_file}"
   shutdown_command        = "sudo /usr/sbin/init 5"
   ssh_password            = "1opensvcpacker"
@@ -166,6 +168,15 @@ build {
   provisioner "shell" {
     inline = [
       "sudo mv /tmp/S99reboot /etc/rc3.d/ && sudo chown root:root /etc/rc3.d/S99reboot"
+    ]
+  }
+  provisioner "file" {
+    source = "./files/osvcprovisioned"
+    destination = "/tmp/osvcprovisioned"
+  }
+  provisioner "shell" {
+    inline = [
+      "sudo mv /tmp/osvcprovisioned /etc/init.d/ && sudo chown root:root /etc/init.d/osvcprovisioned"
     ]
   }
   provisioner "shell" {
