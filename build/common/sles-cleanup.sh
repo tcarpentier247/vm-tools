@@ -2,9 +2,6 @@
 
 echo "--- Begin Suse cleanup.sh ---"
 
-#echo "Locking user: packer"
-#sudo passwd -l packer
-
 echo "cloud-init"
 cloud-init clean
 
@@ -59,6 +56,9 @@ done
 
 dd if=/dev/zero of=/EMPTY bs=1M || /bin/true
 rm -f /EMPTY
+
+echo "Locking user: packer"
+sudo passwd -l packer
 
 sync; sync
 

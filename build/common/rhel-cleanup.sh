@@ -82,6 +82,9 @@ echo "Clear the history so our install commands aren't there"
 rm -f /root/.wget-hsts
 export HISTSIZE=0
 
+echo "Locking user: packer"
+sudo passwd -l packer
+
 sync; sync
 
 echo "--- End cleanup.sh ---"

@@ -4,9 +4,6 @@
 
 echo "--- Begin cleanup.sh ---"
 
-#echo "Locking user: packer"
-#sudo passwd -l packer
-
 echo "cloud-init"
 cloud-init clean
 
@@ -78,6 +75,9 @@ export HISTSIZE=0
 
 dd if=/dev/zero of=/EMPTY bs=1M || /bin/true
 rm -f /EMPTY
+
+echo "Locking user: packer"
+sudo passwd -l packer
 
 sync; sync
 
