@@ -1,14 +1,45 @@
 #!/bin/bash
 
-PATH=$PATH:/opt/csw/bin
+# this script is created during o simage build and is called during the first boot of the published image.
+# It calls solaris.node.sh, that is also created during os image build.
+# This script will be called once during each first boot vm that use this os image.
+#
+# 1- solaris.node.sh (from published image) will fix network
+# 2- git pull
+# 3- solaris.addon.sh (from github)
 
+echo "$(date) call OpenSVC Solaris startup scripts" | tee -a /var/log/S01osvcconfig.out
 NODEREPO="/opt/vm-tools/build/common/custom/nodes"
 SCRIPT="solaris.node.sh"
 
-[[ -x $NODEREPO/$SCRIPT ]] && {
-	cd $NODEREPO
-        ping github.com >> /dev/null 2>&1 && git pull --all
-	echo "Running $NODEREPO/$SCRIPT"
-	./$SCRIPT
-}
-echo "End of OpenSVC Solaris startup scripts"
+# SCRIPT_ADDON is called after refresh repo, it doesn't need image recreate
+SCRIPT_ADDON="solaris.addon.sh"
+
+if [[ -x $NODEREPO/$SCRIPT ]] ; then
+    cd $NODEREPO || exit 1
+    if ping github.com >> /dev/null 2>&1 ; then
+        echo "$(date) refresh vm-tools" | tee -a /var/log/S01osvcconfig.out
+        git pull --all 2>&1 | tee -a /var/log/S01osvcconfig.out
+
+	    echo "$(date) run $NODEREPO/$SCRIPT"  | tee -a /var/log/S01osvcconfig.out
+	    ./$SCRIPT | tee -a /var/log/S01osvcconfig.out
+    else
+        echo "$(date) can't refresh vm-tools yet" | tee -a /var/log/S01osvcconfig.out
+	    echo "$(date) run $NODEREPO/$SCRIPT"  | tee -a /var/log/S01osvcconfig.out
+	    ./$SCRIPT | tee -a /var/log/S01osvcconfig.out
+
+        echo "$(date) retry refresh vm-tools" | tee -a /var/log/S01osvcconfig.out
+        if ping github.com >> /dev/null 2>&1 ; then
+            git pull --all 2>&1 | tee -a /var/log/S01osvcconfig.out
+        fi
+    fi
+
+    if [[ -x "$NODEREPO/$SCRIPT_ADDON" ]] ; then
+	    echo "$(date) run $NODEREPO/$SCRIPT_ADDON" | tee -a /var/log/S01osvcconfig.out
+	    ./$SCRIPT_ADDON | tee -a /var/log/S01osvcconfig.out
+    fi
+else
+    echo "$(date) no $NODEREPO/$SCRIPT" | tee -a /var/log/S01osvcconfig.out
+fi
+
+echo "$(date) end of OpenSVC Solaris startup scripts" | tee -a /var/log/S01osvcconfig.out
