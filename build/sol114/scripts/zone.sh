@@ -107,15 +107,17 @@ EOF
 /usr/sbin/zonecfg -z skelzone-opensvc-ai create
 /usr/sbin/zonecfg -z skelzone-opensvc-ai remove -F anet
 /usr/sbin/zoneadm -z skelzone-opensvc-ai install -c /usr/share/auto_install/sc_profiles/unconfig.xml -m /var/tmp/skelzone-manifest.xml
-echo "will boot s11"
+echo "skelzone-opensvc-ai: boot"
 date
 /usr/sbin/zoneadm -z skelzone-opensvc-ai boot
 
-while [ "$(zlogin skelzone-opensvc-ai  svcs -H -o STA svc:/milestone/multi-user:default)" != "ON" ] ; do printf .; sleep 1 ; done
-echo "will init 0"
+echo "waiting for skelzone-opensvc-ai /milestone/multi-user..."
+while [ "$(zlogin skelzone-opensvc-ai svcs -H -o STA svc:/milestone/multi-user:default 2>/dev/null)" != "ON" ] ; do printf .; sleep 1 ; done
+echo
+echo "skelzone-opensvc-ai: will init 0"
 date
 /usr/sbin/zlogin skelzone-opensvc-ai /sbin/init 0
-echo "init 0 ended"
+echo "skelzone-opensvc-ai: init 0 ended"
 date
 
 sleep 60
