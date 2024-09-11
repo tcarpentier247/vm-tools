@@ -25,67 +25,69 @@ pkgadd -a $NOASK_FILE -d http://get.opencsw.org/now < $INPUT_FILE
 
 cp -f /opt/csw/etc/pkgutil.conf /opt/csw/etc/pkgutil.conf.install && \
     /usr/xpg4/bin/awk '1;/^#mirror=http/ {print "mirror=http://mirrors.ircam.fr/pub/OpenCSW/testing"}' /opt/csw/etc/pkgutil.conf.install > /opt/csw/etc/pkgutil.conf
-
+ 
 echo "--- Updating csw package cache ---"
 /opt/csw/bin/pkgutil -U
 echo
-echo "--- Installing software ---"
-echo
-/opt/csw/bin/pkgutil -y -i \
-	autoconf \
-	autogen \
-	bash \
-	binutils \
-	bzip2 \
-	coreutils \
-	curl \
-	findutils \
-	gawk \
-	gcc5g++ \
-	git \
-	git_completion \
-	gmake \
-	gzip \
-	jq \
-	less \
-	lsof \
-	ncdu \
-	netcat \
-	openssl_utils \
-	pstree \
-	psutils \
-	rsync \
-	socat \
-	tcpdump \
-	tree \
-	vim \
-	watch \
-	wget \
-	which \
-	wireshark	
 
-#echo "--- sleeping ---"
-#sleep 36000
+echo "--- Installing runtime/python-39 library/python/pip-39 library/python/pip system/storage/sg3_utils ... ---"
+echo pkg install runtime/python-39 \
+    library/python/pip-39 \
+    developer/versioning/git \
+    developer/python/pylint-39 \
+    developer/build/autoconf \
+    developer/build/autogen \
+    group/feature/developer-gnu \
+    file/gnu-coreutils \
+    file/gnu-findutils \
+    file/tree \
+    diagnostic/wireshark \
+    diagnostic/tcpdump \
+    diagnostic/top \
+    network/netcat \
+    network/rsync \
+    shell/watch \
+    text/jq \
+    web/wget \
+    editor/vim \
+    system/storage/sg3_utils \
+    group/feature/developer-gnu
 
-#mkdir -p /export/home/packer/.cache/pip /export/home/packer/.ansible/galaxy_cache
-#chown -R packer:staff /export/home/packer
+pkg install runtime/python-39 \
+    library/python/pip-39 \
+    developer/versioning/git \
+    developer/python/pylint-39 \
+    developer/build/autoconf \
+    developer/build/autogen \
+    file/gnu-coreutils \
+    file/gnu-findutils \
+    file/tree \
+    diagnostic/wireshark \
+    diagnostic/tcpdump \
+    diagnostic/top \
+    network/netcat \
+    network/rsync \
+    shell/watch \
+    text/jq \
+    web/wget \
+    editor/vim \
+    system/storage/sg3_utils \
+    group/feature/developer-gnu
 
-echo "--- list available pkgs ---"
-pkg list -afv
+echo "pkg set-mediator -V 3.9 python"
+pkg set-mediator -V 3.9 python
 
-echo "--- Installing cwPython 3.9, system/storage/sg3_utils ---"
-yes|pkg install python-39 system/storage/sg3_utils
-
-echo "--- Upgrading pip3 ---"
-python3.9 -m pip install --upgrade pip
+echo "prepare packer & ansible dirs"
+mkdir -p /export/home/packer/.cache/pip /export/home/packer/.ansible/galaxy_cache
+chown -R packer:staff /export/home/packer
 
 echo "--- Installing ansible ---"
-pip3 install ansible
-ansible --version || exit 1
+/usr/bin/pip install ansible
+ansible --version || { sleep 240; exit 1; }
 
 echo "--- Updating PATH in /etc/profile ---"
 echo >> /etc/profile
-echo 'PATH=$PATH:/opt/csw/bin' >> /etc/profile
+echo 'PATH=/usr/gnu/bin:$PATH:/opt/csw/bin' >> /etc/profile
 echo 'export PATH' >> /etc/profile
 
 echo "--- End software.sh ---"
