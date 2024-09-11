@@ -40,9 +40,9 @@ IMAGES[windows11]="Windows11_23H2_uefi_Entreprise_Fr_x64.iso"
 IMAGES[truenas]="TrueNAS-13.0-U6.1.iso"
 
 declare -A PORT_FWD
-# pez
+# hv1
 PORT_FWD[10]=2
-# malabar
+# hv2
 PORT_FWD[11]=3
 
 . $TOOLS/functions.sh

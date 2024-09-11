@@ -11,13 +11,16 @@ cd $PATH_SCRIPT
 
 PATTERN="^#|grafana|prometheus|keyclo|haproxy|squid|igw|svc|envoy|collector|registry|relay|vip|cname"
 
+RELAYH=${1:localhost}
+RELAYU=${1:username}
+
 cat $NODES | grep -Ev "${PATTERN}" | while read host cluster index ipfirst
 do
 	#echo --- $host --- clusterid $cluster --- ip $index ---
 	echo "Host $host"
-	echo "   HostName hq.opensvc.com"
+	echo "   HostName ${RELAYH}"
 	printf "   Port %d%02d%d\n" ${PORT_FWD[$ipfirst]} ${cluster} ${index}
-	echo "   User opensvc"
+	echo "   User ${RELAYU}"
 	#echo "   StrictHostKeyChecking no"
 	#echo "   UserKnownHostsFile=/dev/null"
 done

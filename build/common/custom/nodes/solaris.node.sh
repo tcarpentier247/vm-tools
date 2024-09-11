@@ -93,7 +93,3 @@ setup_autofs "$IPPREFIX.$DECCID.0.1"
 set_hostid
 
 touch /export/home/opensvc/pytest.skip.2 /export/home/opensvc/pytest.skip.3
-
-# must be the last action
-#touch /export/home/opensvc/.qa.custo.done
-#test -f /etc/rc2.d/S01osvcconfig && rm -f /etc/rc2.d/S01osvcconfig
