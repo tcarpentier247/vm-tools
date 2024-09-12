@@ -13,7 +13,15 @@ cd $PATH_SCRIPT
 # ./kvm.unprovision.sh /data/vms/rhel8/qarh8c18n1
 
 VM_ROOT=$1
+VM_NAME=$(basename $VM_ROOT)
 
+for FILE in environment secrets
+do
+    [[ -f $CONFIGS/machines/$VM_NAME/$FILE ]] && {
+        echo "Loading $CONFIGS/machines/$VM_NAME/$FILE custom configuration"
+        . $CONFIGS/machines/$VM_NAME/$FILE
+    }
+done
 
 echo "begin sleep 5 $VM_ROOT" | systemd-cat
 sleep 5
@@ -22,3 +30,12 @@ echo "begin rm $VM_ROOT" | systemd-cat
 [[ ! -z $VM_ROOT ]] && rm -rf $VM_ROOT
 echo "end rm $VM_ROOT" | systemd-cat
 
+echo "begin rm logical volumes" | systemd-cat
+for lv in root data
+do
+[[ -L /dev/$VM_STORAGE_LVMVG/${VM_NAME}_${lv} ]] && {
+    echo "removing logical volume /dev/$VM_STORAGE_LVMVG/${VM_NAME}_${lv}"
+    lvremove -y /dev/$VM_STORAGE_LVMVG/${VM_NAME}_${lv}
+}
+done
+echo "end rm logical volumes" | systemd-cat

@@ -40,3 +40,25 @@ function get_kvm_osvariant()
     esac
     echo $OSVAR
 }
+
+check_vg_space() {
+    vg_name=$1
+    size=$2
+
+    if [[ $size =~ ^([0-9]+)([Gg])$ ]]; then
+        requested_size=$((${BASH_REMATCH[1]} * 1024))
+    elif [[ $size =~ ^([0-9]+)([Mm])$ ]]; then
+        requested_size=${BASH_REMATCH[1]}
+    else
+        echo "incorrect size format. must looks like 30G or 500M."
+        exit 1
+    fi
+
+    available_size=$(vgs --noheadings --units m -o vg_free "$vg_name" | awk '{print int($1)}')
+
+    if [ "$available_size" -ge "$requested_size" ]; then
+        return 0
+    else
+        return 1
+    fi
+}

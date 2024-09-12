@@ -61,6 +61,12 @@ VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
 # true: system.qcow2 is directly backed by shared vm base image (warning: fastest but greater risk)
 VM_LINKED_CLONE=${VM_LINKED_CLONE:-false}
 
+# VM_STORAGE_TYPE
+# qcow2: vm disks are qcow2 files stored on filesystem
+# lvm: vm disks are raw lvm devices presented to vm
+VM_STORAGE_TYPE=${VM_STORAGE_TYPE:-qcow2}
+VM_STORAGE_LVMVG=${VM_STORAGE_LVMVG}
+
 function check_prerequisites() {
     title Begin:$FUNCNAME
     [[ -z "$VM_NAME" ]] && exiterr "VM_NAME is not defined"
@@ -69,6 +75,11 @@ function check_prerequisites() {
     [[ ! -v "IMAGES[$VM_DISTRO]" ]] && exiterr "VM_DISTRO $VM_DISTRO is not available"
     [[ -z "$VM_SYS_SIZE" ]] && exiterr "VM_SYS_SIZE is not defined"
     [[ -z "$VM_DATA_SIZE" ]] && exiterr "VM_DATA_SIZE is not defined"
+    [[ -z "$VM_STORAGE_TYPE" ]] && exiterr "VM_STORAGE_TYPE is not defined"
+    [[ $VM_STORAGE_TYPE == "lvm" ]] && {
+        [[ $VM_LINKED_CLONE == "true" ]] && exiterr "VM_LINKED_CLONE is not compatible with lvm"
+        [[ -z $VM_STORAGE_LVMVG ]] && exiterr "VM_STORAGE_LVMVG is not defined"
+    }
     title End:$FUNCNAME
 }
 
@@ -77,7 +88,7 @@ function prepare()
     title Begin:$FUNCNAME
     [[ ! -d $VM_ROOT ]] && mkdir -p $VM_ROOT
     title End:$FUNCNAME
-} 
+}
 
 function copy_base_image()
 {
@@ -241,6 +252,18 @@ function execute_virtinstall()
         }
     }
 	
+    echo virt-install \
+    --connect qemu:///system \
+    --audio $VM_AUDIO \
+    --graphics vnc,keymap=$VM_CONSOLE_KEYMAP,listen=0.0.0.0,port=$VM_VNCPORT,password=$VM_VNCPASSWORD \
+    --virt-type kvm \
+    --name $VM_NAME \
+    --ram $VM_RAM \
+    --vcpus=$VM_CPU \
+    --os-variant $VM_OSVARIANT \
+    --noautoconsole \
+    --console pty,target_type=serial,log.file=$VM_ROOT/console.log $VM_VIRTINSTALL_OPTS
+
     virt-install \
     --connect qemu:///system \
     --audio $VM_AUDIO \
@@ -255,17 +278,44 @@ function execute_virtinstall()
     title End:$FUNCNAME
 }
 
+# begin
+
 check_prerequisites
 prepare
-echo "$VM_BASE_IMAGE" | grep -q "\.qcow2$" && {
-    [[ $VM_LINKED_CLONE == "false" ]] && copy_base_image
-    create_ci_vmdisks
-    create_seed
-    #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
-    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
-} || {
-    create_std_vmdisks
-    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --cdrom $KVM_IMAGES_ROOT/$VM_BASE_IMAGE"
+
+[[ $VM_STORAGE_TYPE == "lvm" ]] && {
+    ROOT_LV_SIZE_BYTES=$(qemu-img info $KVM_IMAGES_ROOT/$VM_BASE_IMAGE | grep -oP '(?<=\().*(?=bytes\))')
+    ROOT_LV_SIZE_MBYTES=$(echo "scale=0;$ROOT_LV_SIZE_BYTES/1048576" | bc -l)
+
+    typeset -i done=0
+    check_vg_space $VM_STORAGE_LVMVG ${ROOT_LV_SIZE_MBYTES}m && \
+	    lvcreate -y -L${ROOT_LV_SIZE_MBYTES}m -n ${VM_NAME}_root $VM_STORAGE_LVMVG && \
+	    lvextend -y -L+10m /dev/$VM_STORAGE_LVMVG/${VM_NAME}_root && \
+	    ((done++))
+    check_vg_space $VM_STORAGE_LVMVG $VM_DATA_SIZE && \
+	    lvcreate -y -L$VM_DATA_SIZE -n ${VM_NAME}_data $VM_STORAGE_LVMVG && \
+	    ((done++))
+    [[ $done -ne 2 ]] && {
+        echo "error during lvm volume creation. exiting"
+        lvremove -y /dev/$VM_STORAGE_LVMVG/${VM_NAME}_data >> /dev/null 2>&1
+        lvremove -y /dev/$VM_STORAGE_LVMVG/${VM_NAME}_root >> /dev/null 2>&1
+    }
+    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_root --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_data --disk $VM_ROOT/seed.iso,device=cdrom"
+    echo "Dumping image $KVM_IMAGES_ROOT/$VM_BASE_IMAGE into lvm lv /dev/$VM_STORAGE_LVMVG/${VM_NAME}_root"
+    time qemu-img dd -f qcow2 -O raw if=$KVM_IMAGES_ROOT/$VM_BASE_IMAGE of=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_root bs=1M
 }
+
+[[ $VM_STORAGE_TYPE == "qcow2" ]] && {
+    grep -w ^$VM_NAME ${NODES} 2>/dev/null && {
+        [[ $VM_LINKED_CLONE == "false" ]] && copy_base_image
+        create_ci_vmdisks
+        #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
+        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
+    } || {
+        create_std_vmdisks
+        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --cdrom $KVM_IMAGES_ROOT/$VM_BASE_IMAGE"
+    }
+}
+create_seed
 create_uefi
 execute_virtinstall
