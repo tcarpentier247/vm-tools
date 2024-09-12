@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "debian_iso_file" {
   type    = string
-  default = "debian-12.5.0-amd64-DVD-1.iso"
+  default = "debian-12.7.0-amd64-DVD-1.iso"
 }
 
 source "qemu" "custom_image" {
@@ -36,8 +36,8 @@ boot_command = [
   boot_wait = "5s"
   
   http_directory = "http"
-  iso_url   = "https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-dvd/debian-12.6.0-amd64-DVD-1.iso"
-  iso_checksum = "file:https://cdimage.debian.org/cdimage/release/12.6.0/amd64/iso-dvd/SHA256SUMS"
+  iso_url   = "../images/${var.debian_iso_file}"
+  iso_checksum = "sha256:a29f31d0848439b6705686c2302f671149e68593a8670a5ef130862b1952d89f"
   memory = 4096
   
   ssh_password = "opensvcpacker"
@@ -49,7 +49,7 @@ boot_command = [
   headless = true
   accelerator = "kvm"
   format = "qcow2"
-  disk_size = "40G"
+  disk_size = "10G"
   disk_interface = "virtio"
   net_device = "virtio-net"
   cpus = 4
@@ -119,18 +119,14 @@ build {
     pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
   }
-  provisioner "breakpoint" {
-    disable = false
-    note    = "this is a breakpoint"
-  }
-  provisioner "shell" {
-    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script = "../common/custom/custom.sh"
-  }
   provisioner "shell" {
     inline = [
       "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
     ]
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/custom/custom.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
@@ -139,6 +135,10 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/debian-netplan.sh"
+  }
+  provisioner "breakpoint" {
+    disable = true
+    note    = "this is a breakpoint"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
