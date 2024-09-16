@@ -108,6 +108,7 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    pause_before    = "1m0s"
     script          = "../common/deb-cloud-init.sh"
   }
   provisioner "breakpoint" {
@@ -116,8 +117,11 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "./scripts/drbd.sh"
   }
   provisioner "shell" {
     inline = [
