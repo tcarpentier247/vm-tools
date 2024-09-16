@@ -5,7 +5,7 @@ echo "DRBD Build"
 PATH=$PATH:/usr/local/bin:/usr/local/sbin
 export PATH
 
-apt -y install autoconf
+apt -y install autoconf curl
 
 # kernel module
 DRBD=drbd-9.2.7
