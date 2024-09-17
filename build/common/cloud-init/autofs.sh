@@ -16,6 +16,7 @@ NFSSRV=${TGT}
 }
 
 [[ ! -d /etc/auto.master.d ]] && mkdir -p /etc/auto.master.d
+[[ ! -d /nfs ]] && mkdir /nfs
 
 cat - <<EOF >|/etc/auto.master.d/nfs.autofs
 /nfs   /etc/auto.nfsshare     --ghost,--timeout=30
