@@ -49,3 +49,14 @@ else
     echo "ROOTVG is empty. Exiting."
     exit 1
 fi
+
+if [ -b /dev/vdb ]
+then
+    echo "Creating data vg on /dev/vdb"
+    wipefs -af /dev/vdb
+    pvcreate -f /dev/vdb
+    vgcreate data /dev/vdb
+    vgchange --addtag local data
+fi
+
+exit 0
