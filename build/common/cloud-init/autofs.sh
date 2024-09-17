@@ -38,6 +38,8 @@ do
 	    echo "Enabling unit $unit"
 	    systemctl -q enable $unit
         }
+	echo "Starting unit $unit"
+	systemctl start $unit
     }
 done
 
