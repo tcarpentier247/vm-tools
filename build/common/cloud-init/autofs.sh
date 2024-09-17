@@ -40,7 +40,7 @@ do
 	    systemctl -q enable $unit
         }
 	echo "Starting unit $unit"
-	systemctl start $unit
+	systemctl restart $unit
     }
 done
 
