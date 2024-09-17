@@ -140,6 +140,8 @@
   vars:
     packages:
       - docker.io
+      - lxc
+      - lxc-templates
       - netplan.io
       - vim
   when: (ansible_facts['distribution'] == "Debian" )
