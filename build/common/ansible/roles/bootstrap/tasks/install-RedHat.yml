@@ -186,3 +186,7 @@
     path: /etc/containers/registries.conf
     line: 'short-name-mode = "disabled"'
     insertafter: EOF
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
