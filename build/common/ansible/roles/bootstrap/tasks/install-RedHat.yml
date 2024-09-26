@@ -117,6 +117,17 @@
   when:
     - (ansible_distribution_major_version|int == 8)
 
+- name: remove packages for rhel (ver = 8)
+  yum:
+    name:  "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - setroubleshoot-server
+      - setroubleshoot-plugins
+  when:
+    - (ansible_distribution_major_version|int == 8)
+
 - name: install common packages for rhel/centos/fedora (ver = 9)
   yum:
     name:  "{{ packages }}"
