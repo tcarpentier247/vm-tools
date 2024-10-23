@@ -11,8 +11,8 @@ cd $PATH_SCRIPT
 
 PATTERN="^#|grafana|prometheus|keyclo|haproxy|squid|igw|svc|envoy|collector|registry|relay|vip|cname"
 
-RELAYH=${1:localhost}
-RELAYU=${1:username}
+RELAYH=${1:-localhost}
+RELAYU=${1:-username}
 
 cat $NODES | grep -Ev "${PATTERN}" | while read host cluster index ipfirst
 do
@@ -24,3 +24,8 @@ do
 	#echo "   StrictHostKeyChecking no"
 	#echo "   UserKnownHostsFile=/dev/null"
 done
+
+#Host dev1n1
+#   ProxyJump malabar
+#   HostName 11.28.0.11
+#   User root
