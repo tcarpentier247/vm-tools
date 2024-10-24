@@ -14,4 +14,8 @@ grep -q 'USE_LXC_BRIDGE="true"' /etc/default/lxc-net 2>/dev/null || {
 	echo 'USE_LXC_BRIDGE="true"' >> /etc/default/lxc-net
 }
 
+[[ ! -f /usr/share/lxc/config/ubuntu.common.conf ]] && {
+    cp -f /usr/share/lxc/config/common.conf /usr/share/lxc/config/ubuntu.common.conf
+}
+
 exit 0
