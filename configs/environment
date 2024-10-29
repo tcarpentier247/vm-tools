@@ -35,7 +35,7 @@ IMAGES[rhel8]="packer-uefi-rhel8.qcow2"
 IMAGES[rhel9]="packer-uefi-rhel9.qcow2"
 IMAGES[sol114]="packer-uefi-sol114.qcow2"
 IMAGES[sles12]="packer-uefi-sles12sp5.qcow2"
-IMAGES[sles15]="packer-uefi-sles15sp5.qcow2"
+IMAGES[sles15]="packer-uefi-sles15sp6.qcow2"
 IMAGES[windows11]="Windows11_23H2_uefi_Entreprise_Fr_x64.iso"
 IMAGES[truenas]="TrueNAS-13.0-U6.1.iso"
 
