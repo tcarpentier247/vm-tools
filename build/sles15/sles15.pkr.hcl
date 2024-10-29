@@ -18,12 +18,12 @@ variable "archives_directory" {
 
 variable "vm_template_name" {
   type    = string
-  default = "packer-uefi-sles15sp5.qcow2"
+  default = "packer-uefi-sles15sp6.qcow2"
 }
 
 variable "sles15_iso_file" {
   type    = string
-  default = "SLE-15-SP5-Full-x86_64-GM-Media1.iso"
+  default = "SLE-15-SP6-Full-x86_64-GM-Media1.iso"
 }
 
 variable "suse_key" {
