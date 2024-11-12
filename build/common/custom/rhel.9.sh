@@ -7,6 +7,6 @@
     grubby --update-kernel=ALL --args="console=tty0 console=ttyS0,115200"
     grubby --info DEFAULT
     sed -i 's/GRUB_TERMINAL_OUTPUT="console"/GRUB_TERMINAL="console serial"/g' /etc/default/grub
-    grub2-mkconfig -o /boot/grub2/grub.cfg || exit 1
-    grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg || exit 1
+    grub2-mkconfig -o /boot/grub2/grub.cfg
+    grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 }
