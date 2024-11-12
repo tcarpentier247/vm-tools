@@ -564,6 +564,7 @@ c16igw1 16 2 10
 c16igw2 16 3 10
 ipecs1 16 11 10
 ipecs2 16 12 10
+ipecs3 16 13 10
 c16vip 16 20 10
 c16svc1 16 21 10
 c16svc2 16 22 10
