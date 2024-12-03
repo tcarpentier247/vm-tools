@@ -161,6 +161,7 @@
     state=latest
     name={{item}}
   with_items:
+    - dput
     - htop
     - jq
 
