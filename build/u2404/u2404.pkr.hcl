@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "ubuntu_iso_file" {
   type    = string
-  default = "ubuntu-24.04-live-server-amd64.iso"
+  default = "ubuntu-24.04.1-live-server-amd64.iso"
 }
 
 source "qemu" "custom_image" {
@@ -48,7 +48,7 @@ source "qemu" "custom_image" {
   http_directory = "http"
   #iso_url   = "https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04/${var.ubuntu_iso_file}"
   iso_url   = "../images/${var.ubuntu_iso_file}"
-  iso_checksum = "file:https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04/SHA256SUMS"
+  iso_checksum = "file:https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04.1/SHA256SUMS"
   memory = 4096
   
   ssh_password = "opensvcpacker"
@@ -60,13 +60,13 @@ source "qemu" "custom_image" {
   headless = true
   accelerator = "kvm"
   format = "qcow2"
-  disk_size = "30G"
+  disk_size = "20G"
   disk_interface = "virtio"
   net_device = "virtio-net"
   cpus = 4
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32013"
-  vnc_port_max = "32013"
+  vnc_port_min = "22013"
+  vnc_port_max = "22013"
 
   efi_boot = true
   efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
