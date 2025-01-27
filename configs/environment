@@ -25,6 +25,7 @@ VM_DATA_SIZE=5G
 VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS}"
 
 declare -A IMAGES
+IMAGES[debian11]="packer-uefi-debian11.qcow2"
 IMAGES[debian12]="packer-uefi-debian12.qcow2"
 IMAGES[ubuntu18]="bionic-server-cloudimg-amd64.img"
 IMAGES[ubuntu20]="packer-uefi-u2004.qcow2"
@@ -44,5 +45,9 @@ declare -A PORT_FWD
 PORT_FWD[10]=2
 # hv2
 PORT_FWD[11]=3
+
+declare -A PROXYJUMP
+PROXYJUMP[10]=pez
+PROXYJUMP[11]=malabar
 
 . $TOOLS/functions.sh

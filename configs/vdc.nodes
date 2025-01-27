@@ -898,6 +898,46 @@ c23.http.public.cname 23 2 10
 c23.sni1.public.cname 23 2 10
 c23.sni2.public.cname 23 2 10
 c23.https.public.cname 23 2 10
+# 24 10
+c24envoy1 24 2 10
+c24envoy2 24 3 10
+c24igw1 24 2 10
+c24igw2 24 3 10
+qad11c24n1 24 11 10
+qad11c24n2 24 12 10
+qad11c24n3 24 13 10
+c24vip 24 20 10
+c24svc1 24 21 10
+c24svc2 24 22 10
+c24svc3 24 24 10
+c24svc4 24 24 10
+c24svc5 24 25 10
+c24svc6 24 26 10
+c24svc7 24 27 10
+c24svc8 24 28 10
+c24svc9 24 29 10
+c24svc10 24 30 10
+c24svc11 24 31 10
+c24svc12 24 32 10
+c24svc13 24 33 10
+c24svc14 24 34 10
+c24svc15 24 35 10
+c24svc16 24 36 10
+c24svc17 24 37 10
+c24svc18 24 38 10
+c24svc19 24 39 10
+c24svc20 24 40 10
+c24svc30 24 50 10
+c24svc30a 24 50 10
+c24svc30b 24 51 10
+c24lxc1 24 91 10
+c24lxc2 24 92 10
+c24lxc3 24 93 10
+c24lxc4 24 94 10
+c24.http.public.cname 24 2 10
+c24.sni1.public.cname 24 2 10
+c24.sni2.public.cname 24 2 10
+c24.https.public.cname 24 2 10
 # 28 10
 dev1n1 28 11 11
 dev1n2 28 12 11
@@ -972,6 +1012,10 @@ c30lxc1 30 91 10
 c30lxc2 30 92 10
 c30lxc3 30 93 10
 c30lxc4 30 94 10
+c30.http.public.cname 30 2 10
+c30.sni1.public.cname 30 2 10
+c30.sni2.public.cname 30 2 10
+c30.https.public.cname 30 2 10
 # 31
 c31envoy1 31 2 11
 c31envoy2 31 3 11
