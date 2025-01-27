@@ -273,6 +273,7 @@ function execute_virtinstall()
     --ram $VM_RAM \
     --vcpus=$VM_CPU \
     --os-variant $VM_OSVARIANT \
+    --iothreads 1 \
     --noautoconsole \
     --console pty,target_type=serial,log.file=$VM_ROOT/console.log $VM_VIRTINSTALL_OPTS
     title End:$FUNCNAME
@@ -300,16 +301,21 @@ prepare
         lvremove -y /dev/$VM_STORAGE_LVMVG/${VM_NAME}_data >> /dev/null 2>&1
         lvremove -y /dev/$VM_STORAGE_LVMVG/${VM_NAME}_root >> /dev/null 2>&1
     }
-    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_root --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_data --disk $VM_ROOT/seed.iso,device=cdrom"
+    VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_root,driver.iothread=1 --disk path=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_data,driver.iothread=1 --disk $VM_ROOT/seed.iso,device=cdrom"
     echo "Dumping image $KVM_IMAGES_ROOT/$VM_BASE_IMAGE into lvm lv /dev/$VM_STORAGE_LVMVG/${VM_NAME}_root"
     time qemu-img dd -f qcow2 -O raw if=$KVM_IMAGES_ROOT/$VM_BASE_IMAGE of=/dev/$VM_STORAGE_LVMVG/${VM_NAME}_root bs=1M
 }
+
+# driver.queues=nb_vcpu no impact with qcow2|lvm
+# driver.iothread=1 lvm gain de 30 secondes sur 1h07m de reference
+# driver.iothread=1 qcow2 gain de 60 secondes sur 1h07m de reference
 
 [[ $VM_STORAGE_TYPE == "qcow2" ]] && {
     grep -w ^$VM_NAME ${NODES} 2>/dev/null && {
         [[ $VM_LINKED_CLONE == "false" ]] && copy_base_image
         create_ci_vmdisks
         #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
+        #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.iothread=1 --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.iothread=1 --disk $VM_ROOT/seed.iso,device=cdrom"
         VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2 --disk path=$VM_ROOT/data.qcow2,format=qcow2 --disk $VM_ROOT/seed.iso,device=cdrom"
     } || {
         create_std_vmdisks
