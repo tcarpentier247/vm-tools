@@ -28,6 +28,9 @@ echo "removing command-not-found-data"
 # 19.10+ don't have this package so fail gracefully
 apt-get -y purge command-not-found-data || true;
 
+echo "removing debug package"
+apt -y purge linux-image-`uname -r`-dbg || true;
+
 # Exclude the files we don't need w/o uninstalling linux-firmware
 echo "Setup dpkg excludes for linux-firmware"
 cat <<_EOF_ | cat >> /etc/dpkg/dpkg.cfg.d/excludes
