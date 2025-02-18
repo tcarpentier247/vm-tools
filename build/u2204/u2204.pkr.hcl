@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "ubuntu_iso_file" {
   type    = string
-  default = "ubuntu-22.04.4-live-server-amd64.iso"
+  default = "ubuntu-22.04.5-live-server-amd64.iso"
 }
 
 source "qemu" "custom_image" {
@@ -60,13 +60,13 @@ source "qemu" "custom_image" {
   headless = true
   accelerator = "kvm"
   format = "qcow2"
-  disk_size = "30G"
+  disk_size = "10G"
   disk_interface = "virtio"
   net_device = "virtio-net"
   cpus = 4
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32012"
-  vnc_port_max = "32012"
+  vnc_port_min = "22012"
+  vnc_port_max = "22012"
 
   efi_boot = true
   efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
@@ -85,15 +85,6 @@ build {
   sources = [ "source.qemu.custom_image" ]
   provisioner "shell" {
     inline = [ "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 2; done" ]
-  }
-  provisioner "shell" {
-    inline = [
-      "cd /opt && sudo mkdir archives && sudo chmod 777 archives"
-    ]
-  }
-  provisioner "file" {
-    source = "${var.archives_directory}"
-    destination = "/opt/archives"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
@@ -124,18 +115,32 @@ build {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/ubuntu-drbd.sh"
   }
-  provisioner "breakpoint" {
-    disable = true
-    note    = "this is a breakpoint"
-  }
   provisioner "shell" {
     inline = [
       "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
     ]
   }
   provisioner "shell" {
+    inline = [
+      "cd /dev/shm && sudo mkdir archives && sudo chmod 777 archives"
+    ]
+  }
+  provisioner "file" {
+    source = "${var.archives_directory}"
+    destination = "/dev/shm/archives"
+  }
+  provisioner "shell" {
+    inline = [
+      "cd /dev/shm/archives/docker && sudo ./docker.restore.sh"
+    ]
+  }
+  provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script = "../common/custom/custom.sh"
+  }
+  provisioner "breakpoint" {
+    disable = true
+    note    = "this is a breakpoint"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
