@@ -5,3 +5,6 @@ package_update: false
 package_upgrade: false
 
 timezone: Europe/Paris
+
+swap:
+  size: 0
