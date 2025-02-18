@@ -137,7 +137,7 @@ build {
     script          = "../common/debian-additional-pkg.sh"
   }
   provisioner "breakpoint" {
-    disable = false
+    disable = true
     note    = "this is a breakpoint"
   }
   provisioner "shell" {
