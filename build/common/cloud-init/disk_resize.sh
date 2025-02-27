@@ -25,7 +25,7 @@ sgdisk -e /dev/vda
 pvs -o name --noheadings | xargs -n1 pvresize
 
 # resize root lv+fs
-rootvg=$(vgs -o name --noheadings | grep -w root)
+rootvg=$(vgs -o name --noheadings | grep -w root | awk '{print $1}')
 rootlv=$(lvs -o name,vg_name --noheadings | grep -w $rootvg | awk '{print $1}')
 lvresize --resizefs --extents +100%FREE /dev/$rootvg/$rootlv
 
