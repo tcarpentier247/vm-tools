@@ -21,7 +21,7 @@ dnf -y install gcc glibc-devel git kernel-devel make perl rpm-build tar wget key
 #cd
 
 # kernel module
-DRBD=drbd-9.2.7
+DRBD=drbd-9.2.12
 DRBDTAR=${DRBD}.tar.gz
 wget https://pkg.linbit.com//downloads/drbd/9/${DRBDTAR}
 tar xzf ${DRBDTAR}
