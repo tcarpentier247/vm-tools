@@ -101,6 +101,7 @@
       - dkms
       - podman
       - podman-docker
+      - iptables-services
       - iscsi-initiator-utils
       - lxc
       - lxc-templates
@@ -167,6 +168,7 @@
 
 - name: disable nis-domainnam. avoid breaking networkmanager. (all links down)
   ansible.builtin.systemd:
+
     name: nis-domainname
     enabled: no
     masked: yes
@@ -190,3 +192,19 @@
 - name: Disable SELinux
   ansible.posix.selinux:
     state: disabled
+
+- name: disable nftables
+  ansible.builtin.systemd:
+    name: nftables
+    enabled: no
+    masked: yes
+  when:
+    - (ansible_distribution_major_version|int == 8)
+
+- name: enable iptables
+  ansible.builtin.systemd:
+    name: iptables
+    enabled: yes
+    masked: no
+  when:
+    - (ansible_distribution_major_version|int == 8)
