@@ -99,8 +99,6 @@
       - containernetworking-plugins
       - device-mapper-multipath
       - dkms
-      - podman
-      - podman-docker
       - iscsi-initiator-utils
       - lxc
       - lxc-templates
@@ -111,7 +109,6 @@
       - net-tools
       - nfs-utils
       - redhat-lsb-core
-      - runc
       - sg3_utils
       - socat
   when:
