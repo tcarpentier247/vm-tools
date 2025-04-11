@@ -15,6 +15,9 @@ ls -l /nfs/data
     echo -e "\n# added by osvc build" >> /etc/hosts
     PATTERN=${HOSTNAME:0:6}
     grep $PATTERN /nfs/data/vdc.nodes.etc.hosts >> /etc/hosts
+
+    echo "Updating /etc/vdc.nodes.hosts for system/svc/odns"
+    cp /nfs/data/vdc.nodes.etc.hosts /etc/vdc.nodes.hosts
 }
 
 exit 0
