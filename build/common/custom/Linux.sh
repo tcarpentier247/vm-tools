@@ -20,6 +20,7 @@ function install_golang
     echo "installing go and gofmt to /usr/bin"
     ln -sf $basedir/go/bin/go /usr/bin/go || exit 1
     ln -sf $basedir/go/bin/gofmt /usr/bin/gofmt || exit 1
+    cd -
     }
 
     /usr/bin/go version
