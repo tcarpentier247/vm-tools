@@ -141,11 +141,14 @@
       - dkms
       - lxc
       - lxc-templates
+      - podman
+      - podman-docker
       - iscsi-initiator-utils
       - python3-requests
       - python3-cryptography
       - net-tools
       - nfs-utils
+      - runc
       - sg3_utils
       - socat
   when:
