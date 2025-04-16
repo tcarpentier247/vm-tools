@@ -77,7 +77,7 @@ cat $NODES.etc.hosts >> /etc/hosts
 # updating nfs share
 for file in $NODES $NODES.etc.hosts
 do
-    cp $file /data/nfsshare/
+    [[ -d /data/nfsshare ]] && cp $file /data/nfsshare/
 done
 
-ps aux|grep [d]nsmasq|awk '{print $2}'|xargs sudo kill -HUP
+ps aux|grep [d]nsmasq|awk '{print $2}'|xargs -n1 sudo kill -HUP
