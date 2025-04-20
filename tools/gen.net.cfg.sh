@@ -9,6 +9,8 @@ TEMPLATE=${TEMPLATES}/network_template.xml
 NETCFGDIR=${CONFIGS}/networks
 MYVIRSH="echo virsh"
 
+CID=${CID:-$1}
+
 function gennetxml()
 {
     local _base=$1
@@ -35,7 +37,14 @@ function setupnet()
 
 [ ! -d $NETCFGDIR ] && mkdir -p ${NETCFGDIR}
 
-for cid in $(seq 0 $CLUSTER_COUNT)
+if [ -n "$CID" ]; then
+  PATTERN=$CID
+else
+  PATTERN=$(seq 0 $CLUSTER_COUNT)
+fi
+
+
+for cid in $PATTERN
 do
     typeset -i cpt=0
     for net in prd hb1 hb2
