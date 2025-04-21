@@ -18,7 +18,7 @@ TIMESTAMP=$(date -u +%Y%m%d%H%M%S)
 declare -A subnets
 typeset -i idx=0
 
-while [[ $idx -lt $CLUSTER_COUNT ]]
+while [[ $idx -le $CLUSTER_COUNT ]]
 do
     for net in $(cat ${NODES} | grep -v '^#' | awk '{print $4}' | sort -u)
     do
