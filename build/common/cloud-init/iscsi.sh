@@ -111,7 +111,7 @@ systemctl -q is-enabled iscsi.service || {
 }
 
 iscsiadm -m discovery -t st -p $ISCSITGTIP && {
-    iscsiadm  -m node | awk '{print $2}' | xargs -n 1 iscsiadm -m node --login --targetname
+    iscsiadm  -m node | grep -w $HOSTNAME | awk '{print $2}' | xargs -n 1 iscsiadm -m node --login --targetname
 }
 
 exit 0
