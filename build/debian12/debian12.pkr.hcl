@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "debian_iso_file" {
   type    = string
-  default = "debian-12.8.0-amd64-DVD-1.iso"
+  default = "debian-12.9.0-amd64-DVD-1.iso"
 }
 
 source "qemu" "custom_image" {
@@ -37,7 +37,7 @@ boot_command = [
   
   http_directory = "http"
   iso_url   = "../images/${var.debian_iso_file}"
-  iso_checksum = "sha256:eadbecad1801066111cf2c654a76cdc49fb6ee8d7683dd4492eeadb8cb5348ba"
+  iso_checksum = "sha256:d336415ab09c0959d4ef32384637d8b15fcaee12a04154d69bbca8b4442d2aa3"
   memory = 4096
   
   ssh_password = "opensvcpacker"
