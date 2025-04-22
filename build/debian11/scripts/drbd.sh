@@ -8,7 +8,7 @@ export PATH
 apt -y install dpkg-dev build-essential linux-source libncurses5-dev autoconf curl linux-headers-`uname -r`
 
 # kernel module
-DRBD=drbd-9.2.7
+DRBD=drbd-9.2.13
 DRBDTAR=${DRBD}.tar.gz
 wget https://pkg.linbit.com//downloads/drbd/9/${DRBDTAR}
 tar xzf ${DRBDTAR}
