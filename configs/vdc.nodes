@@ -804,8 +804,11 @@ c22envoy2 22 3 10
 c22igw1 22 2 10
 c22igw2 22 3 10
 sol114-1 22 11 10
+qasol114n1 22 11 10
 sol114-2 22 12 10
+qasol114n2 22 12 10
 sol114-3 22 13 10
+qasol114n3 22 13 10
 labzone1 22 14 10
 labzone1-ip 22 14 10
 labzone2 22 15 10
