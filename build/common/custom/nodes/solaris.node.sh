@@ -22,7 +22,7 @@ else
 fi
 
 DECCID=$((16#$HEXCID))
-read -r NODE x y IPPREFIX <<<$(egrep " $DECCID $IPPRD " ../../../../configs/vdc.nodes)
+read -r NODE x y IPPREFIX <<<$(cat ../../../../configs/vdc.nodes | grep -v '^#' | egrep " $DECCID $IPPRD ")
 echo NODE=$NODE IPPREFIX=$IPPREFIX DECCID=$DECCID IPPRD=$IPPRD
 
 echo "Display current hostname settings before config"
