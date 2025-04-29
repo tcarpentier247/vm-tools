@@ -69,8 +69,18 @@ source "qemu" "custom_image" {
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<f8><wait10><wait10>",
     "<enter><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
     "<wait10><wait10><wait10><wait10><wait10><wait10>",
@@ -79,10 +89,11 @@ source "qemu" "custom_image" {
     "sudo bash<enter><wait>",
     "1opensvcpacker<enter><wait>",
     "echo 'packer ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/01-packer<enter><wait>",
+    "/usr/bin/rm -f /etc/sudoers.d/svc-system-config-user<enter><wait>",
     "/usr/gnu/bin/sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers<enter><wait>",
     "exit<enter><wait>"
   ]
-  boot_wait        = "60s"
+  boot_wait        = "120s"
   iso_url          = "${lookup(var.boot_iso, "file", "undef")}"
   iso_checksum     = "${lookup(var.boot_iso, "checksum", "undef")}"
   shutdown_command = "sudo /usr/sbin/init 5"
@@ -101,8 +112,8 @@ source "qemu" "custom_image" {
   # need at least 6G memory
   memory = 6144
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min     = "22291"
-  vnc_port_max     = "22291"
+  vnc_port_min     = "32291"
+  vnc_port_max     = "32291"
 
   efi_boot          = true
   efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
@@ -205,10 +216,6 @@ build {
   provisioner "shell" {
     execute_command = "{{ .Vars }} sudo -S -H -E bash '{{ .Path }}'"
     script          = "./scripts/zone.sh"
-  }
-  provisioner "file" {
-    source      = "../../configs/machines/"
-    destination = "/export/home/packer/machines/"
   }
   provisioner "shell" {
     environment_vars = ["ROOT_PASS=${var.root_pass}"]

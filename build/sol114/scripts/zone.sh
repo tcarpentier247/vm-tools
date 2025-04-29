@@ -120,7 +120,7 @@ date
 echo "skelzone-opensvc-ai: init 0 ended"
 date
 
-sleep 60
+sleep 180
 date
 
 echo -e "---\nlisting sol zone\n---"
