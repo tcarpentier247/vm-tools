@@ -162,7 +162,7 @@ for c in $CLUSTERS; do
 
 		# failover storage
 		for z in $(seq 0 1); do
-			adddisk $(diq $c "_shared_$z") 250M
+			adddisk $(diq $c "_zone_shared_$z") 250M
 		done
 	}
 
