@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 function install_golang
 {
     version=${1:-1.23.7}
