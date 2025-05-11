@@ -239,6 +239,11 @@ function execute_virtinstall()
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-1,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:01:$VM_IP"
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-2,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:02:$VM_IP"
+	# netplan training
+	if [[ $VM_NAME =~ c[1-9]n3 ]]; then
+	    num=$(($VM_IP + 10))
+            VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-2,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:02:$num"
+        fi
     } || {
         # standard cnx
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:$VM_BRIDGE,model=virtio"
