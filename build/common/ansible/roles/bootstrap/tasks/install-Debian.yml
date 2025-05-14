@@ -163,6 +163,7 @@
   with_items:
     - dput
     - htop
+    - btop
     - jq
 
 - name: set vi as default editor
