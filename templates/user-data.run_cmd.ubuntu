@@ -6,6 +6,7 @@ runcmd:
   - [rm, /boot/firmware/user-data]
   - [touch, /etc/cloud/cloud-init.disabled]
   - apt -y --purge remove cloud-init snapd
+  - test -d /var/log/journal || mkdir -p /var/log/journal
   - test -d /opt/vm-tools && cd /opt/vm-tools && git pull
   - TGT="NAS_IP" /opt/vm-tools/build/common/cloud-init/iscsi.sh
   - TGT="NFS_IP" /opt/vm-tools/build/common/cloud-init/autofs.sh
