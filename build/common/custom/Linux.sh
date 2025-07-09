@@ -29,4 +29,9 @@ function install_golang
 	/opt/archives/docker/docker.restore.sh
 }
 
+[[ ! -d /var/log/journal ]] && {
+	echo "Enabling journald persistency"
+        mkdir -p /var/log/journal
+}
+
 install_golang
