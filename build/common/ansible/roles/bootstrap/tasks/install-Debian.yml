@@ -72,6 +72,7 @@
     state: present
   vars:
     packages:
+      - btop
       - python3-pycryptodome
   when: (ansible_facts['distribution'] == "Debian" ) and
         ansible_distribution_major_version|int >= 11
@@ -111,6 +112,7 @@
     state: present
   vars:
     packages:
+      - btop
       - docker.io
       - lxc-utils
       - lxc-templates
@@ -163,7 +165,6 @@
   with_items:
     - dput
     - htop
-    - btop
     - jq
 
 - name: set vi as default editor
