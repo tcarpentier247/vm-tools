@@ -19,8 +19,8 @@ done
 
 which lxc-create >> /dev/null 2>&1 && {
 	echo "Loading LXC cache"
-    lxc-create -n dummy1 -t ubuntu -- --release focal
-    lxc-create -n dummy2 -t download -- --dist ubuntu --release focal --arch amd64
+    lxc-create -n dummy1 -t ubuntu -- --release jammy
+    lxc-create -n dummy2 -t ubuntu -- --release noble
     lxc-ls
     ls -l /var/cache/lxc/
     du -sh /var/cache/lxc/
