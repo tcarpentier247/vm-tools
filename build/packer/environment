@@ -9,3 +9,9 @@ PACKER_CACHE_DIR=$ROOT/packer/cache
 # uncomment to enable packer log
 PACKER_LOG=1
 PACKER_LOG_PATH="$ROOT/packerlog.txt"
+
+[[ ! -d $PACKER_CACHE_DIR ]] && {
+    mkdir -p $PACKER_CACHE_DIR
+    packer plugins install github.com/hashicorp/ansible
+    packer plugins install github.com/hashicorp/qemu
+}
