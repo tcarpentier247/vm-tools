@@ -54,6 +54,14 @@
     - (ansible_distribution == "RedHat")
     - (ansible_distribution_major_version|int == 9)
 
+- name: install epel channel for rhel 10
+  ansible.builtin.dnf:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm'
+    state: present
+  when:
+    - (ansible_distribution == "RedHat")
+    - (ansible_distribution_major_version|int == 10)
+
 - name: install common packages for rhel/centos/fedora (ver < 8)
   yum:
     name:  "{{ packages }}"
