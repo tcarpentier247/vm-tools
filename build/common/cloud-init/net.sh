@@ -17,7 +17,7 @@ ls -l /nfs/data
     grep $PATTERN /nfs/data/vdc.nodes.etc.hosts >> /etc/hosts
 
     echo "Updating /etc/vdc.nodes.hosts for system/svc/odns"
-    cp /nfs/data/vdc.nodes.etc.hosts /etc/vdc.nodes.hosts
+    cp /nfs/data/vdc.nodes.etc.hosts /etc/vdc.nodes.etc.hosts
 }
 
 exit 0
