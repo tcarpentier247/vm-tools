@@ -17,6 +17,7 @@ runcmd:
   - /opt/vm-tools/build/common/cloud-init/change_hostid.py
   - /opt/vm-tools/build/common/cloud-init/net.sh
   - /opt/vm-tools/build/common/cloud-init/lxc.sh
+  - /opt/vm-tools/build/common/cloud-init/custom.sh
   - /opt/vm-tools/build/common/cloud-init/cleanup.sh
   - systemctl enable opensvc-qanode-wait-ready.service
   - reboot
