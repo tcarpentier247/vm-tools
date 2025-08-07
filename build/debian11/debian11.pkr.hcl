@@ -33,7 +33,7 @@ boot_command = [
  "<wait40> http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
  "<enter>"
   ]
-  boot_wait = "5s"
+  boot_wait = "2s"
   
   http_directory = "http"
   iso_url   = "../images/${var.debian_iso_file}"
