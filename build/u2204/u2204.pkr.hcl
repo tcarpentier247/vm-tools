@@ -105,6 +105,7 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/reboot.sh"
+    expect_disconnect = "true"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"

@@ -28,8 +28,8 @@ variable "ubuntu_iso_file" {
 
 source "qemu" "custom_image" {
 
+    #"<spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait>",
   boot_command = [
-    "<spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait>",
     "e<wait>",
     "<down><down><down><end>",
     " noapic<wait>",
@@ -43,7 +43,7 @@ source "qemu" "custom_image" {
     " fb=false<wait>",
     "<f10>"
   ]
-  boot_wait = "5s"
+  boot_wait = "2s"
 
   http_directory = "http"
   #iso_url        = "https://ubuntu.mirrors.ovh.net/ubuntu-releases/20.04/${var.ubuntu_iso_file}"
@@ -113,6 +113,7 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/reboot.sh"
+    expect_disconnect = "true"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
