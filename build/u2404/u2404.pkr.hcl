@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "ubuntu_iso_file" {
   type    = string
-  default = "ubuntu-24.04.1-live-server-amd64.iso"
+  default = "ubuntu-24.04.2-live-server-amd64.iso"
 }
 
 source "qemu" "custom_image" {
@@ -48,7 +48,7 @@ source "qemu" "custom_image" {
   http_directory = "http"
   #iso_url   = "https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04/${var.ubuntu_iso_file}"
   iso_url   = "../images/${var.ubuntu_iso_file}"
-  iso_checksum = "file:https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04.1/SHA256SUMS"
+  iso_checksum = "file:https://ubuntu.mirrors.ovh.net/ubuntu-releases/24.04.2/SHA256SUMS"
   memory = 4096
   
   ssh_password = "opensvcpacker"
@@ -114,6 +114,7 @@ build {
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "../common/reboot.sh"
+    expect_disconnect = "true"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
