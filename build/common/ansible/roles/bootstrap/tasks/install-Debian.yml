@@ -12,6 +12,7 @@
 - name: Install prerequisites packages
   apt:
     pkg: "{{ osvc_deb_common_pkg }}"
+    update_cache: yes
 
 - name: install common packages for ubuntu/deb
   apt:
