@@ -72,10 +72,19 @@
     state: present
   vars:
     packages:
-      - btop
       - python3-pycryptodome
   when: (ansible_facts['distribution'] == "Debian" ) and
         ansible_distribution_major_version|int >= 11
+
+- name: install packages for deb 12+
+  apt:
+    name:  "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - btop
+  when: (ansible_facts['distribution'] == "Debian" ) and
+        ansible_distribution_major_version|int >= 12
 
 - name: install package for ubuntu 20.04
   apt:
