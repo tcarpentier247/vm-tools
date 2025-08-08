@@ -18,7 +18,7 @@ subscription-manager register --org ${RHN_ORG} --activationkey ${RHN_KEY}
     yum clean all
     subscription-manager repos --enable rhel-7-server-optional-rpms
     subscription-manager repos --enable rhel-7-server-extras-rpms
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    yum -y install https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm
     yum repolist
     echo '==> Subscriptions successfully attached'
     exit 0
