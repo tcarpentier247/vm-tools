@@ -149,8 +149,6 @@
       - dkms
       - lxc
       - lxc-templates
-      - podman
-      - podman-docker
       - iscsi-initiator-utils
       - python3-requests
       - python3-cryptography
@@ -162,7 +160,7 @@
   when:
     - (ansible_distribution_major_version|int == 9)
 
-- name: install common packages for rhel/centos/fedora (ver = 9)
+- name: install common packages for rhel/centos/fedora (ver = 10)
   yum:
     name:  "{{ packages }}"
     state: present
@@ -172,8 +170,6 @@
       - bind-utils
       - device-mapper-multipath
       - dkms
-      - podman
-      - podman-docker
       - iscsi-initiator-utils
       - python3-requests
       - python3-cryptography
