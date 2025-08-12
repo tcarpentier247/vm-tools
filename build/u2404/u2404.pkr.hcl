@@ -26,6 +26,11 @@ variable "ubuntu_iso_file" {
   default = "ubuntu-24.04.2-live-server-amd64.iso"
 }
 
+variable "LINBIT_KEY" {
+  type    = string
+  default = "undefined"
+}
+
 source "qemu" "custom_image" {
   
   boot_command = [
@@ -122,8 +127,11 @@ build {
     script          = "./scripts/zfs.sh"
   }
   provisioner "shell" {
+    environment_vars = [
+     "LINBIT_KEY=${var.LINBIT_KEY}"
+    ]
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "../common/ubuntu-drbd.sh"
+    script = "../common/linbit.apt.repo.sh"
   }
   provisioner "breakpoint" {
     disable = true
