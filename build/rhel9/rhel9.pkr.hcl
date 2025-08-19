@@ -23,7 +23,7 @@ variable "vm_template_name" {
 
 variable "rhel_iso_file" {
   type    = string
-  default = "rhel-9.5-x86_64-dvd.iso"
+  default = "rhel-9.6-x86_64-dvd.iso"
 }
 
 variable "RHN_ORG" {
@@ -34,6 +34,11 @@ variable "RHN_ORG" {
 variable "RHN_KEY" {
   type    = string
   default = "undefine" 
+}
+
+variable "LINBIT_KEY" {
+  type    = string
+  default = "undefined"
 }
 
 source "qemu" "custom_image" {
@@ -49,7 +54,7 @@ source "qemu" "custom_image" {
 
   http_directory = "http"
   iso_url   = "../images/${var.rhel_iso_file}"
-  iso_checksum = "sha256:0bb7600c3187e89cebecfcfc73947eb48b539252ece8aab3fe04d010e8644ea9"
+  iso_checksum = "sha256:febcc1359fd68faceff82d7eed8d21016e022a17e9c74e0e3f9dc3a78816b2bb"
   memory = 4096
 
   ssh_password = "opensvcpacker"
@@ -140,9 +145,12 @@ build {
     script          = "./scripts/zfs.sh"
   }
   provisioner "shell" {
+    environment_vars = [
+     "LINBIT_KEY=${var.LINBIT_KEY}"
+    ]
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "./scripts/drbd.sh"
-  } 
+    script = "../common/linbit.rpm.repo.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
@@ -151,6 +159,10 @@ build {
     inline = [
       "cd /opt/vm-tools/build/common/ansible && sudo ./bootstrap.sh"
     ]
+  }
+  provisioner "shell" {
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/rhel-install-docker.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"

@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 
 echo "ZFS Build"
 
@@ -37,9 +38,9 @@ ln -s /usr/local/sbin/$cmd /sbin/$cmd
 done
 
 
-cat - <<EOF > /etc/modprobe.d/10-unsupported-modules.conf
-allow_unsupported_modules 1
-EOF
+#cat - <<EOF > /etc/modprobe.d/10-unsupported-modules.conf
+#allow_unsupported_modules 1
+#EOF
 
 cat - <<EOF > /etc/modules-load.d/10-load-opensvc-modules.conf
 zfs

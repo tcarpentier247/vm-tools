@@ -36,6 +36,11 @@ variable "RHN_KEY" {
   default = "undefine" 
 }
 
+variable "LINBIT_KEY" {
+  type    = string
+  default = "undefined"
+}
+
 source "qemu" "custom_image" {
 
   boot_command = [
@@ -140,8 +145,11 @@ build {
     script          = "./scripts/zfs.sh"
   }
   provisioner "shell" {
+    environment_vars = [
+     "LINBIT_KEY=${var.LINBIT_KEY}"
+    ]
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "./scripts/drbd.sh"
+    script = "../common/linbit.rpm.repo.sh"
   }
   provisioner "breakpoint" {
     disable = true

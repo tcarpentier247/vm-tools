@@ -36,6 +36,11 @@ variable "RHN_KEY" {
   default = "undefine" 
 }
 
+variable "LINBIT_KEY" {
+  type    = string
+  default = "undefined"
+}
+
 source "qemu" "custom_image" {
 
   boot_command = [
@@ -49,7 +54,7 @@ source "qemu" "custom_image" {
 
   http_directory = "http"
   iso_url   = "../images/${var.rhel_iso_file}"
-  iso_checksum = "2cb36122a74be084c551bc7173d2d38a1cfb75c8ffbc1489c630c916d1b31b25"
+  iso_checksum = "e373d3efe1a6e3f6d6de105d32c2632ee661363d6fe0c24285379b85f99437cb"
   memory = 4096
 
   ssh_password = "opensvcpacker"
@@ -144,8 +149,11 @@ build {
     script          = "./scripts/zfs.sh"
   }
   provisioner "shell" {
+    environment_vars = [
+     "LINBIT_KEY=${var.LINBIT_KEY}"
+    ]
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "./scripts/drbd.sh"
+    script = "../common/linbit.rpm.repo.sh"
   }
   provisioner "breakpoint" {
     disable = true

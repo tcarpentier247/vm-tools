@@ -36,6 +36,11 @@ variable "RHN_KEY" {
   default = "undefine" 
 }
 
+variable "LINBIT_KEY" {
+  type    = string
+  default = "undefined"
+}
+
 source "qemu" "custom_image" {
 
   boot_command = [
@@ -69,8 +74,8 @@ source "qemu" "custom_image" {
   cpus = 4
 
   vnc_bind_address = "0.0.0.0"
-  vnc_port_min = "32019"
-  vnc_port_max = "32019"
+  vnc_port_min = "32020"
+  vnc_port_max = "32020"
 
   efi_boot = true
   efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
@@ -138,15 +143,26 @@ build {
     execute_command   = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script            = "../common/reboot.sh"
   }
+  provisioner "breakpoint" {
+    disable = true
+    note    = "LINBIT DEBUG"
+  }
+  provisioner "shell" {
+    environment_vars = [
+     "LINBIT_KEY=${var.LINBIT_KEY}"
+    ]
+    pause_before    = "1m0s"
+    execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script = "../common/linbit.rpm.repo.sh"
+  }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    pause_before    = "1m0s"
     script          = "./scripts/zfs.sh"
   }
   provisioner "shell" {
     execute_command = "echo 'opensvcpacker' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
-    script          = "./scripts/drbd.sh"
-  } 
+    script          = "../common/rhel-install-docker.sh"
+  }
   provisioner "breakpoint" {
     disable = true
     note    = "this is a breakpoint"
