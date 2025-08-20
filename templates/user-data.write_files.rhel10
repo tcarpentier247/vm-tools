@@ -40,6 +40,8 @@ write_files:
     [ipv6]
     address1=fd01:2345:6789:VM_2DGCID00::VM_IP/64,fd01:2345:6789:VM_2DGCID00::1
     method=auto
+    never-default=true
+    addr-gen-mode=stable-privacy
     
     [proxy]
   owner: "root:root"
@@ -62,6 +64,8 @@ write_files:
     [ipv6]
     address1=fd01:2345:6789:VM_2DGCID01::VM_IP/64
     method=auto
+    never-default=true
+    addr-gen-mode=stable-privacy
     
     [proxy]
   owner: "root:root"
@@ -84,6 +88,8 @@ write_files:
     [ipv6]
     address1=fd01:2345:6789:VM_2DGCID02::VM_IP/64
     method=auto
+    never-default=true
+    addr-gen-mode=stable-privacy
 
     [proxy]
   owner: "root:root"
