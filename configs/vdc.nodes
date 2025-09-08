@@ -1545,9 +1545,9 @@ c45envoy1 45 2 10
 c45envoy2 45 3 10
 c45igw1 45 2 10
 c45igw2 45 3 10
-dev3n1 45 11 10
-dev3n2 45 12 10
-dev3n3 45 13 10
+dev4n1 45 11 10
+dev4n2 45 12 10
+dev4n3 45 13 10
 c45vip 45 20 10
 c45svc1 45 21 10
 c45svc2 45 22 10
@@ -1579,4 +1579,4 @@ c45lxc4 45 94 10
 c45.http.public.cname 45 2 10
 c45.sni1.public.cname 45 2 10
 c45.sni2.public.cname 45 2 10
-045.https.public.cname 45 2 10
+c45.https.public.cname 45 2 10
