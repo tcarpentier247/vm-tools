@@ -54,6 +54,7 @@ VM_AUDIO=${VM_AUDIO:-none}
 [[ "$VM_DISTRO" =~ ^ubuntu.* ]] && VM_NIC="enp1s0"
 
 VM_BRIDGE=${VM_BRIDGE:-br0}
+VM_IPV6_BRIDGE=${VM_IPV6_BRIDGE}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
 
 # VM_LINKED_CLONE
@@ -87,6 +88,21 @@ function prepare()
 {
     title Begin:$FUNCNAME
     [[ ! -d $VM_ROOT ]] && mkdir -p $VM_ROOT
+    title End:$FUNCNAME
+}
+
+function check_network()
+{
+    title Begin:$FUNCNAME
+    if [ -n "${OSVC_IPV6_VRACK_NET}" ]; then
+        # identify nic connected to ipv6 net
+	NIC=$(ip -j route get $OSVC_IPV6_VRACK_NET | jq -r '.[]|.dev')
+	# check if nic is a bridge
+	[ -d /sys/class/net/$NIC/bridge ] && {
+	    VM_IPV6_BRIDGE=$NIC
+            echo "found network $OSVC_IPV6_VRACK_NET reacheable through $VM_IPV6_BRIDGE" 
+        }
+    fi
     title End:$FUNCNAME
 }
 
@@ -239,6 +255,11 @@ function execute_virtinstall()
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-0,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:00:$VM_IP"
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-1,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:01:$VM_IP"
         VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:br-$VM_CID-2,model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:02:$VM_IP"
+	# if an ipv6 bridged connectivity has been found, add a nic connected to it
+        if [ ! -z "${VM_IPV6_BRIDGE}" ]; then
+            VM_VIRTINSTALL_OPTS="${VM_VIRTINSTALL_OPTS} --network=bridge:${VM_IPV6_BRIDGE},model=$VM_NIC_MODEL,mac=22:23:24:$VM_HEXCID:60:$VM_IP"
+	fi
+
 	# netplan training
 	if [[ $VM_NAME =~ c[1-9]n3 ]]; then
 	    num=$(($VM_IP + 10))
@@ -287,6 +308,7 @@ function execute_virtinstall()
 # begin
 
 check_prerequisites
+check_network
 prepare
 
 [[ $VM_STORAGE_TYPE == "lvm" ]] && {
