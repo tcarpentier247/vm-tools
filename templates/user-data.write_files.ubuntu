@@ -28,8 +28,8 @@ write_files:
             - fd01:2345:6789:VM_2DGCID00::VM_IP/64
           nameservers:
             search:
-              - opensvc.com
               - vdc.opensvc.com
+              - opensvc.com
             addresses:
               - VM_NET.VM_CID.0.1
               - VM_NET.VM_CID.1.1
