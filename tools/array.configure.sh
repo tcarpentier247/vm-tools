@@ -141,7 +141,8 @@ for c in $CLUSTERS; do
 	adddisk $(diq $c "_lxc2") 2G
 
 	# luns for kvm scenarios
-	adddisk $(diq $c "_kvm1") 4G
+	adddisk $(diq $c "_kvm1") 20G
+	adddisk $(diq $c "_kvm2") 20G
 
 	# luns for mdadm scenarios
 	adddisk $(diq $c "_md1") 16m
@@ -177,6 +178,7 @@ for c in $CLUSTERS; do
 			mapdisk $(tiq $n $t) $(diq $c "_md3") 44
 			mapdisk $(tiq $n $t) $(diq $c "_md4") 45
 			mapdisk $(tiq $n $t) $(diq $c "_kvm1") 60
+			mapdisk $(tiq $n $t) $(diq $c "_kvm2") 61
 			is_sunos $c && {
 				# Lun id 70, 71 for local zone path (flex zone)
 				# Lun id 72, 73 for local zpool (flex storage)
