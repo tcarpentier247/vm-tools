@@ -32,7 +32,6 @@ write_files:
     IPV6_AUTOCONF=no
     IPV6_ACCEPT_RA=no
     IPV6ADDR=fd01:2345:6789:VM_2DGCID00::VM_IP/64
-    IPV6_DEFAULTGW=fd01:2345:6789:VM_2DGCID00::1
   owner: "root:root"
   permissions: "0600"
 
