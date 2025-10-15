@@ -21,4 +21,11 @@ net.core.wmem_max=2097152
 net.core.wmem_default=2097152
 EOF
 
+# ipv6 tunables
+# makes ipv6 addr ping as soon as they are configured
+cat >| /etc/sysctl.d/97-opensvc-ipv6.conf <<EOF
+net.ipv6.conf.all.ndisc_notify = 1
+net.ipv6.conf.default.ndisc_notify = 1
+EOF
+
 exit 0
