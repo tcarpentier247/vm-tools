@@ -63,7 +63,7 @@ write_files:
             forward-delay: 0
           accept-ra: no
           addresses:
-            - 2001:41d0:0b00:8800:2345:6789:VM_2DGCID00:VM_IP/64
+            - OSVC_IPV6_VRACK_PREFIX:2345:6789:VM_2DGCID00:VM_IP/64
           routes:
             - to: default
               via: OSVC_IPV6_VRACK_NET
@@ -150,3 +150,4 @@ write_files:
 - path: /home/opensvc/pytest.skip.3
   owner: "opensvc:opensvc"
   permissions: "0644"
+

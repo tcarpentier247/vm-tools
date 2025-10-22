@@ -20,3 +20,4 @@ runcmd:
   - /opt/vm-tools/build/common/cloud-init/cleanup.sh
   - systemctl enable opensvc-qanode-wait-ready.service
   - [reboot]
+
