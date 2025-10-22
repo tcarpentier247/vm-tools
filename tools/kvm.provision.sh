@@ -57,6 +57,8 @@ VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_IPV6_BRIDGE=${VM_IPV6_BRIDGE}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
 
+OSVC_IPV6_VRACK_PREFIX=${OSVC_IPV6_VRACK_PREFIX}
+
 # VM_LINKED_CLONE
 # false: vm base image is fully copied into vm filesystem before creating system.qcow2
 # true: system.qcow2 is directly backed by shared vm base image (warning: fastest but greater risk)
@@ -95,6 +97,7 @@ function check_network()
 {
     title Begin:$FUNCNAME
     if [ -n "${OSVC_IPV6_VRACK_NET}" ]; then
+        [[ ! -n "${OSVC_IPV6_VRACK_PREFIX}" ]] && OSVC_IPV6_VRACK_PREFIX=$(echo $OSVC_IPV6_VRACK_NET | awk -F':' '{printf "%s:%s:%s:%s\n",$1,$2,$3,$4}')
         # identify nic connected to ipv6 net
 	NIC=$(ip -j route get $OSVC_IPV6_VRACK_NET | jq -r '.[]|.dev')
 	# check if nic is a bridge
@@ -151,6 +154,7 @@ function substitute_patterns()
     sed -i "s@VM_NET@$NET@g" $FILES
     sed -i "s@VM_IP@$VM_IP@g" $FILES
     sed -i "s@OSVC_IPV6_VRACK_NET@$OSVC_IPV6_VRACK_NET@g" $FILES
+    sed -i "s@OSVC_IPV6_VRACK_PREFIX@$OSVC_IPV6_VRACK_PREFIX@g" $FILES
     sed -i "s@NAS_IP@$NAS_IP@g" $FILES
     sed -i "s@NFS_IP@$NFS_IP@g" $FILES
     sed -i "s@RH_ORG_ID@$RH_ORG_ID@g" $FILES
