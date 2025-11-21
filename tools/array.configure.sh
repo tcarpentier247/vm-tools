@@ -137,8 +137,8 @@ adddisk global_diskq 128m
 
 for c in $CLUSTERS; do
 	# shared luns for lxc scenarios
-	adddisk $(diq $c "_lxc1") 2G
-	adddisk $(diq $c "_lxc2") 2G
+	adddisk $(diq $c "_lxc1") 3G
+	adddisk $(diq $c "_lxc2") 3G
 
 	# luns for kvm scenarios
 	adddisk $(diq $c "_kvm1") 20G
