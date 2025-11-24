@@ -16,7 +16,14 @@ typeset -i DISTRO_MAJOR=$(echo ${VERSION_ID} | awk -F'.' '{print $1}')
 
 [[ -f /etc/yum.repos.d/linbit.repo ]] && rm -f /etc/yum.repos.d/linbit.repo
 
-wget -q -O /dev/shm/linbit-keyring.rpm https://packages.linbit.com/public/linbit-keyring.rpm || {
+URL="https://packages.linbit.com/public/linbit-keyring.rpm"
+OLDURL="https://packages.linbit.com/public/linbit-keyring-with-53B3B037282B6E23.rpm"
+
+[ ${DISTRO_MAJOR} -le 7 ] && {
+	URL=$OLDURL
+}
+
+wget -q -O /dev/shm/linbit-keyring.rpm $URL || {
     echo "Error: could not download Linbit keyring package"
     exit 1
 }
