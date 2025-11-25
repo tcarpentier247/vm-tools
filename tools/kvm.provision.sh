@@ -53,6 +53,10 @@ VM_AUDIO=${VM_AUDIO:-none}
 [[ "$VM_DISTRO" =~ ^debian.* ]] && VM_NIC="enp1s0"
 [[ "$VM_DISTRO" =~ ^ubuntu.* ]] && VM_NIC="enp1s0"
 
+VM_DRIVER_CACHE=${VM_DRIVER_CACHE:-none}
+VM_DRIVER_IO=${VM_DRIVER_IO:-native}
+VM_DRIVER_DISCARD=${VM_DRIVER_DISCARD:-unmap}
+
 VM_BRIDGE=${VM_BRIDGE:-br0}
 VM_IPV6_BRIDGE=${VM_IPV6_BRIDGE}
 VM_VNCPASSWORD=${VM_VNCPASSWORD:-password}
@@ -348,10 +352,10 @@ prepare
         create_ci_vmdisks
         #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.io=threads,driver.cache=writeback --disk $VM_ROOT/seed.iso,device=cdrom"
         #VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.iothread=1 --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.iothread=1 --disk $VM_ROOT/seed.iso,device=cdrom"
-        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.cache=none,driver.io=native --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.cache=none,driver.io=native --disk $VM_ROOT/seed.iso,device=cdrom"
+        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.cache=${VM_DRIVER_CACHE},driver.io=${VM_DRIVER_IO},driver.discard=${VM_DRIVER_DISCARD} --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.cache=${VM_DRIVER_CACHE},driver.io=${VM_DRIVER_IO},driver.discard=${VM_DRIVER_DISCARD} --disk $VM_ROOT/seed.iso,device=cdrom"
     } || {
         create_std_vmdisks
-        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.cache=none,driver.io=native --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.cache=none,driver.io=native --cdrom $KVM_IMAGES_ROOT/$VM_BASE_IMAGE"
+        VM_VIRTINSTALL_OPTS="$VM_VIRTINSTALL_OPTS --disk path=$VM_ROOT/system.qcow2,format=qcow2,driver.cache=${VM_DRIVER_CACHE},driver.io=${VM_DRIVER_IO},driver.discard=${VM_DRIVER_DISCARD} --disk path=$VM_ROOT/data.qcow2,format=qcow2,driver.cache=${VM_DRIVER_CACHE},driver.io=${VM_DRIVER_IO},driver.discard=${VM_DRIVER_DISCARD} --cdrom $KVM_IMAGES_ROOT/$VM_BASE_IMAGE"
     }
 }
 create_seed
