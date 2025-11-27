@@ -31,8 +31,8 @@ do
   }
 done
 
-grep -qw "^md" /etc/modules-load.d/10-load-opensvc-modules.conf 2>/dev/null || {
-    echo 'md' >> /etc/modules-load.d/10-load-opensvc-modules.conf
-}
+#grep -qw "^md" /etc/modules-load.d/10-load-opensvc-modules.conf 2>/dev/null || {
+#    echo 'md' >> /etc/modules-load.d/10-load-opensvc-modules.conf
+#}
 
 exit 0
