@@ -1,8 +1,13 @@
+instance-id: VM_NAME-001
 local-hostname: VM_NAME
-network-interfaces: |
-  iface VM_NIC inet static
-  address VM_NET.VM_CID.0.VM_IP
-  network VM_NET.VM_CID.0.0
-  netmask 255.255.255.0
-  broadcast VM_NET.VM_CID.0.255
-  gateway VM_NET.VM_CID.0.1
+network:
+  version: 2
+  ethernets:
+    VM_NIC:
+      addresses:
+        - VM_NET.VM_CID.0.VM_IP/24
+      routes:
+        - to: 0.0.0.0/0
+          via: VM_NET.VM_CID.0.1
+      nameservers:
+        addresses: [8.8.8.8, 1.1.1.1]
