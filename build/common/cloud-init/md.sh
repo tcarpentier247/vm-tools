@@ -35,4 +35,6 @@ done
 #    echo 'md' >> /etc/modules-load.d/10-load-opensvc-modules.conf
 #}
 
+systemctl -q is-enabled mdmonitor && systemctl disable --now mdmonitor
+
 exit 0
