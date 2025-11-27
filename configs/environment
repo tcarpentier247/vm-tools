@@ -14,8 +14,8 @@ TEMPLATES=${ROOT}/templates
 
 # vdc environment max index (one /24 ip class per environment)
 CLUSTER_COUNT="45"
-NET=$(ip -j addr show br-0-0 | jq -r '.[].addr_info[] | select(.family=="inet") | .local' | awk -F'.' '{print $1}')
-[[ -z ${NET} ]] && NET=$(ip -j addr show br-prd | jq -r '.[].addr_info[] | select(.family=="inet") | .local' | awk -F'.' '{print $1}')
+NET=$(ip -j addr show br-0-0 2>/dev/null | jq -r '.[].addr_info[] | select(.family=="inet") | .local' | awk -F'.' '{print $1}')
+[[ -z ${NET} ]] && NET=$(ip -j addr show br-prd 2>/dev/null | jq -r '.[].addr_info[] | select(.family=="inet") | .local' | awk -F'.' '{print $1}')
 
 # vdc cluster ip plan
 NODES=${CONFIGS}/vdc.nodes
@@ -38,7 +38,7 @@ IMAGES[rhel9]="packer-uefi-rhel9.qcow2"
 IMAGES[rhel10]="packer-uefi-rhel10.qcow2"
 IMAGES[sol114]="packer-uefi-sol114.qcow2"
 IMAGES[sles12]="packer-uefi-sles12sp5.qcow2"
-IMAGES[sles15]="packer-uefi-sles15sp6.qcow2"
+IMAGES[sles15]="packer-uefi-sles15sp7.qcow2"
 IMAGES[windows11]="Windows11_23H2_uefi_Entreprise_Fr_x64.iso"
 IMAGES[truenas]="TrueNAS-13.0-U6.1.iso"
 
