@@ -188,6 +188,7 @@ function gen_cloud_init_files()
 
     if [ "$CUSTOMIZE_META_DATA" = true ] ; then
         cp -f $TEMPLATES/meta-data.common $VM_ROOT/meta-data
+	[[ "$VM_DISTRO" =~ ^rhel7.* ]] && cp -f $TEMPLATES/meta-data.common.v1 $VM_ROOT/meta-data
     fi
 
     if [ "$CUSTOMIZE_USER_DATA" = true ] ; then
